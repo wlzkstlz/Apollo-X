@@ -74,6 +74,7 @@ void Error_Handler(void);
 /* Private function prototypes -----------------------------------------------*/
 void lcdshow(char*s);
 void lcdshowcmd(CmdType cmd);
+void lcdshowenginemode(TypeEngineMode mode);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -128,8 +129,10 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	int tt=0;
   while (1)
   {
+		tt++;
 		
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_SET);
 		HAL_Delay(10);
@@ -187,7 +190,9 @@ int main(void)
 		float posex=0,posey=0,posez=0;
 		cvtGpsPt2Xyz(&gINMData.longitude,&gINMData.latitude,&gINMData.altitude,&posex,&posey,&posez);
 		
-		
+		//【接收Can通讯数据】
+		if(tt%100==0)
+			lcdshowenginemode(GetEngineMode());
 		
   /* USER CODE END WHILE */
 
@@ -284,32 +289,53 @@ void lcdshowcmd(CmdType cmd)
 	switch(cmd)
 	{
 		case CMD_AUTO:
-			sprintf(ss,"CMD_AUTO______\n");
+			sprintf(ss,"CMD_AUTO\n");
 			break;
 		case CMD_MANUAL:
-			sprintf(ss,"CMD_MANUAL____\n");
+			sprintf(ss,"CMD_MANUAL\n");
 			break;
 		case CMD_HEARTBEAT:
-			sprintf(ss,"CMD_HEARTBEAT_\n");
+			sprintf(ss,"CMD_HEARTBEAT\n");
 			break;
 		case CMD_BLE_END:
-			sprintf(ss,"CMD_BLE_END___\n");
+			sprintf(ss,"CMD_BLE_END\n");
 			break;
 		case CMD_STOP:
-			sprintf(ss,"CMD_STOP______\n");
+			sprintf(ss,"CMD_STOP\n");
 			break;
 		case CMD_SUPPLY:
-			sprintf(ss,"CMD_SUPPLY____\n");
+			sprintf(ss,"CMD_SUPPLY\n");
 			break;
 		case CMD_TRANSITION:
 			sprintf(ss,"CMD_TRANSITION\n");
 			break;
 		default:
-			sprintf(ss,"CMD_NO________\n");
+			sprintf(ss,"CMD_NO\n");
 			break;
 	}
 
+	LCD_Fill(10,20,200,20+16,WHITE);
 	LCD_ShowString(10,20,260,32,16,(u8*)ss);
+}
+
+void lcdshowenginemode(TypeEngineMode mode)
+{
+		char ss[50];
+	switch(mode)
+	{
+		case ENGINE_MODE_START:
+			sprintf(ss,"Engine Sate:Start!\n");
+			break;
+		case ENGINE_MODE_STOP:
+			sprintf(ss,"Engine Sate:Stop!\n");
+			break;
+		default:
+			sprintf(ss,"Engine Sate:Unknown!\n");
+			break;
+	}
+
+	LCD_Fill(10,40,200,40+16,WHITE);
+	LCD_ShowString(10,40,260,32,16,(u8*)ss);
 }
 /* USER CODE END 4 */
 

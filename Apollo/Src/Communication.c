@@ -213,6 +213,8 @@ static CanTxMsgTypeDef	gSpeedTxMsg;
 static CanTxMsgTypeDef	gDriverModeTxMsg;
 static CanTxMsgTypeDef	gEngineModeTxMsg;
 
+CAN_FilterConfTypeDef gFilterDriverMode;
+
 void initCan1(void)
 {
 	//1、初始化速度控制发送邮件
@@ -265,8 +267,23 @@ void initCan1(void)
   sFilterConfig.FilterMaskIdLow = 0x0000;
   sFilterConfig.FilterFIFOAssignment = 0;
   sFilterConfig.FilterActivation = ENABLE;
-  sFilterConfig.BankNumber = 14;
+  //sFilterConfig.BankNumber = 14;//默认值就是14
   HAL_CAN_ConfigFilter(&hcan1, &sFilterConfig);
+	
+	
+	
+	gFilterDriverMode.FilterNumber=1;
+	gFilterDriverMode.FilterMode=CAN_FILTERMODE_IDLIST;
+	gFilterDriverMode.FilterScale=CAN_FILTERSCALE_16BIT;
+	gFilterDriverMode.FilterIdHigh=0X40;
+	gFilterDriverMode.FilterIdLow=0X41;
+	gFilterDriverMode.FilterMaskIdHigh=0X42;
+	gFilterDriverMode.FilterMaskIdLow=0X43;
+	gFilterDriverMode.FilterFIFOAssignment=CAN_FilterFIFO0;
+	gFilterDriverMode.FilterActivation=ENABLE;
+	HAL_CAN_ConfigFilter(&hcan1, &gFilterDriverMode);
+	
+	HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);
 }
 
 
@@ -303,6 +320,26 @@ void SetEngineMode(TypeEngineMode mode)
 	HAL_CAN_Transmit(&hcan1,10);
 }
 
+
+volatile TypeEngineMode gEngineMode=ENGINE_MODE_START;
+TypeEngineMode GetEngineMode(void)
+{
+	return gEngineMode;
+}
+
+
+
+void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan)
+{
+	if(hcan->pRxMsg->StdId==0x40)
+	{
+		gEngineMode=(TypeEngineMode)hcan->pRxMsg->Data[0];
+	}
+	
+
+	HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);
+		
+}
 
 //【蓝牙文件传输】
 uint8_t ble_buf[BLE_BUF_LEN+10];

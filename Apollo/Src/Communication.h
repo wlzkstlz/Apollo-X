@@ -89,6 +89,8 @@ void SendSpeed(float v,float w);
 void ChangeDriverMode(TypeDriverMode mode);
 void SetEngineMode(TypeEngineMode mode);
 
+TypeEngineMode GetEngineMode(void);
+
 
 //¡¾À¶ÑÀÎÄ¼þ´«Êä¡¿
 #define BLE_BUF_LEN	20
