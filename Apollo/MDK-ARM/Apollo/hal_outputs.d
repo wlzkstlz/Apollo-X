@@ -1,0 +1,17 @@
+apollo\hal_outputs.o: ..\MPU9250\DMP\mllite\hal_outputs.c
+apollo\hal_outputs.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+apollo\hal_outputs.o: ..\MPU9250\DMP\mllite\hal_outputs.h
+apollo\hal_outputs.o: ..\MPU9250\DMP\driver\include\mltypes.h
+apollo\hal_outputs.o: ..\MPU9250\DMP\driver\include\stdint_invensense.h
+apollo\hal_outputs.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+apollo\hal_outputs.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\errno.h
+apollo\hal_outputs.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
+apollo\hal_outputs.o: ..\MPU9250\DMP\driver\include\log.h
+apollo\hal_outputs.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+apollo\hal_outputs.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+apollo\hal_outputs.o: ..\MPU9250\DMP\mllite\ml_math_func.h
+apollo\hal_outputs.o: ..\MPU9250\DMP\driver\include\mlmath.h
+apollo\hal_outputs.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+apollo\hal_outputs.o: ..\MPU9250\DMP\mllite\start_manager.h
+apollo\hal_outputs.o: ..\MPU9250\DMP\mllite\data_builder.h
+apollo\hal_outputs.o: ..\MPU9250\DMP\mllite\results_holder.h

@@ -1,0 +1,11 @@
+apollo\ml_math_func.o: ..\MPU9250\DMP\mllite\ml_math_func.c
+apollo\ml_math_func.o: ..\MPU9250\DMP\driver\include\mlmath.h
+apollo\ml_math_func.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h
+apollo\ml_math_func.o: ..\MPU9250\DMP\mllite\ml_math_func.h
+apollo\ml_math_func.o: ..\MPU9250\DMP\driver\include\mltypes.h
+apollo\ml_math_func.o: ..\MPU9250\DMP\driver\include\stdint_invensense.h
+apollo\ml_math_func.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+apollo\ml_math_func.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+apollo\ml_math_func.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\errno.h
+apollo\ml_math_func.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
+apollo\ml_math_func.o: ..\MPU9250\DMP\driver\include\mlinclude.h

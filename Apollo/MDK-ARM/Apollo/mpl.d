@@ -1,0 +1,16 @@
+apollo\mpl.o: ..\MPU9250\DMP\mllite\mpl.c
+apollo\mpl.o: ..\MPU9250\DMP\mllite\storage_manager.h
+apollo\mpl.o: ..\MPU9250\DMP\driver\include\mltypes.h
+apollo\mpl.o: ..\MPU9250\DMP\driver\include\stdint_invensense.h
+apollo\mpl.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+apollo\mpl.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+apollo\mpl.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\errno.h
+apollo\mpl.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
+apollo\mpl.o: ..\MPU9250\DMP\driver\include\log.h
+apollo\mpl.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+apollo\mpl.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+apollo\mpl.o: ..\MPU9250\DMP\mllite\mpl.h
+apollo\mpl.o: ..\MPU9250\DMP\mllite\start_manager.h
+apollo\mpl.o: ..\MPU9250\DMP\mllite\data_builder.h
+apollo\mpl.o: ..\MPU9250\DMP\mllite\results_holder.h
+apollo\mpl.o: ..\MPU9250\DMP\driver\include\mlinclude.h

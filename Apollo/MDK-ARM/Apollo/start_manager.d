@@ -1,0 +1,11 @@
+apollo\start_manager.o: ..\MPU9250\DMP\mllite\start_manager.c
+apollo\start_manager.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+apollo\start_manager.o: ..\MPU9250\DMP\driver\include\log.h
+apollo\start_manager.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+apollo\start_manager.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
+apollo\start_manager.o: ..\MPU9250\DMP\mllite\start_manager.h
+apollo\start_manager.o: ..\MPU9250\DMP\driver\include\mltypes.h
+apollo\start_manager.o: ..\MPU9250\DMP\driver\include\stdint_invensense.h
+apollo\start_manager.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+apollo\start_manager.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\errno.h
+apollo\start_manager.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
