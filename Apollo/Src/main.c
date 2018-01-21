@@ -167,6 +167,7 @@ int main(void)
 				case CMD_MANUAL:
 					SendSpeed(0,0);
 					ChangeDriverMode(DRIVER_MODE_EMERGENCY);
+					SetEngineMode(ENGINE_MODE_START);
 					break;
 				case CMD_STOP:
 					ChangeDriverMode(DRIVER_MODE_EMERGENCY);

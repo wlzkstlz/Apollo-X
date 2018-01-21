@@ -210,7 +210,8 @@ static CanRxMsgTypeDef	RxMessage;
 
 
 static CanTxMsgTypeDef	gSpeedTxMsg;
-static CanTxMsgTypeDef	gChangeModeTxMsg;
+static CanTxMsgTypeDef	gDriverModeTxMsg;
+static CanTxMsgTypeDef	gEngineModeTxMsg;
 
 void initCan1(void)
 {
@@ -223,11 +224,18 @@ void initCan1(void)
 	{gSpeedTxMsg.Data[i]=0;}
 	
 	//2、初始化状态切换控制发送邮件
-	gChangeModeTxMsg.StdId=0x20;
-	gChangeModeTxMsg.RTR=CAN_RTR_DATA;
-	gChangeModeTxMsg.IDE=CAN_ID_STD;
-	gChangeModeTxMsg.DLC=1;
-	gChangeModeTxMsg.Data[0]=100;
+	gDriverModeTxMsg.StdId=0x20;
+	gDriverModeTxMsg.RTR=CAN_RTR_DATA;
+	gDriverModeTxMsg.IDE=CAN_ID_STD;
+	gDriverModeTxMsg.DLC=1;
+	gDriverModeTxMsg.Data[0]=100;
+	
+	//3、初始化发动机控制发送邮件
+	gEngineModeTxMsg.StdId=0x30;
+	gEngineModeTxMsg.RTR=CAN_RTR_DATA;
+	gEngineModeTxMsg.IDE=CAN_ID_STD;
+	gEngineModeTxMsg.DLC=1;
+	gEngineModeTxMsg.Data[0]=100;
 	
 	
   hcan1.pTxMsg = &TxMessage;
@@ -263,13 +271,6 @@ void initCan1(void)
 
 
 
-
-
-
-
-
-
-
 void SendSpeed(float v,float w)
 {
 	int16_t vl=314,vr=628;
@@ -287,9 +288,18 @@ void SendSpeed(float v,float w)
 
 void ChangeDriverMode(TypeDriverMode mode)
 {
-	gChangeModeTxMsg.Data[0]=mode;
+	gDriverModeTxMsg.Data[0]=mode;
 	
-	hcan1.pTxMsg=&gChangeModeTxMsg;
+	hcan1.pTxMsg=&gDriverModeTxMsg;
+	HAL_CAN_Transmit(&hcan1,10);
+}
+
+
+void SetEngineMode(TypeEngineMode mode)
+{
+	gEngineModeTxMsg.Data[0]=mode;
+	
+	hcan1.pTxMsg=&gEngineModeTxMsg;
 	HAL_CAN_Transmit(&hcan1,10);
 }
 

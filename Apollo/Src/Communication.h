@@ -78,10 +78,16 @@ typedef enum
 	DRIVER_MODE_MANUAL,
 	DRIVER_MODE_EMERGENCY
 }TypeDriverMode;
+typedef enum
+{
+	ENGINE_MODE_START,
+	ENGINE_MODE_STOP
+}TypeEngineMode;
 void initCan1(void);
 
 void SendSpeed(float v,float w);
 void ChangeDriverMode(TypeDriverMode mode);
+void SetEngineMode(TypeEngineMode mode);
 
 
 //¡¾À¶ÑÀÎÄ¼þ´«Êä¡¿
