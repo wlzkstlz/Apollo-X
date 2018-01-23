@@ -3,6 +3,7 @@
 #include "usart.h"
 #include "string.h"
 #include "PathData.h"
+#include "stdlib.h"
 
 
 // 【APP通信】
@@ -204,8 +205,8 @@ uint8_t receiveINMData(void)
 
 
 //【CAN通信】
-CAN_FilterConfTypeDef		sFilterConfig;
-static CanTxMsgTypeDef	TxMessage;
+//CAN_FilterConfTypeDef		sFilterConfig;
+//static CanTxMsgTypeDef	TxMessage;
 static CanRxMsgTypeDef	RxMessage;
 
 
@@ -213,12 +214,13 @@ static CanTxMsgTypeDef	gSpeedTxMsg;
 static CanTxMsgTypeDef	gDriverModeTxMsg;
 static CanTxMsgTypeDef	gEngineModeTxMsg;
 
-CAN_FilterConfTypeDef gFilterDriverMode;
+CAN_FilterConfTypeDef gCanReceiveFilter1;
+CAN_FilterConfTypeDef gCanReceiveFilter2;
 
 void initCan1(void)
 {
 	//1、初始化速度控制发送邮件
-	gSpeedTxMsg.StdId=0x10;
+	gSpeedTxMsg.StdId=0x30;
 	gSpeedTxMsg.RTR=CAN_RTR_DATA;
 	gSpeedTxMsg.IDE=CAN_ID_STD;
 	gSpeedTxMsg.DLC=4;
@@ -226,62 +228,44 @@ void initCan1(void)
 	{gSpeedTxMsg.Data[i]=0;}
 	
 	//2、初始化状态切换控制发送邮件
-	gDriverModeTxMsg.StdId=0x20;
+	gDriverModeTxMsg.StdId=0x10;
 	gDriverModeTxMsg.RTR=CAN_RTR_DATA;
 	gDriverModeTxMsg.IDE=CAN_ID_STD;
 	gDriverModeTxMsg.DLC=1;
 	gDriverModeTxMsg.Data[0]=100;
 	
 	//3、初始化发动机控制发送邮件
-	gEngineModeTxMsg.StdId=0x30;
+	gEngineModeTxMsg.StdId=0x20;
 	gEngineModeTxMsg.RTR=CAN_RTR_DATA;
 	gEngineModeTxMsg.IDE=CAN_ID_STD;
 	gEngineModeTxMsg.DLC=1;
 	gEngineModeTxMsg.Data[0]=100;
 	
 	
-  hcan1.pTxMsg = &TxMessage;
+//  hcan1.pTxMsg = &TxMessage;
   hcan1.pRxMsg = &RxMessage;
 
-  /*##-1- Configure CAN1 Transmission Massage #####################################*/
-  hcan1.pTxMsg->StdId = 0x123;
-  hcan1.pTxMsg->RTR = CAN_RTR_DATA;
-  hcan1.pTxMsg->IDE = CAN_ID_STD;
-  hcan1.pTxMsg->DLC = 8;
-  hcan1.pTxMsg->Data[0] = 'C';
-  hcan1.pTxMsg->Data[1] = 'A';
-  hcan1.pTxMsg->Data[2] = 'N';
-  hcan1.pTxMsg->Data[3] = ' ';
-  hcan1.pTxMsg->Data[4] = 'T';
-  hcan1.pTxMsg->Data[5] = 'e';
-  hcan1.pTxMsg->Data[6] = 's';
-  hcan1.pTxMsg->Data[7] = 't';
-
-  /*##-2- Configure the CAN1 Filter ###########################################*/
-  sFilterConfig.FilterNumber = 0;
-  sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
-  sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
-  sFilterConfig.FilterIdHigh = 0x0000;
-  sFilterConfig.FilterIdLow = 0x0000;
-  sFilterConfig.FilterMaskIdHigh = 0x0000;
-  sFilterConfig.FilterMaskIdLow = 0x0000;
-  sFilterConfig.FilterFIFOAssignment = 0;
-  sFilterConfig.FilterActivation = ENABLE;
-  //sFilterConfig.BankNumber = 14;//默认值就是14
-  HAL_CAN_ConfigFilter(&hcan1, &sFilterConfig);
+	gCanReceiveFilter1.FilterNumber=1;
+	gCanReceiveFilter1.FilterMode=CAN_FILTERMODE_IDLIST;
+	gCanReceiveFilter1.FilterScale=CAN_FILTERSCALE_16BIT;
+	gCanReceiveFilter1.FilterIdHigh=0x40<<5;
+	gCanReceiveFilter1.FilterIdLow=0x50<<5;
+	gCanReceiveFilter1.FilterMaskIdHigh=0x60<<5;
+	gCanReceiveFilter1.FilterMaskIdLow=0x70<<5;
+	gCanReceiveFilter1.FilterFIFOAssignment=CAN_FilterFIFO0;
+	gCanReceiveFilter1.FilterActivation=ENABLE;
+	HAL_CAN_ConfigFilter(&hcan1, &gCanReceiveFilter1);
 	
-	
-	
-	gFilterDriverMode.FilterNumber=1;
-	gFilterDriverMode.FilterMode=CAN_FILTERMODE_IDLIST;
-	gFilterDriverMode.FilterScale=CAN_FILTERSCALE_16BIT;
-	gFilterDriverMode.FilterIdHigh=0X40;
-	gFilterDriverMode.FilterIdLow=0X41;
-	gFilterDriverMode.FilterMaskIdHigh=0X42;
-	gFilterDriverMode.FilterMaskIdLow=0X43;
-	gFilterDriverMode.FilterFIFOAssignment=CAN_FilterFIFO0;
-	gFilterDriverMode.FilterActivation=ENABLE;
-	HAL_CAN_ConfigFilter(&hcan1, &gFilterDriverMode);
+	gCanReceiveFilter2.FilterNumber=2;
+	gCanReceiveFilter2.FilterMode=CAN_FILTERMODE_IDLIST;
+	gCanReceiveFilter2.FilterScale=CAN_FILTERSCALE_16BIT;
+	gCanReceiveFilter2.FilterIdHigh=0x80<<5;
+	gCanReceiveFilter2.FilterIdLow=0xC0<<5;
+	gCanReceiveFilter2.FilterMaskIdHigh=0xA0<<5;
+	gCanReceiveFilter2.FilterMaskIdLow=0xB0<<5;
+	gCanReceiveFilter2.FilterFIFOAssignment=CAN_FilterFIFO0;
+	gCanReceiveFilter2.FilterActivation=ENABLE;
+	HAL_CAN_ConfigFilter(&hcan1, &gCanReceiveFilter2);
 	
 	HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);
 }
@@ -290,12 +274,34 @@ void initCan1(void)
 
 void SendSpeed(float v,float w)
 {
-	int16_t vl=314,vr=628;
-	
 	//速度转换。。。
+	float vl=0.0f,vr=0.0f;
+	vr=v+(float)CAR_HALF_WIDTH*w;
+	vl=v-(float)CAR_HALF_WIDTH*w;
 	
-	memcpy((uint8_t *)&gSpeedTxMsg.Data[0],&vl,2);
-	memcpy((uint8_t *)&gSpeedTxMsg.Data[2],&vr,2);
+	int16_t vl_cmd=0,vr_cmd=0;
+	vl_cmd=-(int16_t)(vl*60.0f/2.0f/3.1415926f/CAR_WHEEL_RADIUS*16.0f);
+	vr_cmd=(int16_t)(vr*60.0f/2.0f/3.1415926f/CAR_WHEEL_RADIUS*16.0f);
+	
+	//速度限制
+	float scale=1.0;
+	if(abs(vl_cmd)>CAR_MOTOR_MAX_SPEED&&abs(vl_cmd)>abs(vr_cmd))
+	{
+		scale=CAR_MOTOR_MAX_SPEED/abs(vl_cmd);
+		
+	}
+	else if(abs(vr_cmd)>CAR_MOTOR_MAX_SPEED&&abs(vr_cmd)>abs(vl_cmd))
+	{
+		scale=CAR_MOTOR_MAX_SPEED/abs(vr_cmd);
+	}
+	vl_cmd=scale*vl_cmd;
+	vr_cmd=scale*vr_cmd;
+	
+	printf("vl:%d  vr:%d\n",vl_cmd,vr_cmd);
+	
+	
+	memcpy((uint8_t *)&gSpeedTxMsg.Data[0],&vl_cmd,2);
+	memcpy((uint8_t *)&gSpeedTxMsg.Data[2],&vr_cmd,2);
 	
 	hcan1.pTxMsg=&gSpeedTxMsg;
 	HAL_CAN_Transmit(&hcan1,10);
@@ -321,11 +327,63 @@ void SetEngineMode(TypeEngineMode mode)
 }
 
 
-volatile TypeEngineMode gEngineMode=ENGINE_MODE_START;
-TypeEngineMode GetEngineMode(void)
+volatile TypeDriverMode gDriverMode=DRIVER_MODE_AUTO;
+volatile uint8_t gDriverModeNew=0;
+uint8_t GetDriverMode(TypeDriverMode *mode)
 {
-	return gEngineMode;
+	*mode= gDriverMode;
+	if(gDriverModeNew)
+	{
+		gDriverModeNew=0;
+		return 1;
+	}
+	else
+		return 0;
 }
+
+
+volatile TypeEngineMode gEngineMode=ENGINE_MODE_START;
+volatile uint8_t gEngineModeNew=0;
+uint8_t GetEngineMode(TypeEngineMode *mode)
+{
+	*mode= gEngineMode;
+	if(gEngineModeNew)
+	{
+		gEngineModeNew=0;
+		return 1;
+	}
+	else
+		return 0;
+}
+
+volatile uint8_t gTankLevel=0;
+volatile uint8_t gTankLevelNew=0;
+uint8_t GetTankLevel(uint8_t *level)
+{
+	*level= gTankLevel;
+	if(gTankLevelNew)
+	{
+		gTankLevelNew=0;
+		return 1;
+	}
+	else
+		return 0;
+}
+
+volatile uint16_t gBaterryVolt=0;
+volatile uint8_t gBaterryVoltNew=0;
+uint8_t GetBatteryVolt(uint16_t *voltage)
+{
+	*voltage= gBaterryVolt;
+	if(gBaterryVoltNew)
+	{
+		gBaterryVoltNew=0;
+		return 1;
+	}
+	else
+		return 0;
+}
+
 
 
 
@@ -333,10 +391,25 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan)
 {
 	if(hcan->pRxMsg->StdId==0x40)
 	{
+		gDriverMode=(TypeDriverMode)hcan->pRxMsg->Data[0];
+		gDriverModeNew=1;
+	}
+	else if(hcan->pRxMsg->StdId==0x50)
+	{
 		gEngineMode=(TypeEngineMode)hcan->pRxMsg->Data[0];
+		gEngineModeNew=1;
+	}
+	else if(hcan->pRxMsg->StdId==0x70)
+	{
+		gTankLevel=hcan->pRxMsg->Data[0];
+		gTankLevelNew=1;
+	}
+	else if(hcan->pRxMsg->StdId==0x80)
+	{
+		memcpy((uint8_t*)&gBaterryVolt,hcan->pRxMsg->Data,2);
+		gBaterryVoltNew=1;
 	}
 	
-
 	HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);
 		
 }

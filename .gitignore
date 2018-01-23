@@ -4,3 +4,5 @@ Apollo/MDK-ARM/Apollo
 *.[o]
 *.o
 *.lst
+*.crf
+*.map

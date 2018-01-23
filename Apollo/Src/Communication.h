@@ -15,6 +15,7 @@ typedef enum
 	CMD_TRANSITION,
 	CMD_SUPPLY,
 	CMD_STOP,
+	CMD_BLE_START,
 	CMD_BLE_END
 }CmdType;
 
@@ -72,6 +73,9 @@ uint8_t receiveINMData(void);
 
 
 //【CAN通信】
+#define CAR_HALF_WIDTH	0.326f
+#define CAR_WHEEL_RADIUS	0.1485f
+#define	CAR_MOTOR_MAX_SPEED	1000
 typedef enum
 {
 	DRIVER_MODE_AUTO,
@@ -80,8 +84,8 @@ typedef enum
 }TypeDriverMode;
 typedef enum
 {
-	ENGINE_MODE_START,
-	ENGINE_MODE_STOP
+	ENGINE_MODE_STOP,
+	ENGINE_MODE_START
 }TypeEngineMode;
 void initCan1(void);
 
@@ -89,7 +93,10 @@ void SendSpeed(float v,float w);
 void ChangeDriverMode(TypeDriverMode mode);
 void SetEngineMode(TypeEngineMode mode);
 
-TypeEngineMode GetEngineMode(void);
+uint8_t GetDriverMode(TypeDriverMode *mode);
+uint8_t GetEngineMode(TypeEngineMode *mode);
+uint8_t GetTankLevel(uint8_t *level);
+uint8_t GetBatteryVolt(uint16_t *voltage);
 
 
 //【蓝牙文件传输】

@@ -75,6 +75,9 @@ void Error_Handler(void);
 void lcdshow(char*s);
 void lcdshowcmd(CmdType cmd);
 void lcdshowenginemode(TypeEngineMode mode);
+void lcdshowdrivermode(TypeDriverMode mode);
+void lcdshowtanklevel(uint8_t level);
+void lcdshowbatteryvolt(uint16_t voltage);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -111,7 +114,7 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 
-	printf("new program: apollo 6\n");
+	printf("new program: apollo 7\n");
 
 	//【1】初始化。。。
 	initCan1();
@@ -150,6 +153,12 @@ int main(void)
 					//printf("cmd bh\n");
 					break;
 				case CMD_AUTO:
+					ChangeDriverMode(DRIVER_MODE_AUTO);
+					break;
+				case CMD_MANUAL:
+					ChangeDriverMode(DRIVER_MODE_MANUAL);
+					break;
+				case CMD_BLE_START:
 					startReceiveBleFile();
 					//printf("cmd auto\n");
 					break;
@@ -167,13 +176,13 @@ int main(void)
 					printf("gValidPathPtNum=%d\n\n",gValidPathPtNum);
 					
 					break;
-				case CMD_MANUAL:
+				case CMD_STOP:
 					SendSpeed(0,0);
 					ChangeDriverMode(DRIVER_MODE_EMERGENCY);
-					SetEngineMode(ENGINE_MODE_START);
+					SetEngineMode(ENGINE_MODE_STOP);
 					break;
-				case CMD_STOP:
-					ChangeDriverMode(DRIVER_MODE_EMERGENCY);
+				case CMD_TRANSITION:
+					ChangeDriverMode(DRIVER_MODE_MANUAL);
 				break;
 				default:
 					break;
@@ -191,9 +200,37 @@ int main(void)
 		cvtGpsPt2Xyz(&gINMData.longitude,&gINMData.latitude,&gINMData.altitude,&posex,&posey,&posez);
 		
 		//【接收Can通讯数据】
-		if(tt%100==0)
-			lcdshowenginemode(GetEngineMode());
+		TypeEngineMode engine_mode;
+		if(GetEngineMode(&engine_mode))
+			lcdshowenginemode(engine_mode);
 		
+		TypeDriverMode driver_mode;
+		if(GetDriverMode(&driver_mode))
+			lcdshowdrivermode(driver_mode);
+		
+		uint8_t tank_level=0;
+		if(GetTankLevel(&tank_level))
+			lcdshowtanklevel(tank_level);
+		
+		uint16_t baterry_volt=0;
+		if(GetBatteryVolt(&baterry_volt))
+			lcdshowbatteryvolt(baterry_volt);
+		
+		//【can速度控制测试】
+		if(tt==200)
+			SendSpeed(0.1,0);
+		else if(tt==400)
+			SendSpeed(-0.1,0);
+		else if(tt==600)
+			SendSpeed(0,0);
+		else if(tt==800)
+			SendSpeed(0.1,0.3);
+		else if(tt==1000)
+		{
+			SendSpeed(0.1,-0.3);
+			tt=0;
+		}
+			
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
@@ -337,6 +374,49 @@ void lcdshowenginemode(TypeEngineMode mode)
 	LCD_Fill(10,40,200,40+16,WHITE);
 	LCD_ShowString(10,40,260,32,16,(u8*)ss);
 }
+
+void lcdshowdrivermode(TypeDriverMode mode)
+{
+		char ss[50];
+	switch(mode)
+	{
+		case DRIVER_MODE_AUTO:
+			sprintf(ss,"Driver Sate:Auto!\n");
+			break;
+		case DRIVER_MODE_MANUAL:
+			sprintf(ss,"Driver Sate:Manual!\n");
+			break;
+		case DRIVER_MODE_EMERGENCY:
+			sprintf(ss,"Driver Sate:Emergency!\n");
+			break;
+		default:
+			sprintf(ss,"Driver Sate:Unknown!\n");
+			break;
+	}
+
+	LCD_Fill(10,60,200,60+16,WHITE);
+	LCD_ShowString(10,60,260,32,16,(u8*)ss);
+}
+
+void lcdshowtanklevel(uint8_t level)
+{
+	char ss[50];
+	sprintf(ss,"Tank Level:%d\n",level);
+	
+	LCD_Fill(10,80,200,80+16,WHITE);
+	LCD_ShowString(10,80,260,32,16,(u8*)ss);
+}
+
+void lcdshowbatteryvolt(uint16_t voltage)
+{
+	char ss[50];
+	sprintf(ss,"Baterry Volt:%d\n",voltage);
+	
+	LCD_Fill(10,100,200,100+16,WHITE);
+	LCD_ShowString(10,100,260,32,16,(u8*)ss);
+}
+
+
 /* USER CODE END 4 */
 
 /**
