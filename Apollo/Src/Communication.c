@@ -119,7 +119,6 @@ uint8_t RS232_REGISTER[RS232_BUF_LEN];
 volatile uint8_t RS232_REG_VALID=0;
 
 uint8_t rs232_buf[RS232_BUF_LEN+10];
-uint8_t rs232_buf_tmp[RS232_BUF_LEN+10];
 volatile uint8_t g_rs232_data_new=0;
 
 INM_Data gINMData;
@@ -128,34 +127,33 @@ void updateRS232Data(void)
 {
 	if (g_rs232_data_new)
 	{
-		memcpy(rs232_buf_tmp,rs232_buf,sizeof(rs232_buf_tmp));
-		if(rs232_buf_tmp[0]==0x55)
+		g_rs232_data_new=0;
+		memcpy(RS232_REGISTER,rs232_buf,sizeof(RS232_REGISTER));
+		
+		if(RS232_REGISTER[0]==0x55)
 		{		
-			byhhReceiveUsart(&huart2, rs232_buf,RS232_BUF_LEN);	
-			
-			printf("RS232:%s\n",rs232_buf_tmp);
-			memcpy(RS232_REGISTER,rs232_buf_tmp,sizeof(RS232_REGISTER));
-			RS232_REG_VALID=1;
-			
+			//HAL_UART_AbortReceive_IT(&huart2);
+			HAL_StatusTypeDef ret= byhhReceiveUsart(&huart2, rs232_buf,RS232_BUF_LEN);	
+			printf("ret:%d \n\n",ret);
+			printf("RS232:\n");
+			RS232_REG_VALID=1;	
 		}
 		else
 		{
-			printf("RS232 err!:%s\n",rs232_buf_tmp);
+			printf("RS232 err!:%s\n",RS232_REGISTER);
 			HAL_Delay(10);
 			byhhReceiveUsart(&huart2, rs232_buf,RS232_BUF_LEN);
 		}
-		g_rs232_data_new=0;
 	}
 	else if(huart2.RxState==HAL_UART_STATE_READY)
 	{
 		printf("restart usart2!!!\n");
 		HAL_Delay(10);
-		byhhReceiveUsart(&huart2, rs232_buf,RS232_BUF_LEN);
 		g_rs232_data_new=0;
+		byhhReceiveUsart(&huart2, rs232_buf,RS232_BUF_LEN);
 	}
-	
-	
 }
+
 
 
 
@@ -169,7 +167,6 @@ uint8_t receiveINMData(void)
 	{
 		RS232_REG_VALID=0;
 		
-		
 		uint8_t* ptr=RS232_REGISTER;
 		ptr++;
 		
@@ -180,6 +177,12 @@ uint8_t receiveINMData(void)
 		ptr+=4;
 		
 		memcpy((uint8_t*)&gINMData.altitude,ptr,4);
+		ptr+=4;
+		
+		memcpy((uint8_t*)&gINMData.roll,ptr,4);
+		ptr+=4;
+		
+		memcpy((uint8_t*)&gINMData.pitch,ptr,4);
 		ptr+=4;
 		
 		memcpy((uint8_t*)&gINMData.yaw,ptr,4);

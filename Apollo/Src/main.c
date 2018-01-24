@@ -55,8 +55,6 @@ extern int gCurPathId;
 
 //APP通信相关  （LoRa USART1）
 extern HEART_BEAT_DATA g_Heart_Beat;
-extern uint8_t LORA_REGISTER[LORA_BUF_LEN];
-extern volatile uint8_t LORA_REG_VALID;
 
 
 //自动驾驶传感器相关  （RS232 USART2）
@@ -78,6 +76,7 @@ void lcdshowenginemode(TypeEngineMode mode);
 void lcdshowdrivermode(TypeDriverMode mode);
 void lcdshowtanklevel(uint8_t level);
 void lcdshowbatteryvolt(uint16_t voltage);
+void lcdshowinmdata(INM_Data data);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -94,7 +93,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-	char lcdtext[100];
+	char lcdtext[50];
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -114,7 +113,7 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
 
-	printf("new program: apollo 7\n");
+	printf("new program: apollo 8\n");
 
 	//【1】初始化。。。
 	initCan1();
@@ -122,12 +121,25 @@ int main(void)
 	
 	LCD_Init();                     //LCD初始化
 	POINT_COLOR=RED; 
-	//BACK_COLOR=GRAY;
-	
-	LCD_Clear(GREEN); 
-	//LCD_ShowString(10,40,260,32*2,12,"Apollo STM32F4/F7"); 
+	LCD_Clear(GREEN);  
 	lcdshow("AgriX Project!!!\n");
 	//【2】测试。。。
+	
+	float hh1=1.1f,hh2=2.2f,hh3=3.3f,hh4=4.4f,hh5=5.5f,hh6=6.6f;
+	uint8_t testhh[24+1];
+	memcpy(testhh,(uint8_t*)&hh1,4);
+	memcpy(testhh+4,(uint8_t*)&hh2,4);
+	memcpy(testhh+8,(uint8_t*)&hh3,4);
+	memcpy(testhh+12,(uint8_t*)&hh4,4);
+	memcpy(testhh+16,(uint8_t*)&hh5,4);
+	memcpy(testhh+20,(uint8_t*)&hh6,4);
+	
+	printf("test context:\n\n");
+	for(int i=0;i<24;i++)
+	{
+		printf("text%d:%d  \n\n",i,testhh[i]);
+	}
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -150,7 +162,6 @@ int main(void)
 			switch(cmd)
 			{
 				case CMD_HEARTBEAT:
-					//printf("cmd bh\n");
 					break;
 				case CMD_AUTO:
 					ChangeDriverMode(DRIVER_MODE_AUTO);
@@ -160,7 +171,6 @@ int main(void)
 					break;
 				case CMD_BLE_START:
 					startReceiveBleFile();
-					//printf("cmd auto\n");
 					break;
 				case CMD_BLE_END:
 					stopReceiveBleFile();
@@ -168,7 +178,6 @@ int main(void)
 					printf("gValidPathPtNum=%d\n\n",gValidPathPtNum);
 					for(int i=0;i<gValidPathPtNum;i++)
 					{
-						//printf("path%d x=%f\n",i,gPathPoints[i].startPt[0]);
 						sprintf(lcdtext,"path%d x=%f\n",i,gPathPoints[i].startPt[0]);
 						lcdshow(lcdtext);
 						HAL_Delay(1);
@@ -195,9 +204,16 @@ int main(void)
 		
 		
 		//【接受组合导航模块定位数据】
-		receiveINMData();
-		float posex=0,posey=0,posez=0;
-		cvtGpsPt2Xyz(&gINMData.longitude,&gINMData.latitude,&gINMData.altitude,&posex,&posey,&posez);
+		if(receiveINMData())
+		{
+			lcdshowinmdata(gINMData);
+			
+			float posex=0,posey=0,posez=0;
+			cvtGpsPt2Xyz(&gINMData.longitude,&gINMData.latitude,&gINMData.altitude,&posex,&posey,&posez);
+			//printf("inm data:%f,%f,%f,%f,%f,%f,%d,%d\n\n",gINMData.longitude,gINMData.latitude,gINMData.altitude,
+			//gINMData.roll,gINMData.pitch,gINMData.yaw,gINMData.gps_weeks,gINMData.gps_ms);
+		}
+
 		
 		//【接收Can通讯数据】
 		TypeEngineMode engine_mode;
@@ -318,7 +334,7 @@ PUTCHAR_PROTOTYPE
 
 void lcdshow(char*s)
 {
-	LCD_ShowString(10,20,260,32*2,16,(u8*)s); 
+	LCD_ShowString(10,5,260,32*2,16,(u8*)s); 
 }
 void lcdshowcmd(CmdType cmd)
 {
@@ -414,6 +430,15 @@ void lcdshowbatteryvolt(uint16_t voltage)
 	
 	LCD_Fill(10,100,200,100+16,WHITE);
 	LCD_ShowString(10,100,260,32,16,(u8*)ss);
+}
+
+void lcdshowinmdata(INM_Data data)
+{
+	char ss[100];
+	sprintf(ss,"INM data:lon=%f,lat=%f,alt=%f,rol=%f,pit=%f,yaw=%f    \n",data.longitude,data.latitude,data.altitude,data.roll,data.pitch,data.yaw);
+		
+	LCD_Fill(10,120,200,120+16,WHITE);
+	LCD_ShowString(10,120,260,32,12,(u8*)ss);
 }
 
 

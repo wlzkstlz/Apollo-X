@@ -57,20 +57,20 @@ typedef struct
 	float longitude;
 	float latitude;
 	float altitude;
+	float roll;
+	float pitch;
 	float yaw;
 	uint16_t gps_weeks;
 	uint32_t gps_ms;
 }INM_Data;
 extern INM_Data gINMData;
 
-#define RS232_BUF_LEN		25
+#define RS232_BUF_LEN		33	//(1+6*4+2+4+2)
 extern uint8_t RS232_REGISTER[RS232_BUF_LEN];
 extern volatile uint8_t RS232_REG_VALID;
 
 void updateRS232Data(void);
 uint8_t receiveINMData(void);
-
-
 
 //¡¾CANÍ¨ÐÅ¡¿
 #define CAR_HALF_WIDTH	0.326f
