@@ -1,8 +1,9 @@
 #include "PathData.h"
 #include "math.h"
+#include "CommonAlg.h"
 
-float gBaseLongitude=0;
-float gBaseLatitude=0;
+float gBaseLongitude=(113.895098/180.0*ALG_PI);
+float gBaseLatitude=(22.959097/180.0*ALG_PI);
 float gBaseAltitude=0;
 
 PathPoint gPathPoints[PATH_PT_SIZE];
@@ -12,12 +13,10 @@ int gCurPathId;
 
 void initPathPointsData(void)
 {
-	SDRAM_Init();                   //≥ı ºªØSDRAM
-	for(int i=0;i<PATH_PT_SIZE;i++)
-	{
-		gPathPoints[i].startPt[0]=i;
-	}
-	
+//	for(int i=0;i<PATH_PT_SIZE;i++)
+//	{
+//		gPathPoints[i].startPt[0]=i;
+//	}
 	gValidPathPtNum=0;
 	gCurPathId=0;
 }
@@ -33,13 +32,23 @@ void addPathPoint(PathPoint pt)
 }
 
 
-void cvtGpsPt2Xyz(float* gpsdataLon,float* gpsdataLat,float* gpsdataAlt,float* xyzdataX,float* xyzdataY,float* xyzdataZ)
+uint8_t getCurPathPoint(PathPoint *ppt)
 {
-	(*xyzdataZ)=(*gpsdataAlt)-gBaseAltitude;
+	if(gCurPathId>=gValidPathPtNum)
+		return 0;
 	
-	(*xyzdataY)=(*gpsdataLat)-gBaseLatitude;
+	(*ppt)=gPathPoints[gCurPathId];
+	return 1;
+}
+
+
+void cvtGpsPt2Xy(float gpsdataLon,float gpsdataLat,float* xyzdataX,float* xyzdataY)
+{
+	(*xyzdataY)=gpsdataLat-gBaseLatitude;
 	(*xyzdataY)=METER_PER_LATITUDE*(*xyzdataY);
 	
-	(*xyzdataX)=(*gpsdataLon)-gBaseLongitude;
+	(*xyzdataX)=gpsdataLon-gBaseLongitude;
 	(*xyzdataX)=cos(gBaseLatitude)*METER_PER_LATITUDE*(*xyzdataX);
 }
+
+

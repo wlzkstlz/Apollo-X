@@ -16,7 +16,8 @@ typedef enum
 	CMD_SUPPLY,
 	CMD_STOP,
 	CMD_BLE_START,
-	CMD_BLE_END
+	CMD_BLE_END,
+	CMD_NONE
 }CmdType;
 
 typedef struct 
@@ -52,8 +53,16 @@ void ackApp(CmdType cmd,HEART_BEAT_DATA heartBeat);//回复APP轮询
 
 
 //【组合导航模块传输数据】
+typedef enum
+{
+	RTK_FIX,
+	RTK_FLOAT,
+	RTK_SINGLE,
+	RTK_FAIL
+}TypeRtkState;
 typedef struct
 {
+	TypeRtkState rtk_state;
 	float longitude;
 	float latitude;
 	float altitude;
@@ -65,12 +74,13 @@ typedef struct
 }INM_Data;
 extern INM_Data gINMData;
 
-#define RS232_BUF_LEN		33	//(1+6*4+2+4+2)
+#define RS232_BUF_LEN		34	//(1+1+6*4+2+4+2)
 extern uint8_t RS232_REGISTER[RS232_BUF_LEN];
 extern volatile uint8_t RS232_REG_VALID;
 
 void updateRS232Data(void);
 uint8_t receiveINMData(void);
+INM_Data getINMData(void);
 
 //【CAN通信】
 #define CAR_HALF_WIDTH	0.326f
@@ -90,7 +100,7 @@ typedef enum
 void initCan1(void);
 
 void SendSpeed(float v,float w);
-void ChangeDriverMode(TypeDriverMode mode);
+void SetDriverMode(TypeDriverMode mode);
 void SetEngineMode(TypeEngineMode mode);
 
 uint8_t GetDriverMode(TypeDriverMode *mode);
@@ -104,6 +114,7 @@ uint8_t GetBatteryVolt(uint16_t *voltage);
 void updateBleData(void);
 void startReceiveBleFile(void );
 void stopReceiveBleFile(void);
+uint8_t isBleDoing(void);
 
 
 //【串口通信相关】

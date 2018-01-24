@@ -42,6 +42,9 @@
 #include "Communication.h"
 #include "PathData.h"
 #include "lcd.h"
+#include "AutoPilot.h"
+#include "CommonAlg.h"
+#include "math.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -117,28 +120,28 @@ int main(void)
 
 	//【1】初始化。。。
 	initCan1();
+	SDRAM_Init();                   //初始化SDRAM
 	initPathPointsData();
 	
 	LCD_Init();                     //LCD初始化
 	POINT_COLOR=RED; 
 	LCD_Clear(GREEN);  
 	lcdshow("AgriX Project!!!\n");
+	
+	InitAutoPilot();//自动驾驶初始化
 	//【2】测试。。。
+	INM_Data inmdata;
+	inmdata.longitude=gBaseLongitude+1.0/METER_PER_LATITUDE/cos(gBaseLatitude)*30.0;
+	inmdata.latitude=gBaseLatitude+1.0/METER_PER_LATITUDE*50.0;
+	inmdata.altitude=gBaseAltitude;
+	inmdata.roll=(30.0/180.0*ALG_PI);
+	inmdata.pitch=(0/180.0*ALG_PI);
+	inmdata.yaw=(0/180.0*ALG_PI);
 	
-	float hh1=1.1f,hh2=2.2f,hh3=3.3f,hh4=4.4f,hh5=5.5f,hh6=6.6f;
-	uint8_t testhh[24+1];
-	memcpy(testhh,(uint8_t*)&hh1,4);
-	memcpy(testhh+4,(uint8_t*)&hh2,4);
-	memcpy(testhh+8,(uint8_t*)&hh3,4);
-	memcpy(testhh+12,(uint8_t*)&hh4,4);
-	memcpy(testhh+16,(uint8_t*)&hh5,4);
-	memcpy(testhh+20,(uint8_t*)&hh6,4);
+	float posex,posey,poseyaw;
+	cvtINMData2Pose(inmdata,&posex,&posey,&poseyaw);
+	printf("pose x=%f, pose y=%f, pose yaw=%f  \n",posex,posey,poseyaw);
 	
-	printf("test context:\n\n");
-	for(int i=0;i<24;i++)
-	{
-		printf("text%d:%d  \n\n",i,testhh[i]);
-	}
 	
   /* USER CODE END 2 */
 
@@ -154,9 +157,11 @@ int main(void)
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_RESET);
 		HAL_Delay(10);
 		
+		RunPilot();
+		
 		
 		//【3】 处理APP通信
-		CmdType cmd=CMD_HEARTBEAT;
+		CmdType cmd=CMD_NONE;
 		if(receiveLoRaCmd(&cmd))
 		{
 			switch(cmd)
@@ -164,10 +169,10 @@ int main(void)
 				case CMD_HEARTBEAT:
 					break;
 				case CMD_AUTO:
-					ChangeDriverMode(DRIVER_MODE_AUTO);
+					SetDriverMode(DRIVER_MODE_AUTO);
 					break;
 				case CMD_MANUAL:
-					ChangeDriverMode(DRIVER_MODE_MANUAL);
+					SetDriverMode(DRIVER_MODE_MANUAL);
 					break;
 				case CMD_BLE_START:
 					startReceiveBleFile();
@@ -187,11 +192,11 @@ int main(void)
 					break;
 				case CMD_STOP:
 					SendSpeed(0,0);
-					ChangeDriverMode(DRIVER_MODE_EMERGENCY);
+					SetDriverMode(DRIVER_MODE_EMERGENCY);
 					SetEngineMode(ENGINE_MODE_STOP);
 					break;
 				case CMD_TRANSITION:
-					ChangeDriverMode(DRIVER_MODE_MANUAL);
+					SetDriverMode(DRIVER_MODE_MANUAL);
 				break;
 				default:
 					break;
@@ -208,8 +213,8 @@ int main(void)
 		{
 			lcdshowinmdata(gINMData);
 			
-			float posex=0,posey=0,posez=0;
-			cvtGpsPt2Xyz(&gINMData.longitude,&gINMData.latitude,&gINMData.altitude,&posex,&posey,&posez);
+			float posex=0,posey=0;
+			cvtGpsPt2Xy(gINMData.longitude,gINMData.latitude,&posex,&posey);
 			//printf("inm data:%f,%f,%f,%f,%f,%f,%d,%d\n\n",gINMData.longitude,gINMData.latitude,gINMData.altitude,
 			//gINMData.roll,gINMData.pitch,gINMData.yaw,gINMData.gps_weeks,gINMData.gps_ms);
 		}

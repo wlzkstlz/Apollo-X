@@ -170,6 +170,9 @@ uint8_t receiveINMData(void)
 		uint8_t* ptr=RS232_REGISTER;
 		ptr++;
 		
+		gINMData.rtk_state=(TypeRtkState)ptr[0];
+		ptr++;
+		
 		memcpy((uint8_t*)&gINMData.longitude,ptr,4);
 		ptr+=4;
 		
@@ -197,7 +200,11 @@ uint8_t receiveINMData(void)
 		
 		return 1;
 	}
-	
+}
+
+INM_Data getINMData(void)
+{
+	return gINMData;
 }
 
 
@@ -312,7 +319,7 @@ void SendSpeed(float v,float w)
 }
 
 
-void ChangeDriverMode(TypeDriverMode mode)
+void SetDriverMode(TypeDriverMode mode)
 {
 	gDriverModeTxMsg.Data[0]=mode;
 	
@@ -419,14 +426,21 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan)
 
 //¡¾À¶ÑÀÎÄ¼þ´«Êä¡¿
 uint8_t ble_buf[BLE_BUF_LEN+10];
+uint8_t gBleDoing=0;
 void startReceiveBleFile(void )
 {
+	gBleDoing=1;
 	HAL_UART_Receive_IT(&huart3,ble_buf,BLE_BUF_LEN);
 }
 
 void stopReceiveBleFile(void)
 {
 	HAL_UART_AbortReceive_IT(&huart3);
+	gBleDoing=0;
+}
+uint8_t isBleDoing(void)
+{
+	return gBleDoing;
 }
 
 

@@ -456,6 +456,21 @@
               <FileType>1</FileType>
               <FilePath>..\Src\PathData.c</FilePath>
             </File>
+            <File>
+              <FileName>AutoPilot.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\AutoPilot.c</FilePath>
+            </File>
+            <File>
+              <FileName>CommonAlg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\CommonAlg.c</FilePath>
+            </File>
+            <File>
+              <FileName>PathFollower.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\PathFollower.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

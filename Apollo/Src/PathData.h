@@ -9,7 +9,6 @@ extern float gBaseLongitude;
 extern float gBaseLatitude;
 extern float gBaseAltitude;
 
-
 typedef struct 
 {
 	float startPt[2];//pre path point
@@ -19,12 +18,14 @@ typedef struct
 
 #define PATH_PT_SIZE	1000000
 extern PathPoint gPathPoints[PATH_PT_SIZE] __attribute__((at(Bank5_SDRAM_ADDR)));
+
 extern int gValidPathPtNum;//
 extern int gCurPathId;
 
 void initPathPointsData(void);
 void addPathPoint(PathPoint pt);
+uint8_t getCurPathPoint(PathPoint *ppt);
 
-void cvtGpsPt2Xyz(float* gpsdataLon,float* gpsdataLat,float* gpsdataAlt,float* xyzdataX,float* xyzdataY,float* xyzdataZ);//东北上坐标系
+void cvtGpsPt2Xy(float gpsdataLon,float gpsdataLat,float* xyzdataX,float* xyzdataY);//东北上坐标系
 
 #endif
