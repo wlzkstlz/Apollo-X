@@ -36,8 +36,8 @@ void RunPilot(void)
 		case PILOT_STATE_IDLE:
 			gPilotState=PilotIdle(cmd);
 			break;
-		case PILOT_STATE_READY:
-			gPilotState=PilotReady(cmd);
+		case PILOT_STATE_TRANSITION:
+			gPilotState=PilotTransition(cmd);
 			break;
 		case PILOT_STATE_AUTO:
 			gPilotState=PilotAuto(cmd);
@@ -45,14 +45,11 @@ void RunPilot(void)
 		case PILOT_STATE_MANUAL_WORK:
 			gPilotState=PilotManualWork(cmd);
 			break;
-		case PILOT_STATE_MANUAL_TRANS:
-			gPilotState=PilotManualTrans(cmd);
-			break;
 		case PILOT_STATE_SUPPLY:
 			gPilotState=PilotSupply(cmd);
 			break;
-		case PILOT_STATE_STOP:
-			gPilotState=PilotStop(cmd);
+		case PILOT_STATE_BLE_TRANSFER:
+			gPilotState=PilotBleTransfer(cmd);
 			break;
 		default:
 			while(1);
@@ -80,22 +77,19 @@ PilotState PilotIdle(CmdType cmd)
 {
 	if(cmd!=CMD_NONE)//APP连接成功？
 	{
-		SetEngineMode(ENGINE_MODE_START);//发动机初始化为可以启动
-		HAL_Delay(1);
-		SetDriverMode(DRIVER_MODE_MANUAL);//驱动板模式设置为手动控制
-		return PILOT_STATE_READY;
+		intoPilotTransition();//进入转场模式
+		return PILOT_STATE_TRANSITION;
 	}
 	
 	HAL_Delay(10);
 	return PILOT_STATE_IDLE;
 }
 
-PilotState PilotReady(CmdType cmd)
+PilotState PilotTransition(CmdType cmd)
 {
 	if((cmd==CMD_BLE_START)&&(!isBleDoing()))
 	{
 		startReceiveBleFile();
-	
 	}
 	else if((cmd==CMD_BLE_END)&&(isBleDoing()))
 	{
@@ -109,7 +103,7 @@ PilotState PilotReady(CmdType cmd)
 		else
 		{
 			initPathPointsData();//重新初始化路径文件为空
-			return PILOT_STATE_READY;
+			return PILOT_STATE_TRANSITION;
 		}
 	}
 	else if(isBleDoing())
@@ -117,9 +111,8 @@ PilotState PilotReady(CmdType cmd)
 		HAL_Delay(10);
 	}
 	
-	return PILOT_STATE_READY;
+	return PILOT_STATE_TRANSITION;
 }
-
 
 
 PilotState PilotAuto(CmdType cmd)
@@ -131,8 +124,8 @@ PilotState PilotAuto(CmdType cmd)
 	}
 	else if(cmd==CMD_TRANSITION)
 	{
-		intoPilotManualTrans();//转入手动转场模式
-		return PILOT_STATE_MANUAL_TRANS;
+		intoPilotTransition();//转入手动转场模式
+		return PILOT_STATE_TRANSITION;
 	}
 	else if(cmd==CMD_SUPPLY||(0))//todo:发动机停机检测判断
 	{
@@ -169,8 +162,8 @@ PilotState PilotAuto(CmdType cmd)
 			
 			//todo 向APP发送求救信号
 			
-			intoPilotManualTrans();
-			return PILOT_STATE_MANUAL_TRANS;
+			intoPilotTransition();
+			return PILOT_STATE_TRANSITION;
 		}
 	}
 	else if(imu_over_turn_delay>0)
@@ -186,8 +179,8 @@ PilotState PilotAuto(CmdType cmd)
 	{
 		SendSpeed(0,0);
 		//todo 向APP发送完成信号
-		intoPilotStop();
-		return PILOT_STATE_STOP;
+		intoPilotBleTransfer();
+		return PILOT_STATE_BLE_TRANSFER;
 	}
 	
 	float Vc=0.0f,Wc=0.0f;
@@ -201,8 +194,8 @@ PilotState PilotAuto(CmdType cmd)
 	else if(crs==CRS_YERR)//轨迹跟踪失败
 	{
 		//todo 向APP发送求救信号
-		intoPilotManualTrans();
-		return PILOT_STATE_MANUAL_TRANS;
+		intoPilotTransition();
+		return PILOT_STATE_TRANSITION;
 	}
 	else
 	{
@@ -211,35 +204,29 @@ PilotState PilotAuto(CmdType cmd)
 	}
 }
 
-
-
 PilotState PilotManualWork(CmdType cmd)
 {
 	
 	return PILOT_STATE_IDLE;
 }
-PilotState PilotManualTrans(CmdType cmd)
-{
-	return PILOT_STATE_IDLE;
-}
 PilotState PilotSupply(CmdType cmd){return PILOT_STATE_IDLE;}
-PilotState PilotStop(CmdType cmd)
+PilotState PilotBleTransfer(CmdType cmd)
 {
 	if(1)//todo 判断发动机已停机
 	{
-		intoPilotReady();
-		return PILOT_STATE_READY;
+		intoPilotTransition();
+		return PILOT_STATE_TRANSITION;
 	}
 	
-	return PILOT_STATE_STOP;
+	return PILOT_STATE_BLE_TRANSFER;
 }
 
 
-void intoPilotReady(void)
+void intoPilotTransition(void)
 {
-	SetDriverMode(DRIVER_MODE_MANUAL);
+	SetEngineMode(ENGINE_MODE_STOP);
 	HAL_Delay(1);
-	SetEngineMode(ENGINE_MODE_START);
+	SetDriverMode(DRIVER_MODE_MANUAL);
 }
 void intoPilotAuto(void)
 {
@@ -269,7 +256,7 @@ void intoPilotSupply(void)
 	HAL_Delay(1);
 	SetDriverMode(DRIVER_MODE_MANUAL);
 }
-void intoPilotStop(void)
+void intoPilotBleTransfer(void)
 {
 	SetEngineMode(ENGINE_MODE_STOP);//关闭发动机
 	initPathPointsData();//删除作业文件
