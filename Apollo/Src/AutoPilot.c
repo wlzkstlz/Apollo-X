@@ -195,26 +195,33 @@ PilotState PilotAuto(CmdType cmd)
 	
 	if(crs==CRS_REACHED)
 	{
-		
+		moveCurPpt2Next();
+		return PILOT_STATE_AUTO;
 	}
-	else if(crs==CRS_YERR)
+	else if(crs==CRS_YERR)//轨迹跟踪失败
 	{
-		
+		//todo 向APP发送求救信号
+		intoPilotManualTrans();
+		return PILOT_STATE_MANUAL_TRANS;
 	}
 	else
 	{
 		SendSpeed(Vc,Wc);
 		return PILOT_STATE_AUTO;
 	}
-	
-	
-	return PILOT_STATE_IDLE;
 }
 
 
 
-PilotState PilotManualWork(CmdType cmd){return PILOT_STATE_IDLE;}
-PilotState PilotManualTrans(CmdType cmd){return PILOT_STATE_IDLE;}
+PilotState PilotManualWork(CmdType cmd)
+{
+	
+	return PILOT_STATE_IDLE;
+}
+PilotState PilotManualTrans(CmdType cmd)
+{
+	return PILOT_STATE_IDLE;
+}
 PilotState PilotSupply(CmdType cmd){return PILOT_STATE_IDLE;}
 PilotState PilotStop(CmdType cmd)
 {
@@ -245,12 +252,14 @@ void intoPilotManualWork(void)
 	SetEngineMode(ENGINE_MODE_START);
 	HAL_Delay(1);
 	SetDriverMode(DRIVER_MODE_MANUAL);
+	initPathPointsData();//删除作业文件
 }
 void intoPilotManualTrans(void)
 {
 	SetEngineMode(ENGINE_MODE_STOP);
 	HAL_Delay(1);
 	SetDriverMode(DRIVER_MODE_MANUAL);
+	initPathPointsData();//删除作业文件
 }
 void intoPilotSupply(void)
 {

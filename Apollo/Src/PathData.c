@@ -41,6 +41,11 @@ uint8_t getCurPathPoint(PathPoint *ppt)
 	return 1;
 }
 
+void moveCurPpt2Next(void)
+{
+	gCurPathId++;
+}
+
 
 void cvtGpsPt2Xy(float gpsdataLon,float gpsdataLat,float* xyzdataX,float* xyzdataY)
 {
