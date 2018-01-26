@@ -25,6 +25,8 @@ extern int gCurPathId;
 void initPathPointsData(void);
 void addPathPoint(PathPoint pt);
 uint8_t getCurPathPoint(PathPoint *ppt);
+uint8_t isPathDataFileExist(void);
+void setPathDataFileExist(void);
 void moveCurPpt2Next(void);
 
 void cvtGpsPt2Xy(float gpsdataLon,float gpsdataLat,float* xyzdataX,float* xyzdataY);//东北上坐标系

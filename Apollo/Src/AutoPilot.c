@@ -8,8 +8,8 @@
 #define		ANTEANA_DY	(0)
 #define		ANTEANA_DZ	(1.92925)
 
-#define		IMU_OVERTURN_ROLL	(30.0/180.0*3.1415926)
-#define		IMU_OVERTURN_PITCH	(30.0/180.0*3.1415926)
+#define		IMU_OVERTURN_ROLL	(30.0/180.0*ALG_PI)
+#define		IMU_OVERTURN_PITCH	(30.0/180.0*ALG_PI)
 
 PilotState gPilotState;
 
@@ -61,14 +61,12 @@ void RunPilot(void)
 这里进行掉电原因判断，并进行必要的恢复工作
 */
 PilotState PilotInit(CmdType cmd)
-{
-	if(0)//待实现掉电处理
-		return PILOT_STATE_SUPPLY;
-	
+{	
 	initPathPointsData();//任务文件初始化为空
 	SetEngineMode(ENGINE_MODE_STOP);//发动机初始化为不能启动
 	HAL_Delay(1);
 	SetDriverMode(DRIVER_MODE_AUTO);//驱动板模式设置为自动控制
+	
 	return PILOT_STATE_IDLE;//进入空闲状态
 }
 
@@ -77,6 +75,12 @@ PilotState PilotIdle(CmdType cmd)
 {
 	if(cmd!=CMD_NONE)//APP连接成功？
 	{
+		if(0)//待实现掉电处理
+		{
+			intoPilotSupply();
+			return PILOT_STATE_SUPPLY;
+		}
+		
 		intoPilotTransition();//进入转场模式
 		return PILOT_STATE_TRANSITION;
 	}
@@ -87,6 +91,34 @@ PilotState PilotIdle(CmdType cmd)
 
 PilotState PilotTransition(CmdType cmd)
 {
+	if(cmd==CMD_MANUAL)//APP手动作业指令
+	{
+		intoPilotManualWork();
+		return PILOT_STATE_MANUAL_WORK;
+	}
+	
+	if(cmd==CMD_AUTO)
+	{
+		return PILOT_STATE_BLE_TRANSFER;
+	}
+	
+	HAL_Delay(10);
+	return PILOT_STATE_TRANSITION;
+	
+	
+
+	
+	return PILOT_STATE_TRANSITION;
+}
+
+PilotState PilotBleTransfer(CmdType cmd)
+{
+	if(isPathDataFileExist())//路径文件存在
+	{
+		intoPilotAuto();
+		return PILOT_STATE_AUTO;
+	}
+	
 	if((cmd==CMD_BLE_START)&&(!isBleDoing()))
 	{
 		startReceiveBleFile();
@@ -97,12 +129,17 @@ PilotState PilotTransition(CmdType cmd)
 		
 		if(1)//todo:校验蓝牙传输过来的路径文件是否正确无误
 		{
+			setPathDataFileExist();
+			
+			//todo:搜寻匹配起点
+			
 			intoPilotAuto();
 			return PILOT_STATE_AUTO;
 		}
 		else
 		{
 			initPathPointsData();//重新初始化路径文件为空
+			intoPilotTransition();
 			return PILOT_STATE_TRANSITION;
 		}
 	}
@@ -111,13 +148,19 @@ PilotState PilotTransition(CmdType cmd)
 		HAL_Delay(10);
 	}
 	
-	return PILOT_STATE_TRANSITION;
+	return PILOT_STATE_BLE_TRANSFER;
 }
+
 
 
 PilotState PilotAuto(CmdType cmd)
 {
-	if(cmd==CMD_MANUAL)
+	if(cmd==CMD_SUPPLY||(0))//todo:发动机停机检测判断
+	{
+		intoPilotSupply();
+		return PILOT_STATE_SUPPLY;
+	}
+	else if(cmd==CMD_MANUAL)
 	{
 		intoPilotManualWork();//转入手动作业模式
 		return PILOT_STATE_MANUAL_WORK;
@@ -127,11 +170,7 @@ PilotState PilotAuto(CmdType cmd)
 		intoPilotTransition();//转入手动转场模式
 		return PILOT_STATE_TRANSITION;
 	}
-	else if(cmd==CMD_SUPPLY||(0))//todo:发动机停机检测判断
-	{
-		intoPilotSupply();
-		return PILOT_STATE_SUPPLY;
-	}
+	 
 	
 	static uint16_t rtk_lost_delay=0;
 	if(getINMData().rtk_state!=RTK_FIX)//判断rtk是否丢星
@@ -147,6 +186,8 @@ PilotState PilotAuto(CmdType cmd)
 			SetEngineMode(ENGINE_MODE_STOP);
 			rtk_lost_delay++;
 		} 
+		
+		return PILOT_STATE_AUTO;
 	}
 	else
 	{
@@ -158,29 +199,31 @@ PilotState PilotAuto(CmdType cmd)
 	{
 		if(++imu_over_turn_delay>100)//机器人进坑？
 		{
+			SendSpeed(0,0);
 			imu_over_turn_delay=0;
 			
-			//todo 向APP发送求救信号
+			//todo: 向APP发送求救信号
 			
 			intoPilotTransition();
 			return PILOT_STATE_TRANSITION;
 		}
 	}
 	else if(imu_over_turn_delay>0)
+	{
 		imu_over_turn_delay--;
-	
+	}
 	
 	//自动驾驶
 	float poseX,poseY,poseYaw;
 	cvtINMData2Pose(getINMData(),&poseX,&poseY,&poseYaw);
 	
 	PathPoint pathPoint;
-	if(!getCurPathPoint(&pathPoint))//任务完成！！！
+	if(getCurPathPoint(&pathPoint)==0)//任务完成！！！
 	{
 		SendSpeed(0,0);
 		//todo 向APP发送完成信号
-		intoPilotBleTransfer();
-		return PILOT_STATE_BLE_TRANSFER;
+		intoPilotTransition();
+		return PILOT_STATE_TRANSITION;
 	}
 	
 	float Vc=0.0f,Wc=0.0f;
@@ -200,25 +243,70 @@ PilotState PilotAuto(CmdType cmd)
 	else
 	{
 		SendSpeed(Vc,Wc);
+		HAL_Delay(5);
 		return PILOT_STATE_AUTO;
 	}
 }
 
 PilotState PilotManualWork(CmdType cmd)
 {
-	
-	return PILOT_STATE_IDLE;
-}
-PilotState PilotSupply(CmdType cmd){return PILOT_STATE_IDLE;}
-PilotState PilotBleTransfer(CmdType cmd)
-{
-	if(1)//todo 判断发动机已停机
+	if(cmd==CMD_SUPPLY||(0))//todo:发动机停机检测判断
 	{
-		intoPilotTransition();
+		intoPilotSupply();
+		return PILOT_STATE_SUPPLY;
+	}
+	else if(cmd==CMD_AUTO)
+	{
+		return PILOT_STATE_BLE_TRANSFER;
+	}
+	else if(cmd==CMD_TRANSITION)
+	{
+		intoPilotTransition();//转入手动转场模式
 		return PILOT_STATE_TRANSITION;
 	}
 	
-	return PILOT_STATE_BLE_TRANSFER;
+	
+	HAL_Delay(10);
+	return PILOT_STATE_MANUAL_WORK;
+}
+
+uint16_t gEngineStopDelay=0;
+PilotState PilotSupply(CmdType cmd)
+{ 	
+	if(cmd==CMD_AUTO)
+	{
+		return PILOT_STATE_BLE_TRANSFER;
+	}
+	else if(cmd==CMD_MANUAL)
+	{
+		intoPilotManualWork();//转入手动作业模式
+		return PILOT_STATE_MANUAL_WORK;
+	}
+	else if(cmd==CMD_TRANSITION)
+	{
+		intoPilotTransition();//转入手动转场模式
+		return PILOT_STATE_TRANSITION;
+	}
+	
+	if(0)//todo:检测到发动机停机后，允许发动机启动
+	{
+		SetEngineMode(ENGINE_MODE_START);
+	}
+	
+	//todo:临时替代发动机检测功能
+	
+	if(gEngineStopDelay<1000)
+	{
+		gEngineStopDelay++;
+	}
+	else if(gEngineStopDelay==1000)
+	{
+		SetEngineMode(ENGINE_MODE_START);
+		gEngineStopDelay++;
+	}
+	
+	HAL_Delay(10);
+	return PILOT_STATE_SUPPLY;
 }
 
 
@@ -239,7 +327,6 @@ void intoPilotManualWork(void)
 	SetEngineMode(ENGINE_MODE_START);
 	HAL_Delay(1);
 	SetDriverMode(DRIVER_MODE_MANUAL);
-	initPathPointsData();//删除作业文件
 }
 void intoPilotManualTrans(void)
 {
@@ -251,6 +338,8 @@ void intoPilotManualTrans(void)
 void intoPilotSupply(void)
 {
 	//todo:保存关键数据，以备换电池掉电。。。
+	
+	gEngineStopDelay=0;//清零发动机熄火计时器
 	
 	SetEngineMode(ENGINE_MODE_STOP);
 	HAL_Delay(1);

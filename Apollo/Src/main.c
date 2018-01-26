@@ -129,6 +129,7 @@ int main(void)
 	lcdshow("AgriX Project!!!\n");
 	
 	InitAutoPilot();//自动驾驶初始化
+	
 	//【2】测试。。。
 	INM_Data inmdata;
 	inmdata.longitude=gBaseLongitude+1.0/METER_PER_LATITUDE/cos(gBaseLatitude)*30.0;

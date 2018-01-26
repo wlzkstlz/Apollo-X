@@ -8,8 +8,10 @@ float gBaseAltitude=0;
 
 PathPoint gPathPoints[PATH_PT_SIZE];
 
-int gValidPathPtNum;
-int gCurPathId;
+int gValidPathPtNum=0;
+int gCurPathId=0;
+
+uint8_t gPathDataFileExist=0;
 
 void initPathPointsData(void)
 {
@@ -19,6 +21,7 @@ void initPathPointsData(void)
 //	}
 	gValidPathPtNum=0;
 	gCurPathId=0;
+	gPathDataFileExist=0;
 }
 
 
@@ -39,6 +42,16 @@ uint8_t getCurPathPoint(PathPoint *ppt)
 	
 	(*ppt)=gPathPoints[gCurPathId];
 	return 1;
+}
+
+uint8_t isPathDataFileExist(void)
+{
+	return gPathDataFileExist;
+}
+
+void setPathDataFileExist(void)
+{
+	gPathDataFileExist=1;
 }
 
 void moveCurPpt2Next(void)
