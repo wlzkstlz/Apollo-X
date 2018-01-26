@@ -59,7 +59,7 @@ void RunPilot(void)
 	
 	//【CAN通讯】
 	uint8_t tankLevel=0;
-	static uint16_t tank_level_delay=0;
+	static uint8_t tank_level_delay=0;
 	if(GetTankLevel(&tankLevel))//监测水箱水位，视情况关闭发动机
 	{
 		setHBTankLevel(tankLevel);
@@ -248,21 +248,20 @@ PilotState PilotAuto(CmdType cmd)
 	}
 	 
 	
-	static uint16_t rtk_lost_delay=0;
+	static uint32_t rtk_lost_delay=0;
 	if(getINMData().rtk_state!=RTK_FIX)//判断rtk是否丢星
 	{
 		SendSpeed(0,0);
 		HAL_Delay(10);
-		if(rtk_lost_delay<500)
+		if(rtk_lost_delay==0)
 		{
-			rtk_lost_delay++;
+			rtk_lost_delay=HAL_GetTick();
 		}
-		else if(rtk_lost_delay==500)//延时5s后，仍未固定，则关闭发动机
+		else if(HAL_GetTick()-rtk_lost_delay>5000)//延时5s后，仍未固定，则关闭发动机
 		{
 			SetEngineMode(ENGINE_MODE_STOP);
-			rtk_lost_delay++;
+			rtk_lost_delay=0;
 		} 
-		
 		return PILOT_STATE_AUTO;
 	}
 	else
@@ -270,12 +269,14 @@ PilotState PilotAuto(CmdType cmd)
 		rtk_lost_delay=0;
 	}
 	
-	static uint16_t imu_over_turn_delay=0;
+	static uint32_t imu_over_turn_delay=0;
 	if((abs(getINMData().roll)>IMU_OVERTURN_ROLL)||(abs(getINMData().pitch)>IMU_OVERTURN_PITCH))
 	{
-		if(++imu_over_turn_delay>100)//机器人进坑？
+		if(imu_over_turn_delay==0)
+			imu_over_turn_delay=HAL_GetTick();
+		
+		if(HAL_GetTick()-imu_over_turn_delay>1000)//机器人进坑？
 		{
-			SendSpeed(0,0);
 			imu_over_turn_delay=0;
 			
 			//todo: 向APP发送求救信号
@@ -284,9 +285,9 @@ PilotState PilotAuto(CmdType cmd)
 			return PILOT_STATE_TRANSITION;
 		}
 	}
-	else if(imu_over_turn_delay>0)
+	else
 	{
-		imu_over_turn_delay--;
+		imu_over_turn_delay=0;
 	}
 	
 	//自动驾驶
