@@ -373,7 +373,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F429xx,HAL_SDRAM_MODULE_ENABLED,HAL_LTDC_MODULE_ENABLED,HAL_DMA2D_MODULE_ENABLED,HAL_SRAM_MODULE_ENABLED</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\Src\SDRAM;..\Src\delay;..\Src\LCD</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\Src\SDRAM;..\Src\delay;..\Src\LCD;..\Src\STMFLASH</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -635,6 +635,16 @@
               <FileName>delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\delay\delay.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>STMFLASH</GroupName>
+          <Files>
+            <File>
+              <FileName>stmflash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\STMFLASH\stmflash.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -46,7 +46,7 @@ void setHBFileExist(uint8_t file_exist);
 void setHBRtkState(uint8_t rtk_state);
 void setHBServorAlarm(uint8_t servor_alarm);
 
-#define APP_ACK_LEN	16//id2+cmd1+pose6+tank1+volt1+state1+index2+bitstate1+crc1=16
+#define APP_ACK_LEN	16	//id2+cmd1+pose6+tank1+volt1+state1+index2+bitstate1+crc1=16
 extern uint8_t gAppAck[APP_ACK_LEN];
 
 // LoRa USART1

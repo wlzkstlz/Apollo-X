@@ -4,6 +4,7 @@
 #include "CommonAlg.h"
 #include "PathFollower.h"
 #include "stm32f4xx_hal.h"
+#include "stmflash.h"
 
 #define		ANTEANA_DX	(-0.061)
 #define		ANTEANA_DY	(0)
@@ -143,7 +144,7 @@ PilotState PilotIdle(CmdType cmd)
 {
 	if(cmd!=CMD_NONE)//APP连接成功？
 	{
-		if(0)//待实现掉电处理
+		if(GetSupplyState())//todo:待实现掉电处理
 		{
 			intoPilotSupply();
 			return PILOT_STATE_SUPPLY;
@@ -345,15 +346,18 @@ PilotState PilotSupply(CmdType cmd)
 { 	
 	if(cmd==CMD_AUTO)
 	{
+		SetSupplyState(0);
 		return PILOT_STATE_BLE_TRANSFER;
 	}
 	else if(cmd==CMD_MANUAL)
 	{
+		SetSupplyState(0);
 		intoPilotManualWork();//转入手动作业模式
 		return PILOT_STATE_MANUAL_WORK;
 	}
 	else if(cmd==CMD_TRANSITION)
 	{
+		SetSupplyState(0);
 		intoPilotTransition();//转入手动转场模式
 		return PILOT_STATE_TRANSITION;
 	}
@@ -408,6 +412,7 @@ void intoPilotManualTrans(void)
 void intoPilotSupply(void)
 {
 	//todo:保存关键数据，以备换电池掉电。。。
+	SetSupplyState(1);
 	
 	gEngineStopDelay=0;//清零发动机熄火计时器
 	
