@@ -32,8 +32,8 @@ CRS runController(float vel, PathPoint path, float curX, float curY, float curPh
 		float angel1 = GetThetaFromVector(path.startPt[0] - path.aPt[0], path.startPt[1] - path.aPt[1]);
 		float angel2 = GetThetaFromVector(curX - path.aPt[0], curY - path.aPt[1]);
 		float delta_angel = angel2 - angel1;
-		while (delta_angel < -ALG_PI) { delta_angel += 2 * ALG_PI; }
-		while (delta_angel > ALG_PI) { delta_angel -= 2 * ALG_PI; }
+		while (delta_angel < -ALG_PI) { delta_angel += ALG_2_PI; }
+		while (delta_angel > ALG_PI) { delta_angel -= ALG_2_PI; }
 		if ((path.deltaPhi > 0 && delta_angel >= path.deltaPhi) || (path.deltaPhi < 0 && delta_angel <= path.deltaPhi))
 			return CRS_REACHED;
 

@@ -4,6 +4,7 @@
 #include "string.h"
 #include "PathData.h"
 #include "stdlib.h"
+#include "CommonAlg.h"
 
 
 // 【APP通信】
@@ -14,8 +15,75 @@ volatile uint8_t g_lora_data_new=0;
 uint8_t LORA_REGISTER[LORA_BUF_LEN];
 volatile uint8_t LORA_REG_VALID=0;
 
-HEART_BEAT_DATA g_Heart_Beat={1,2,3,4,5,6,7,8};
+HEART_BEAT_DATA gHeartBeat={0.0f,0.0f,0.0f,0,0,0,0,0};
 uint8_t gAppAck[APP_ACK_LEN];
+
+void setHBPose(float poseX,float poseY,float posePhi)
+{
+	gHeartBeat.poseX=(int16_t)(poseX/0.1f);//单位cm
+	gHeartBeat.poseY=(int16_t)(poseY/0.1f);//单位cm
+	
+	while(posePhi>ALG_2_PI){posePhi-=ALG_2_PI;}
+	while(posePhi<-ALG_2_PI){posePhi+=ALG_2_PI;}
+	gHeartBeat.posePhi=(int16_t)(posePhi/0.001f);//单位毫弧度
+}
+
+void setHBTankLevel(uint8_t level)
+{
+	gHeartBeat.tankLevel=level;
+}
+
+void setHBBatteryPercentage(uint16_t volt)
+{
+	float percentage=100.0f*(((float)volt/100.0f-(3.7f*12.0f))/(4.2f*12.0f-3.7f*12.0f));
+	if(percentage>0)
+		gHeartBeat.batteryPercentage=(uint8_t)percentage;
+	else 
+		gHeartBeat.batteryPercentage=0;
+}
+
+void setHBPilotState(uint8_t state)
+{
+	gHeartBeat.curState=state;
+}
+
+void setHBPathId(uint16_t path_id)
+{
+	gHeartBeat.curPathId=path_id;
+}
+
+void setHBEngineState(uint8_t engine_state)
+{
+	if(engine_state)
+		gHeartBeat.curBitsState|=(uint8_t)(0x01);
+	else
+		gHeartBeat.curBitsState&=(uint8_t)(~(0x01));
+}
+
+
+void setHBFileExist(uint8_t file_exist)
+{
+	if(file_exist)
+		gHeartBeat.curBitsState|=(uint8_t)(0x01<<1);
+	else
+		gHeartBeat.curBitsState&=(uint8_t)(~(0x01<<1));
+}
+
+void setHBRtkState(uint8_t rtk_state)
+{
+	if(rtk_state>3)
+		rtk_state=3;
+	
+	gHeartBeat.curBitsState&=(uint8_t)(~(0x03<<2));
+	gHeartBeat.curBitsState|=(uint8_t)((uint8_t)rtk_state<<2);
+}
+void setHBServorAlarm(uint8_t servor_alarm)
+{
+	if(servor_alarm)
+		gHeartBeat.curBitsState|=(uint8_t)(0x01<<4);
+	else
+		gHeartBeat.curBitsState&=(uint8_t)(~(0x01<<4));
+}
 
 void assemAppAck(CmdType cmd,HEART_BEAT_DATA heartBeat)
 {
@@ -24,8 +92,7 @@ void assemAppAck(CmdType cmd,HEART_BEAT_DATA heartBeat)
 	memcpy(ptr,(uint8_t*)&id,2);
 	ptr+=2;
 	
-	uint8_t cmd_tmp=cmd;
-	memcpy(ptr,&cmd_tmp,1);
+	ptr[0]=cmd;
 	ptr++;
 	
 	int16_t poseX=heartBeat.poseX;
@@ -40,8 +107,8 @@ void assemAppAck(CmdType cmd,HEART_BEAT_DATA heartBeat)
 	memcpy(ptr,(uint8_t*)&posePhi,2);
 	ptr+=2;
 	
-	ptr[0]=heartBeat.remainedLiq;
-	ptr[1]=heartBeat.batteryVolt;
+	ptr[0]=heartBeat.tankLevel;
+	ptr[1]=heartBeat.batteryPercentage;
 	ptr[2]=heartBeat.curState;
 	ptr+=3;
 	
@@ -50,18 +117,16 @@ void assemAppAck(CmdType cmd,HEART_BEAT_DATA heartBeat)
 	ptr+=2;
 	
 	ptr[0]=heartBeat.curBitsState;
-	ptr[1]=0;
+	ptr++;
 	
-	ptr+=2;
-	uint32_t crc=0;
-	memcpy(ptr,(uint8_t*)&crc,4);
-	
+	uint8_t crc=0;//todo:循环冗余校验待实现
+	ptr[0]=crc;
 }
 
 void ackApp(CmdType cmd,HEART_BEAT_DATA heartBeat)
 {
 	assemAppAck(cmd,heartBeat);
-	HAL_UART_Transmit(&huart1,(uint8_t*)&gAppAck,sizeof(gAppAck),100);//回复心跳包，注意结构体的字节对齐
+	HAL_UART_Transmit(&huart1,(uint8_t*)&gAppAck,sizeof(gAppAck),100);//回复心跳包
 }
 
 void updateLoRaData(void)
@@ -94,7 +159,7 @@ void updateLoRaData(void)
 }
 
 
-uint8_t receiveLoRaCmd(CmdType *cmd)
+uint8_t receiveAPPCmd(CmdType *cmd)
 {
 	updateLoRaData();
 	if(LORA_REG_VALID==0)
@@ -394,7 +459,19 @@ uint8_t GetBatteryVolt(uint16_t *voltage)
 		return 0;
 }
 
-
+volatile uint16_t gServorAlarm=0;
+volatile uint8_t gServerAlarmNew=0;
+uint8_t GetServorAlarm(uint16_t *alarm)
+{
+	*alarm= gServorAlarm;
+	if(gServerAlarmNew)
+	{
+		gServerAlarmNew=0;
+		return 1;
+	}
+	else
+		return 0;
+}
 
 
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan)
@@ -408,6 +485,11 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan)
 	{
 		gEngineMode=(TypeEngineMode)hcan->pRxMsg->Data[0];
 		gEngineModeNew=1;
+	}
+	else if(hcan->pRxMsg->StdId==0x60)
+	{
+		memcpy((uint8_t*)&gServorAlarm,hcan->pRxMsg->Data,2);
+		gServerAlarmNew=1;
 	}
 	else if(hcan->pRxMsg->StdId==0x70)
 	{

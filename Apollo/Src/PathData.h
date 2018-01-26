@@ -20,11 +20,12 @@ typedef struct
 extern PathPoint gPathPoints[PATH_PT_SIZE] __attribute__((at(Bank5_SDRAM_ADDR)));
 
 extern int gValidPathPtNum;//
-extern int gCurPathId;
+extern uint16_t gCurPathId;
 
 void initPathPointsData(void);
 void addPathPoint(PathPoint pt);
 uint8_t getCurPathPoint(PathPoint *ppt);
+uint16_t getCurPathPointId(void);
 uint8_t isPathDataFileExist(void);
 void setPathDataFileExist(void);
 void moveCurPpt2Next(void);

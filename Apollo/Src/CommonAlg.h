@@ -2,6 +2,7 @@
 #define _COMMONALG_H
 
 #define ALG_PI	3.1415926
+#define ALG_2_PI	(2.0*ALG_PI)
 
 #ifndef DEG2RAD
 #define DEG2RAD(x) ((x)*0.017453293)

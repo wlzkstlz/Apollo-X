@@ -26,17 +26,27 @@ typedef struct
 	int16_t poseY;
 	int16_t posePhi;
 	
-	uint8_t remainedLiq;
-	uint8_t batteryVolt;
+	uint8_t tankLevel;
+	uint8_t batteryPercentage;
 	
 	uint8_t curState;
 	uint16_t curPathId;
 	uint8_t curBitsState;
 	
 }HEART_BEAT_DATA;
-extern HEART_BEAT_DATA g_Heart_Beat;
+extern HEART_BEAT_DATA gHeartBeat;
 
-#define APP_ACK_LEN	20
+void setHBPose(float poseX,float poseY,float posePhi);
+void setHBTankLevel(uint8_t level);
+void setHBBatteryPercentage(uint16_t volt);
+void setHBPilotState(uint8_t state);
+void setHBPathId(uint16_t path_id);
+void setHBEngineState(uint8_t engine_state);
+void setHBFileExist(uint8_t file_exist);
+void setHBRtkState(uint8_t rtk_state);
+void setHBServorAlarm(uint8_t servor_alarm);
+
+#define APP_ACK_LEN	16//id2+cmd1+pose6+tank1+volt1+state1+index2+bitstate1+crc1=16
 extern uint8_t gAppAck[APP_ACK_LEN];
 
 // LoRa USART1
@@ -45,7 +55,7 @@ extern uint8_t LORA_REGISTER[LORA_BUF_LEN];
 extern volatile uint8_t LORA_REG_VALID;
 
 void updateLoRaData(void);
-uint8_t receiveLoRaCmd(CmdType *cmd);
+uint8_t receiveAPPCmd(CmdType *cmd);
 
 void assemAppAck(CmdType cmd,HEART_BEAT_DATA heartBeat);
 void ackApp(CmdType cmd,HEART_BEAT_DATA heartBeat);//回复APP轮询
@@ -55,7 +65,7 @@ void ackApp(CmdType cmd,HEART_BEAT_DATA heartBeat);//回复APP轮询
 //【组合导航模块传输数据】
 typedef enum
 {
-	RTK_FIX,
+	RTK_FIX=0,
 	RTK_FLOAT,
 	RTK_SINGLE,
 	RTK_FAIL
@@ -107,6 +117,7 @@ uint8_t GetDriverMode(TypeDriverMode *mode);
 uint8_t GetEngineMode(TypeEngineMode *mode);
 uint8_t GetTankLevel(uint8_t *level);
 uint8_t GetBatteryVolt(uint16_t *voltage);
+uint8_t GetServorAlarm(uint16_t *alarm);
 
 
 //【蓝牙文件传输】

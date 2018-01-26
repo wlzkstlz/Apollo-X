@@ -54,10 +54,10 @@
 //路径文件相关
 extern PathPoint gPathPoints[PATH_PT_SIZE];
 extern int gValidPathPtNum;//
-extern int gCurPathId;
+extern uint16_t gCurPathId;
 
 //APP通信相关  （LoRa USART1）
-extern HEART_BEAT_DATA g_Heart_Beat;
+extern HEART_BEAT_DATA gHeartBeat;
 
 
 //自动驾驶传感器相关  （RS232 USART2）
@@ -131,19 +131,6 @@ int main(void)
 	InitAutoPilot();//自动驾驶初始化
 	
 	//【2】测试。。。
-	INM_Data inmdata;
-	inmdata.longitude=gBaseLongitude+1.0/METER_PER_LATITUDE/cos(gBaseLatitude)*30.0;
-	inmdata.latitude=gBaseLatitude+1.0/METER_PER_LATITUDE*50.0;
-	inmdata.altitude=gBaseAltitude;
-	inmdata.roll=(30.0/180.0*ALG_PI);
-	inmdata.pitch=(0/180.0*ALG_PI);
-	inmdata.yaw=(0/180.0*ALG_PI);
-	
-	float posex,posey,poseyaw;
-	cvtINMData2Pose(inmdata,&posex,&posey,&poseyaw);
-	printf("pose x=%f, pose y=%f, pose yaw=%f  \n",posex,posey,poseyaw);
-	
-	
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -151,6 +138,10 @@ int main(void)
 	int tt=0;
   while (1)
   {
+	  RunPilot();
+	  continue;
+	  
+	  
 		tt++;
 		
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_SET);
@@ -158,12 +149,9 @@ int main(void)
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_RESET);
 		HAL_Delay(10);
 		
-		RunPilot();
-		
-		
 		//【3】 处理APP通信
 		CmdType cmd=CMD_NONE;
-		if(receiveLoRaCmd(&cmd))
+		if(receiveAPPCmd(&cmd))
 		{
 			switch(cmd)
 			{
@@ -204,10 +192,8 @@ int main(void)
 			}
 			
 			lcdshowcmd(cmd);
-			ackApp(cmd,g_Heart_Beat);//回复app轮询
+			ackApp(cmd,gHeartBeat);//回复app轮询
 		}
-		
-		
 		
 		//【接受组合导航模块定位数据】
 		if(receiveINMData())

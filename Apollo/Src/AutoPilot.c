@@ -3,6 +3,7 @@
 #include "stdlib.h"
 #include "CommonAlg.h"
 #include "PathFollower.h"
+#include "stm32f4xx_hal.h"
 
 #define		ANTEANA_DX	(-0.061)
 #define		ANTEANA_DY	(0)
@@ -10,6 +11,8 @@
 
 #define		IMU_OVERTURN_ROLL	(30.0/180.0*ALG_PI)
 #define		IMU_OVERTURN_PITCH	(30.0/180.0*ALG_PI)
+
+#define		TANK_LEVEL_THRESHOLD	10
 
 PilotState gPilotState;
 
@@ -20,14 +23,73 @@ void InitAutoPilot(void)
 
 void RunPilot(void)
 {
+	//【APP通讯】
 	CmdType cmd=CMD_NONE;
-	if(receiveLoRaCmd(&cmd))//接收app指令
+	static uint32_t app_cmd_delay=0;
+	if(receiveAPPCmd(&cmd))//接收app指令
 	{
-		ackApp(cmd,g_Heart_Beat);//回复app轮询
+		ackApp(cmd,gHeartBeat);//回复app轮询
+		app_cmd_delay=HAL_GetTick();
+	}
+	else if(gPilotState!=PILOT_STATE_INIT&&gPilotState!=PILOT_STATE_IDLE)
+	{
+		uint32_t abort_time=HAL_GetTick()-app_cmd_delay;
+		if(abort_time>3000&&abort_time<10000)//通讯中断3s~10s
+		{
+			SendSpeed(0,0);
+			HAL_Delay(10);
+			return;
+		}
+		else if(abort_time>=10000)
+		{
+			gPilotState=PILOT_STATE_INIT;
+		}
 	}
 	
-	receiveINMData();//接收组合导航模块数据
+	//【接收组合导航模块数据】
+	if(receiveINMData())
+	{
+		float poseX,poseY,poseYaw;
+		cvtINMData2Pose(getINMData(),&poseX,&poseY,&poseYaw);
+		setHBPose(poseX,poseY,poseYaw);
+		setHBRtkState(getINMData().rtk_state);
+	}
 	
+	//【CAN通讯】
+	uint8_t tankLevel=0;
+	static uint16_t tank_level_delay=0;
+	if(GetTankLevel(&tankLevel))//监测水箱水位，视情况关闭发动机
+	{
+		setHBTankLevel(tankLevel);
+		if(tankLevel<TANK_LEVEL_THRESHOLD&&tank_level_delay==0)
+		{
+			SetEngineMode(ENGINE_MODE_STOP);
+			tank_level_delay=1;
+		}		
+		else if(tankLevel>TANK_LEVEL_THRESHOLD)
+		{
+			tank_level_delay=0;
+		}
+	}
+	
+	uint16_t voltage=0;
+	if(GetBatteryVolt(&voltage))//监控电池电压
+	{
+		setHBBatteryPercentage(voltage);
+	}
+	
+	uint16_t servorAlarm=0;
+	if(GetServorAlarm(&servorAlarm))//监控伺服电机驱动警报，如发生警报则进入急停状态，等待重新上电
+	{
+		setHBServorAlarm(1);
+		gPilotState=PILOT_STATE_EMERGENCY;
+	}
+	
+	setHBEngineState(1);//todo:待实现发动机检测
+	setHBPathId(0);//在自动驾驶状态下会再次更新当前路径点坐标
+	
+	
+	//【运行状态机】
 	switch (gPilotState)
 	{
 		case PILOT_STATE_INIT:
@@ -51,10 +113,17 @@ void RunPilot(void)
 		case PILOT_STATE_BLE_TRANSFER:
 			gPilotState=PilotBleTransfer(cmd);
 			break;
+		case PILOT_STATE_EMERGENCY:
+			HAL_Delay(10);
+			break;
 		default:
 			while(1);
 			break;
 	}
+	
+	setHBFileExist(isPathDataFileExist());
+	setHBPilotState(gPilotState);
+	HAL_Delay(5);
 }
 
 /*
@@ -63,10 +132,9 @@ void RunPilot(void)
 PilotState PilotInit(CmdType cmd)
 {	
 	initPathPointsData();//任务文件初始化为空
-	SetEngineMode(ENGINE_MODE_STOP);//发动机初始化为不能启动
+	SetEngineMode(ENGINE_MODE_STOP);
 	HAL_Delay(1);
-	SetDriverMode(DRIVER_MODE_AUTO);//驱动板模式设置为自动控制
-	
+	SetDriverMode(DRIVER_MODE_AUTO);
 	return PILOT_STATE_IDLE;//进入空闲状态
 }
 
@@ -217,6 +285,8 @@ PilotState PilotAuto(CmdType cmd)
 	float poseX,poseY,poseYaw;
 	cvtINMData2Pose(getINMData(),&poseX,&poseY,&poseYaw);
 	
+	setHBPathId(getCurPathPointId());
+	
 	PathPoint pathPoint;
 	if(getCurPathPoint(&pathPoint)==0)//任务完成！！！
 	{
@@ -309,9 +379,9 @@ PilotState PilotSupply(CmdType cmd)
 	return PILOT_STATE_SUPPLY;
 }
 
-
 void intoPilotTransition(void)
 {
+	initPathPointsData();//清空路径文件
 	SetEngineMode(ENGINE_MODE_STOP);
 	HAL_Delay(1);
 	SetDriverMode(DRIVER_MODE_MANUAL);
