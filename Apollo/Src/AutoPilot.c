@@ -5,6 +5,7 @@
 #include "PathFollower.h"
 #include "stm32f4xx_hal.h"
 #include "stmflash.h"
+#include "math.h"
 
 #define		ANTEANA_DX	(-0.061)
 #define		ANTEANA_DY	(0)
@@ -144,7 +145,7 @@ PilotState PilotIdle(CmdType cmd)
 {
 	if(cmd!=CMD_NONE)//APP连接成功？
 	{
-		if(GetSupplyState())//todo:待实现掉电处理
+		if(GetSupplyState())//掉电处理
 		{
 			intoPilotSupply();
 			return PILOT_STATE_SUPPLY;
@@ -200,7 +201,23 @@ PilotState PilotBleTransfer(CmdType cmd)
 		{
 			setPathDataFileExist();
 			
-			//todo:搜寻匹配起点
+			//搜寻匹配起点
+			float poseX,poseY,poseYaw;
+			cvtINMData2Pose(getINMData(),&poseX,&poseY,&poseYaw);
+			uint32_t ppt_num=getPathPointNum();
+			uint32_t min_id=0;
+			float min_dist=1000000;
+			for(uint32_t i=0;i<ppt_num;i++)
+			{
+				PathPoint ppt=getPathPoint(i);
+				float dist=sqrt(pow(ppt.startPt[0]-poseX,2)+pow(ppt.startPt[1]-poseY,2));
+				if(dist<min_dist)
+				{
+					min_dist=dist;
+					min_id=i;
+				}
+			}
+			setCurPathPointId(min_id);
 			
 			intoPilotAuto();
 			return PILOT_STATE_AUTO;
@@ -305,7 +322,7 @@ PilotState PilotAuto(CmdType cmd)
 		moveCurPpt2Next();
 		return PILOT_STATE_AUTO;
 	}
-	else if(crs==CRS_YERR)//轨迹跟踪失败
+	else if(crs==CRS_YERR||crs==CRS_XERR||crs==CRS_PHIERR)//轨迹跟踪失败
 	{
 		//todo 向APP发送求救信号
 		intoPilotTransition();
@@ -411,7 +428,7 @@ void intoPilotManualTrans(void)
 }
 void intoPilotSupply(void)
 {
-	//todo:保存关键数据，以备换电池掉电。。。
+	//保存关键数据，以备换电池掉电。。。
 	SetSupplyState(1);
 	
 	gEngineStopDelay=0;//清零发动机熄火计时器

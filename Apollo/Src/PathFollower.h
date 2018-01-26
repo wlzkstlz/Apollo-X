@@ -6,7 +6,7 @@
 
 #define EPSINON		0.00001
 
-#define MAX_Y_ERR	0.5
+
 
 #define		PF_CAR_WIDTH	0.652
 
@@ -18,7 +18,9 @@ typedef enum
 {
 	CRS_CONTINUE,
 	CRS_REACHED,
-	CRS_YERR
+	CRS_XERR,
+	CRS_YERR,
+	CRS_PHIERR
 }CRS;
 
 CRS runController(float vel,PathPoint path,float curX,float curY,float curPhi,float *Vc,float *Wc);

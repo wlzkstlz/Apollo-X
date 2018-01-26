@@ -24,7 +24,10 @@ extern uint16_t gCurPathId;
 
 void initPathPointsData(void);
 void addPathPoint(PathPoint pt);
+uint32_t getPathPointNum(void);
 uint8_t getCurPathPoint(PathPoint *ppt);
+void setCurPathPointId(uint32_t id);
+PathPoint getPathPoint(uint32_t ppt_id);
 uint16_t getCurPathPointId(void);
 uint8_t isPathDataFileExist(void);
 void setPathDataFileExist(void);

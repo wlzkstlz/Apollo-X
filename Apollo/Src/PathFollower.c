@@ -6,6 +6,9 @@
 #define		PF_CONTROL_PARA_KX			(PF_CONTROL_PARA_S*4.2)//	35.0//25.0//35.0//18.0//10
 #define		PF_CONTROL_PARA_KTHETA		(PF_CONTROL_PARA_S*3.0)//1.5
 
+#define MAX_X_ERR	2.0
+#define MAX_Y_ERR	0.5
+
 CRS runController(float vel, PathPoint path, float curX, float curY, float curPhi, float *Vc, float *Wc)
 {
 	float yErr = 0.0f, phiErr = 0.0f;
@@ -22,6 +25,9 @@ CRS runController(float vel, PathPoint path, float curX, float curY, float curPh
 
 		if (curpt_x >= end_x)//2 判断是否到达终点
 			return CRS_REACHED;
+		
+		if(curpt_x-start_x<-MAX_X_ERR)//2.1落后起点太多，同样视为轨迹偏差太大
+			return CRS_XERR;
 
 		//3 计算横向偏差和航向偏差
 		yErr = end_y - curpt_y;
@@ -36,6 +42,10 @@ CRS runController(float vel, PathPoint path, float curX, float curY, float curPh
 		while (delta_angel > ALG_PI) { delta_angel -= ALG_2_PI; }
 		if ((path.deltaPhi > 0 && delta_angel >= path.deltaPhi) || (path.deltaPhi < 0 && delta_angel <= path.deltaPhi))
 			return CRS_REACHED;
+		
+		float xerr=sqrt(pow(path.startPt[0]-curX,2)+pow(path.startPt[1]-curY,2));
+		if(xerr>MAX_X_ERR&&(delta_angel*path.deltaPhi<0))
+			return CRS_XERR;
 
 		float R = sqrt(pow(path.startPt[0]-path.aPt[0],2)+pow(path.startPt[1]-path.aPt[1],2));
 		w = vel / R;
@@ -60,7 +70,6 @@ CRS runController(float vel, PathPoint path, float curX, float curY, float curPh
 
 	*Vc = vel*cos(phiErr);
 	*Wc = w + PF_CONTROL_PARA_KX*vel*yErr + PF_CONTROL_PARA_KTHETA*sin(phiErr);
-
 
 	return CRS_CONTINUE;
 }

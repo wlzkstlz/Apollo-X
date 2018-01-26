@@ -45,6 +45,7 @@
 #include "AutoPilot.h"
 #include "CommonAlg.h"
 #include "math.h"
+#include "stmflash.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -96,7 +97,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-	char lcdtext[50];
+  char lcdtext[50];
   /* USER CODE END 1 */
 
   /* MCU Configuration----------------------------------------------------------*/
@@ -131,6 +132,7 @@ int main(void)
 	InitAutoPilot();//自动驾驶初始化
 	
 	//【2】测试。。。
+	
   /* USER CODE END 2 */
 
   /* Infinite loop */

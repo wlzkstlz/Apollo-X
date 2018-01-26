@@ -34,6 +34,10 @@ void addPathPoint(PathPoint pt)
 	}
 }
 
+uint32_t getPathPointNum(void)
+{
+	return gValidPathPtNum;
+}
 
 uint8_t getCurPathPoint(PathPoint *ppt)
 {
@@ -42,6 +46,16 @@ uint8_t getCurPathPoint(PathPoint *ppt)
 	
 	(*ppt)=gPathPoints[gCurPathId];
 	return 1;
+}
+
+void setCurPathPointId(uint32_t id)
+{
+	gCurPathId=id;
+}
+
+PathPoint getPathPoint(uint32_t ppt_id)
+{
+	return gPathPoints[ppt_id%PATH_PT_SIZE];
 }
 
 uint16_t getCurPathPointId(void)
