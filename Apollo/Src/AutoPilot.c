@@ -160,24 +160,14 @@ PilotState PilotIdle(CmdType cmd)
 }
 
 PilotState PilotTransition(CmdType cmd)
-{
-	if(cmd==CMD_MANUAL)//APP手动作业指令
+{	
+	if(cmd==CMD_SUPPLY)//APP手动作业指令
 	{
-		intoPilotManualWork();
-		return PILOT_STATE_MANUAL_WORK;
-	}
-	
-	if(cmd==CMD_AUTO)
-	{
-		return PILOT_STATE_BLE_TRANSFER;
+		intoPilotSupply();
+		return PILOT_STATE_SUPPLY;
 	}
 	
 	HAL_Delay(10);
-	return PILOT_STATE_TRANSITION;
-	
-	
-
-	
 	return PILOT_STATE_TRANSITION;
 }
 
@@ -358,7 +348,8 @@ PilotState PilotManualWork(CmdType cmd)
 	return PILOT_STATE_MANUAL_WORK;
 }
 
-uint16_t gEngineStopDelay=0;
+uint32_t gSupplyEngineStopTime=0;
+uint8_t gSupplyEngineStartFlag=0;
 PilotState PilotSupply(CmdType cmd)
 { 	
 	if(cmd==CMD_AUTO)
@@ -385,15 +376,10 @@ PilotState PilotSupply(CmdType cmd)
 	}
 	
 	//todo:临时替代发动机检测功能
-	
-	if(gEngineStopDelay<1000)
-	{
-		gEngineStopDelay++;
-	}
-	else if(gEngineStopDelay==1000)
+	if(HAL_GetTick()-gSupplyEngineStopTime>10000&&gSupplyEngineStartFlag==0)
 	{
 		SetEngineMode(ENGINE_MODE_START);
-		gEngineStopDelay++;
+		gSupplyEngineStartFlag=1;
 	}
 	
 	HAL_Delay(10);
@@ -402,10 +388,10 @@ PilotState PilotSupply(CmdType cmd)
 
 void intoPilotTransition(void)
 {
-	initPathPointsData();//清空路径文件
 	SetEngineMode(ENGINE_MODE_STOP);
 	HAL_Delay(1);
 	SetDriverMode(DRIVER_MODE_MANUAL);
+	initPathPointsData();//删除作业文件
 }
 void intoPilotAuto(void)
 {
@@ -419,28 +405,18 @@ void intoPilotManualWork(void)
 	HAL_Delay(1);
 	SetDriverMode(DRIVER_MODE_MANUAL);
 }
-void intoPilotManualTrans(void)
-{
-	SetEngineMode(ENGINE_MODE_STOP);
-	HAL_Delay(1);
-	SetDriverMode(DRIVER_MODE_MANUAL);
-	initPathPointsData();//删除作业文件
-}
+
 void intoPilotSupply(void)
 {
 	//保存关键数据，以备换电池掉电。。。
 	SetSupplyState(1);
 	
-	gEngineStopDelay=0;//清零发动机熄火计时器
+	gSupplyEngineStopTime=HAL_GetTick();//初始化发动机熄火计时器
+	gSupplyEngineStartFlag=0;
 	
 	SetEngineMode(ENGINE_MODE_STOP);
 	HAL_Delay(1);
 	SetDriverMode(DRIVER_MODE_MANUAL);
-}
-void intoPilotBleTransfer(void)
-{
-	SetEngineMode(ENGINE_MODE_STOP);//关闭发动机
-	initPathPointsData();//删除作业文件
 }
 
 

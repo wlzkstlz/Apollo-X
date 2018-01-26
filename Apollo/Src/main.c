@@ -95,27 +95,26 @@ void lcdshowinmdata(INM_Data data);
 
 int main(void)
 {
+	/* USER CODE BEGIN 1 */
+	char lcdtext[50];
+	/* USER CODE END 1 */
 
-  /* USER CODE BEGIN 1 */
-  char lcdtext[50];
-  /* USER CODE END 1 */
+	/* MCU Configuration----------------------------------------------------------*/
 
-  /* MCU Configuration----------------------------------------------------------*/
+	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+	HAL_Init();
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+	/* Configure the system clock */
+	SystemClock_Config();
 
-  /* Configure the system clock */
-  SystemClock_Config();
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	MX_USART1_UART_Init();
+	MX_CAN1_Init();
+	MX_USART3_UART_Init();
+	MX_USART2_UART_Init();
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_USART1_UART_Init();
-  MX_CAN1_Init();
-  MX_USART3_UART_Init();
-  MX_USART2_UART_Init();
-
-  /* USER CODE BEGIN 2 */
+	/* USER CODE BEGIN 2 */
 
 	printf("new program: apollo 8\n");
 
@@ -133,119 +132,20 @@ int main(void)
 	
 	//【2】测试。。。
 	
-  /* USER CODE END 2 */
+	/* USER CODE END 2 */
 
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
+	/* Infinite loop */
+	/* USER CODE BEGIN WHILE */
 	int tt=0;
-  while (1)
-  {
-	  RunPilot();
-	  continue;
-	  
-	  
-		tt++;
-		
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_SET);
-		HAL_Delay(10);
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_RESET);
-		HAL_Delay(10);
-		
-		//【3】 处理APP通信
-		CmdType cmd=CMD_NONE;
-		if(receiveAPPCmd(&cmd))
-		{
-			switch(cmd)
-			{
-				case CMD_HEARTBEAT:
-					break;
-				case CMD_AUTO:
-					SetDriverMode(DRIVER_MODE_AUTO);
-					break;
-				case CMD_MANUAL:
-					SetDriverMode(DRIVER_MODE_MANUAL);
-					break;
-				case CMD_BLE_START:
-					startReceiveBleFile();
-					break;
-				case CMD_BLE_END:
-					stopReceiveBleFile();
-				
-					printf("gValidPathPtNum=%d\n\n",gValidPathPtNum);
-					for(int i=0;i<gValidPathPtNum;i++)
-					{
-						sprintf(lcdtext,"path%d x=%f\n",i,gPathPoints[i].startPt[0]);
-						lcdshow(lcdtext);
-						HAL_Delay(1);
-					}
-					printf("gValidPathPtNum=%d\n\n",gValidPathPtNum);
-					
-					break;
-				case CMD_STOP:
-					SendSpeed(0,0);
-					SetDriverMode(DRIVER_MODE_EMERGENCY);
-					SetEngineMode(ENGINE_MODE_STOP);
-					break;
-				case CMD_TRANSITION:
-					SetDriverMode(DRIVER_MODE_MANUAL);
-				break;
-				default:
-					break;
-			}
+	while (1)
+	{
+		RunPilot();
 			
-			lcdshowcmd(cmd);
-			ackApp(cmd,gHeartBeat);//回复app轮询
-		}
-		
-		//【接受组合导航模块定位数据】
-		if(receiveINMData())
-		{
-			lcdshowinmdata(gINMData);
-			
-			float posex=0,posey=0;
-			cvtGpsPt2Xy(gINMData.longitude,gINMData.latitude,&posex,&posey);
-			//printf("inm data:%f,%f,%f,%f,%f,%f,%d,%d\n\n",gINMData.longitude,gINMData.latitude,gINMData.altitude,
-			//gINMData.roll,gINMData.pitch,gINMData.yaw,gINMData.gps_weeks,gINMData.gps_ms);
-		}
+	/* USER CODE END WHILE */
 
-		
-		//【接收Can通讯数据】
-		TypeEngineMode engine_mode;
-		if(GetEngineMode(&engine_mode))
-			lcdshowenginemode(engine_mode);
-		
-		TypeDriverMode driver_mode;
-		if(GetDriverMode(&driver_mode))
-			lcdshowdrivermode(driver_mode);
-		
-		uint8_t tank_level=0;
-		if(GetTankLevel(&tank_level))
-			lcdshowtanklevel(tank_level);
-		
-		uint16_t baterry_volt=0;
-		if(GetBatteryVolt(&baterry_volt))
-			lcdshowbatteryvolt(baterry_volt);
-		
-		//【can速度控制测试】
-		if(tt==200)
-			SendSpeed(0.1,0);
-		else if(tt==400)
-			SendSpeed(-0.1,0);
-		else if(tt==600)
-			SendSpeed(0,0);
-		else if(tt==800)
-			SendSpeed(0.1,0.3);
-		else if(tt==1000)
-		{
-			SendSpeed(0.1,-0.3);
-			tt=0;
-		}
-			
-  /* USER CODE END WHILE */
+	/* USER CODE BEGIN 3 */
 
-  /* USER CODE BEGIN 3 */
-
-  }
+	}
   /* USER CODE END 3 */
 
 }

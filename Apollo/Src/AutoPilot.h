@@ -32,7 +32,6 @@ void intoPilotTransition(void);
 void intoPilotAuto(void);
 void intoPilotManualWork(void);
 void intoPilotSupply(void);
-void intoPilotBleTransfer(void);
 
 void cvtINMData2Pose(INM_Data inm_data,float*pose_x,float*pose_y,float*pose_yaw);
 
