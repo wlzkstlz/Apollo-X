@@ -17,6 +17,7 @@ typedef enum
 	CMD_STOP,
 	CMD_BLE_START,
 	CMD_BLE_END,
+	CMD_BLE_ABORT,
 	CMD_NONE
 }CmdType;
 

@@ -134,6 +134,7 @@ void RunPilot(void)
 PilotState PilotInit(CmdType cmd)
 {	
 	initPathPointsData();//任务文件初始化为空
+	stopReceiveBleFile();//初始化蓝牙通信
 	SetEngineMode(ENGINE_MODE_STOP);
 	HAL_Delay(1);
 	SetDriverMode(DRIVER_MODE_AUTO);
@@ -219,9 +220,15 @@ PilotState PilotBleTransfer(CmdType cmd)
 			return PILOT_STATE_TRANSITION;
 		}
 	}
+	else if(cmd==CMD_BLE_ABORT)
+	{
+		stopReceiveBleFile();
+		intoPilotTransition();
+		return PILOT_STATE_TRANSITION;
+	}
 	else if(isBleDoing())
 	{
-		HAL_Delay(10);
+		HAL_Delay(5);
 	}
 	
 	return PILOT_STATE_BLE_TRANSFER;
