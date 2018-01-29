@@ -41,7 +41,7 @@
 #include "string.h"
 #include "Communication.h"
 #include "PathData.h"
-#include "lcd.h"
+#include "lcd_show.h"
 #include "AutoPilot.h"
 #include "CommonAlg.h"
 #include "math.h"
@@ -74,13 +74,13 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-void lcdshow(char*s);
-void lcdshowcmd(CmdType cmd);
-void lcdshowenginemode(TypeEngineMode mode);
-void lcdshowdrivermode(TypeDriverMode mode);
-void lcdshowtanklevel(uint8_t level);
-void lcdshowbatteryvolt(uint16_t voltage);
-void lcdshowinmdata(INM_Data data);
+//void lcdshow(char*s);
+//void lcdshowcmd(CmdType cmd);
+//void lcdshowenginemode(TypeEngineMode mode);
+//void lcdshowdrivermode(TypeDriverMode mode);
+//void lcdshowtanklevel(uint8_t level);
+//void lcdshowbatteryvolt(uint16_t voltage);
+//void lcdshowinmdata(INM_Data data);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -126,7 +126,21 @@ int main(void)
 	LCD_Init();                     //LCD初始化
 	POINT_COLOR=RED; 
 	LCD_Clear(GREEN);  
-	lcdshow("AgriX Project!!!\n");
+	lcdshow("AgriX Project!!!HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n");
+	lcdshowpilotstate(100);
+	lcdshowcmd(100);
+	lcdshowenginemode(100);
+	lcdshowdrivermode(100);
+	lcdshowtanklevel(200);
+	lcdshowbatteryvolt(1000);
+	
+	INM_Data inmdata;
+	inmdata.longitude=DEG2RAD(113.897329);
+	inmdata.latitude=DEG2RAD(22.960622);
+	inmdata.yaw=0.1;
+	inmdata.roll=0.2;
+	inmdata.pitch=0.3;
+	lcdshowinmdata(inmdata);
 	
 	InitAutoPilot();//自动驾驶初始化
 	
@@ -136,7 +150,6 @@ int main(void)
 
 	/* Infinite loop */
 	/* USER CODE BEGIN WHILE */
-	int tt=0;
 	while (1)
 	{
 		RunPilot();
@@ -226,114 +239,114 @@ PUTCHAR_PROTOTYPE
   return ch;  
 } 
 
-void lcdshow(char*s)
-{
-	LCD_ShowString(10,5,260,32*2,16,(u8*)s); 
-}
-void lcdshowcmd(CmdType cmd)
-{
-	char ss[50];
-	switch(cmd)
-	{
-		case CMD_AUTO:
-			sprintf(ss,"CMD_AUTO\n");
-			break;
-		case CMD_MANUAL:
-			sprintf(ss,"CMD_MANUAL\n");
-			break;
-		case CMD_HEARTBEAT:
-			sprintf(ss,"CMD_HEARTBEAT\n");
-			break;
-		case CMD_BLE_END:
-			sprintf(ss,"CMD_BLE_END\n");
-			break;
-		case CMD_STOP:
-			sprintf(ss,"CMD_STOP\n");
-			break;
-		case CMD_SUPPLY:
-			sprintf(ss,"CMD_SUPPLY\n");
-			break;
-		case CMD_TRANSITION:
-			sprintf(ss,"CMD_TRANSITION\n");
-			break;
-		default:
-			sprintf(ss,"CMD_NO\n");
-			break;
-	}
+//void lcdshow(char*s)
+//{
+//	LCD_ShowString(10,5,260,32*2,16,(u8*)s); 
+//}
+//void lcdshowcmd(CmdType cmd)
+//{
+//	char ss[50];
+//	switch(cmd)
+//	{
+//		case CMD_AUTO:
+//			sprintf(ss,"CMD_AUTO\n");
+//			break;
+//		case CMD_MANUAL:
+//			sprintf(ss,"CMD_MANUAL\n");
+//			break;
+//		case CMD_HEARTBEAT:
+//			sprintf(ss,"CMD_HEARTBEAT\n");
+//			break;
+//		case CMD_BLE_END:
+//			sprintf(ss,"CMD_BLE_END\n");
+//			break;
+//		case CMD_STOP:
+//			sprintf(ss,"CMD_STOP\n");
+//			break;
+//		case CMD_SUPPLY:
+//			sprintf(ss,"CMD_SUPPLY\n");
+//			break;
+//		case CMD_TRANSITION:
+//			sprintf(ss,"CMD_TRANSITION\n");
+//			break;
+//		default:
+//			sprintf(ss,"CMD_NO\n");
+//			break;
+//	}
 
-	LCD_Fill(10,20,200,20+16,WHITE);
-	LCD_ShowString(10,20,260,32,16,(u8*)ss);
-}
+//	LCD_Fill(10,20,200,20+16,WHITE);
+//	LCD_ShowString(10,20,260,32,16,(u8*)ss);
+//}
 
-void lcdshowenginemode(TypeEngineMode mode)
-{
-		char ss[50];
-	switch(mode)
-	{
-		case ENGINE_MODE_START:
-			sprintf(ss,"Engine Sate:Start!\n");
-			break;
-		case ENGINE_MODE_STOP:
-			sprintf(ss,"Engine Sate:Stop!\n");
-			break;
-		default:
-			sprintf(ss,"Engine Sate:Unknown!\n");
-			break;
-	}
+//void lcdshowenginemode(TypeEngineMode mode)
+//{
+//		char ss[50];
+//	switch(mode)
+//	{
+//		case ENGINE_MODE_START:
+//			sprintf(ss,"Engine Sate:Start!\n");
+//			break;
+//		case ENGINE_MODE_STOP:
+//			sprintf(ss,"Engine Sate:Stop!\n");
+//			break;
+//		default:
+//			sprintf(ss,"Engine Sate:Unknown!\n");
+//			break;
+//	}
 
-	LCD_Fill(10,40,200,40+16,WHITE);
-	LCD_ShowString(10,40,260,32,16,(u8*)ss);
-}
+//	LCD_Fill(10,40,200,40+16,WHITE);
+//	LCD_ShowString(10,40,260,32,16,(u8*)ss);
+//}
 
-void lcdshowdrivermode(TypeDriverMode mode)
-{
-		char ss[50];
-	switch(mode)
-	{
-		case DRIVER_MODE_AUTO:
-			sprintf(ss,"Driver Sate:Auto!\n");
-			break;
-		case DRIVER_MODE_MANUAL:
-			sprintf(ss,"Driver Sate:Manual!\n");
-			break;
-		case DRIVER_MODE_EMERGENCY:
-			sprintf(ss,"Driver Sate:Emergency!\n");
-			break;
-		default:
-			sprintf(ss,"Driver Sate:Unknown!\n");
-			break;
-	}
+//void lcdshowdrivermode(TypeDriverMode mode)
+//{
+//		char ss[50];
+//	switch(mode)
+//	{
+//		case DRIVER_MODE_AUTO:
+//			sprintf(ss,"Driver Sate:Auto!\n");
+//			break;
+//		case DRIVER_MODE_MANUAL:
+//			sprintf(ss,"Driver Sate:Manual!\n");
+//			break;
+//		case DRIVER_MODE_EMERGENCY:
+//			sprintf(ss,"Driver Sate:Emergency!\n");
+//			break;
+//		default:
+//			sprintf(ss,"Driver Sate:Unknown!\n");
+//			break;
+//	}
 
-	LCD_Fill(10,60,200,60+16,WHITE);
-	LCD_ShowString(10,60,260,32,16,(u8*)ss);
-}
+//	LCD_Fill(10,60,200,60+16,WHITE);
+//	LCD_ShowString(10,60,260,32,16,(u8*)ss);
+//}
 
-void lcdshowtanklevel(uint8_t level)
-{
-	char ss[50];
-	sprintf(ss,"Tank Level:%d\n",level);
-	
-	LCD_Fill(10,80,200,80+16,WHITE);
-	LCD_ShowString(10,80,260,32,16,(u8*)ss);
-}
+//void lcdshowtanklevel(uint8_t level)
+//{
+//	char ss[50];
+//	sprintf(ss,"Tank Level:%d\n",level);
+//	
+//	LCD_Fill(10,80,200,80+16,WHITE);
+//	LCD_ShowString(10,80,260,32,16,(u8*)ss);
+//}
 
-void lcdshowbatteryvolt(uint16_t voltage)
-{
-	char ss[50];
-	sprintf(ss,"Baterry Volt:%d\n",voltage);
-	
-	LCD_Fill(10,100,200,100+16,WHITE);
-	LCD_ShowString(10,100,260,32,16,(u8*)ss);
-}
+//void lcdshowbatteryvolt(uint16_t voltage)
+//{
+//	char ss[50];
+//	sprintf(ss,"Baterry Volt:%d\n",voltage);
+//	
+//	LCD_Fill(10,100,200,100+16,WHITE);
+//	LCD_ShowString(10,100,260,32,16,(u8*)ss);
+//}
 
-void lcdshowinmdata(INM_Data data)
-{
-	char ss[100];
-	sprintf(ss,"INM data:lon=%f,lat=%f,alt=%f,rol=%f,pit=%f,yaw=%f    \n",data.longitude,data.latitude,data.altitude,data.roll,data.pitch,data.yaw);
-		
-	LCD_Fill(10,120,200,120+16,WHITE);
-	LCD_ShowString(10,120,260,32,12,(u8*)ss);
-}
+//void lcdshowinmdata(INM_Data data)
+//{
+//	char ss[100];
+//	sprintf(ss,"INM data:lon=%f,lat=%f,alt=%f,rol=%f,pit=%f,yaw=%f    \n",data.longitude,data.latitude,data.altitude,data.roll,data.pitch,data.yaw);
+//		
+//	LCD_Fill(10,120,200,120+16,WHITE);
+//	LCD_ShowString(10,120,260,32,12,(u8*)ss);
+//}
 
 
 /* USER CODE END 4 */

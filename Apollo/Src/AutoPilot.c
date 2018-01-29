@@ -6,6 +6,7 @@
 #include "stm32f4xx_hal.h"
 #include "stmflash.h"
 #include "math.h"
+#include "lcd_show.h"
 
 #define		ANTEANA_DX	(-0.061)
 #define		ANTEANA_DY	(0)
@@ -25,6 +26,35 @@ void InitAutoPilot(void)
 
 void RunPilot(void)
 {
+	//【debug】
+	static int tt=0;
+	static uint32_t cycle_time_start=0;
+	static char debug_text[50];
+	if(tt++%100==0)
+	{
+		uint32_t cycle_time=HAL_GetTick()-cycle_time_start;
+		cycle_time_start=HAL_GetTick();
+		sprintf(debug_text,"cycle_t=%d ms  \n",cycle_time);
+		lcdshow(debug_text);
+		lcdshowpilotstate(gPilotState);
+	}
+	
+//	lcdshowpilotstate(100);
+//	lcdshowcmd(100);
+//	lcdshowenginemode(100);
+//	lcdshowdrivermode(100);
+//	lcdshowtanklevel(200);
+//	lcdshowbatteryvolt(1000);
+//	
+//	INM_Data inmdata;
+//	inmdata.longitude=DEG2RAD(113.897329);
+//	inmdata.latitude=DEG2RAD(22.960622);
+//	inmdata.yaw=0.1;
+//	inmdata.roll=0.2;
+//	inmdata.pitch=0.3;
+//	lcdshowinmdata(inmdata);
+		
+	
 	//【APP通讯】
 	CmdType cmd=CMD_NONE;
 	static uint32_t app_cmd_delay=0;
@@ -32,6 +62,9 @@ void RunPilot(void)
 	{
 		ackApp(cmd,gHeartBeat);//回复app轮询
 		app_cmd_delay=HAL_GetTick();
+		
+		//debug
+		lcdshowcmd(cmd);
 	}
 	else if(gPilotState==PILOT_STATE_INIT||gPilotState==PILOT_STATE_IDLE||gPilotState==PILOT_STATE_BLE_TRANSFER)
 	{
@@ -59,6 +92,8 @@ void RunPilot(void)
 		cvtINMData2Pose(getINMData(),&poseX,&poseY,&poseYaw);
 		setHBPose(poseX,poseY,poseYaw);
 		setHBRtkState(getINMData().rtk_state);
+		
+		lcdshowinmdata(getINMData());
 	}
 	
 	//【CAN通讯】
@@ -67,6 +102,7 @@ void RunPilot(void)
 	if(GetTankLevel(&tankLevel))//监测水箱水位，视情况关闭发动机
 	{
 		setHBTankLevel(tankLevel);
+		lcdshowtanklevel(tankLevel);
 		if(tankLevel<TANK_LEVEL_THRESHOLD&&tank_level_delay==0)
 		{
 			SetEngineMode(ENGINE_MODE_STOP);
@@ -82,6 +118,7 @@ void RunPilot(void)
 	if(GetBatteryVolt(&voltage))//监控电池电压
 	{
 		setHBBatteryPercentage(voltage);
+		lcdshowbatteryvolt(voltage);
 	}
 	
 	uint16_t servorAlarm=0;
@@ -89,6 +126,18 @@ void RunPilot(void)
 	{
 		setHBServorAlarm(1);
 		gPilotState=PILOT_STATE_EMERGENCY;
+	}
+	
+	TypeEngineMode engineMode;
+	if(GetEngineMode(&engineMode))
+	{
+		lcdshowenginemode(engineMode);
+	}
+	
+	TypeDriverMode driverMode;
+	if(GetDriverMode(&driverMode))
+	{
+		lcdshowdrivermode(driverMode);
 	}
 	
 	setHBEngineState(1);//todo:待实现发动机检测
