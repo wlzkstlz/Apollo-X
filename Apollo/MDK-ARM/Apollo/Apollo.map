@@ -1966,136 +1966,136 @@ Image Symbol Table
     i.PilotTransition                        0x080075e8   Section        0  autopilot.o(i.PilotTransition)
     i.RotateTheta4Point                      0x08007602   Section        0  commonalg.o(i.RotateTheta4Point)
     i.RunPilot                               0x080076fc   Section        0  autopilot.o(i.RunPilot)
-    i.SDRAM_Init                             0x08007900   Section        0  sdram.o(i.SDRAM_Init)
-    i.SDRAM_Initialization_Sequence          0x08007974   Section        0  sdram.o(i.SDRAM_Initialization_Sequence)
-    i.SDRAM_Send_Cmd                         0x080079b8   Section        0  sdram.o(i.SDRAM_Send_Cmd)
-    i.STMFLASH_GetFlashSector                0x08007a00   Section        0  stmflash.o(i.STMFLASH_GetFlashSector)
-    i.STMFLASH_Read                          0x08007b44   Section        0  stmflash.o(i.STMFLASH_Read)
-    i.STMFLASH_ReadWord                      0x08007b64   Section        0  stmflash.o(i.STMFLASH_ReadWord)
-    i.STMFLASH_Write                         0x08007b6c   Section        0  stmflash.o(i.STMFLASH_Write)
-    i.SVC_Handler                            0x08007c20   Section        0  stm32f4xx_it.o(i.SVC_Handler)
-    i.SendSpeed                              0x08007c24   Section        0  communication.o(i.SendSpeed)
-    i.SetDriverMode                          0x08007e20   Section        0  communication.o(i.SetDriverMode)
-    i.SetEngineMode                          0x08007e40   Section        0  communication.o(i.SetEngineMode)
-    i.SetSupplyState                         0x08007e60   Section        0  stmflash.o(i.SetSupplyState)
-    i.SysTick_Handler                        0x08007e78   Section        0  stm32f4xx_it.o(i.SysTick_Handler)
-    i.SystemClock_Config                     0x08007e84   Section        0  main.o(i.SystemClock_Config)
-    i.SystemInit                             0x08007f54   Section        0  system_stm32f4xx.o(i.SystemInit)
-    i.UART_DMAAbortOnError                   0x08007fb8   Section        0  stm32f4xx_hal_uart.o(i.UART_DMAAbortOnError)
-    UART_DMAAbortOnError                     0x08007fb9   Thumb Code    20  stm32f4xx_hal_uart.o(i.UART_DMAAbortOnError)
-    i.UART_DMARxOnlyAbortCallback            0x08007fcc   Section        0  stm32f4xx_hal_uart.o(i.UART_DMARxOnlyAbortCallback)
-    UART_DMARxOnlyAbortCallback              0x08007fcd   Thumb Code    24  stm32f4xx_hal_uart.o(i.UART_DMARxOnlyAbortCallback)
-    i.UART_EndRxTransfer                     0x08007fe4   Section        0  stm32f4xx_hal_uart.o(i.UART_EndRxTransfer)
-    UART_EndRxTransfer                       0x08007fe5   Thumb Code    32  stm32f4xx_hal_uart.o(i.UART_EndRxTransfer)
-    i.UART_EndTransmit_IT                    0x08008004   Section        0  stm32f4xx_hal_uart.o(i.UART_EndTransmit_IT)
-    UART_EndTransmit_IT                      0x08008005   Thumb Code    32  stm32f4xx_hal_uart.o(i.UART_EndTransmit_IT)
-    i.UART_Receive_IT                        0x08008024   Section        0  stm32f4xx_hal_uart.o(i.UART_Receive_IT)
-    UART_Receive_IT                          0x08008025   Thumb Code   154  stm32f4xx_hal_uart.o(i.UART_Receive_IT)
-    i.UART_SetConfig                         0x080080c0   Section        0  stm32f4xx_hal_uart.o(i.UART_SetConfig)
-    UART_SetConfig                           0x080080c1   Thumb Code   864  stm32f4xx_hal_uart.o(i.UART_SetConfig)
-    i.UART_Transmit_IT                       0x08008428   Section        0  stm32f4xx_hal_uart.o(i.UART_Transmit_IT)
-    UART_Transmit_IT                         0x08008429   Thumb Code   104  stm32f4xx_hal_uart.o(i.UART_Transmit_IT)
-    i.UART_WaitOnFlagUntilTimeout            0x08008490   Section        0  stm32f4xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout)
-    UART_WaitOnFlagUntilTimeout              0x08008491   Thumb Code   108  stm32f4xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout)
-    i.USART1_IRQHandler                      0x080084fc   Section        0  stm32f4xx_it.o(i.USART1_IRQHandler)
-    i.USART2_IRQHandler                      0x0800850c   Section        0  stm32f4xx_it.o(i.USART2_IRQHandler)
-    i.USART3_IRQHandler                      0x0800851c   Section        0  stm32f4xx_it.o(i.USART3_IRQHandler)
-    i.UsageFault_Handler                     0x0800852c   Section        0  stm32f4xx_it.o(i.UsageFault_Handler)
-    i.__0printf                              0x08008530   Section        0  printfa.o(i.__0printf)
-    i.__ARM_fpclassify                       0x08008550   Section        0  fpclassify.o(i.__ARM_fpclassify)
-    i.__hardfp_atan                          0x08008580   Section        0  atan.o(i.__hardfp_atan)
-    i.__hardfp_cos                           0x08008858   Section        0  cos.o(i.__hardfp_cos)
-    i.__hardfp_pow                           0x08008920   Section        0  pow.o(i.__hardfp_pow)
-    i.__hardfp_sin                           0x08009570   Section        0  sin.o(i.__hardfp_sin)
-    i.__hardfp_sqrt                          0x08009638   Section        0  sqrt.o(i.__hardfp_sqrt)
-    i.__ieee754_rem_pio2                     0x080096b8   Section        0  rred.o(i.__ieee754_rem_pio2)
-    i.__kernel_cos                           0x08009af0   Section        0  cos_i.o(i.__kernel_cos)
-    i.__kernel_poly                          0x08009c60   Section        0  poly.o(i.__kernel_poly)
-    i.__kernel_sin                           0x08009d58   Section        0  sin_i.o(i.__kernel_sin)
-    i.__mathlib_dbl_divzero                  0x08009e88   Section        0  dunder.o(i.__mathlib_dbl_divzero)
-    i.__mathlib_dbl_infnan                   0x08009eb8   Section        0  dunder.o(i.__mathlib_dbl_infnan)
-    i.__mathlib_dbl_infnan2                  0x08009ecc   Section        0  dunder.o(i.__mathlib_dbl_infnan2)
-    i.__mathlib_dbl_invalid                  0x08009ee0   Section        0  dunder.o(i.__mathlib_dbl_invalid)
-    i.__mathlib_dbl_overflow                 0x08009f00   Section        0  dunder.o(i.__mathlib_dbl_overflow)
-    i.__mathlib_dbl_underflow                0x08009f20   Section        0  dunder.o(i.__mathlib_dbl_underflow)
-    i.__scatterload_copy                     0x08009f40   Section       14  handlers.o(i.__scatterload_copy)
-    i.__scatterload_null                     0x08009f4e   Section        2  handlers.o(i.__scatterload_null)
-    i.__scatterload_zeroinit                 0x08009f50   Section       14  handlers.o(i.__scatterload_zeroinit)
-    i.__set_errno                            0x08009f60   Section        0  errno.o(i.__set_errno)
-    i._fp_digits                             0x08009f6c   Section        0  printfa.o(i._fp_digits)
-    _fp_digits                               0x08009f6d   Thumb Code   334  printfa.o(i._fp_digits)
-    i._printf_core                           0x0800a0d0   Section        0  printfa.o(i._printf_core)
-    _printf_core                             0x0800a0d1   Thumb Code  1744  printfa.o(i._printf_core)
-    i._printf_post_padding                   0x0800a7ac   Section        0  printfa.o(i._printf_post_padding)
-    _printf_post_padding                     0x0800a7ad   Thumb Code    36  printfa.o(i._printf_post_padding)
-    i._printf_pre_padding                    0x0800a7d0   Section        0  printfa.o(i._printf_pre_padding)
-    _printf_pre_padding                      0x0800a7d1   Thumb Code    46  printfa.o(i._printf_pre_padding)
-    i.ackApp                                 0x0800a800   Section        0  communication.o(i.ackApp)
-    i.addPathPoint                           0x0800a834   Section        0  pathdata.o(i.addPathPoint)
-    i.assemAppAck                            0x0800a874   Section        0  communication.o(i.assemAppAck)
-    i.byhhReceiveUsart                       0x0800a8f4   Section        0  communication.o(i.byhhReceiveUsart)
-    i.cvtGpsPt2Xy                            0x0800a960   Section        0  pathdata.o(i.cvtGpsPt2Xy)
-    i.cvtINMData2Pose                        0x0800aa24   Section        0  autopilot.o(i.cvtINMData2Pose)
-    i.delay_ms                               0x0800ab08   Section        0  delay.o(i.delay_ms)
-    i.delay_us                               0x0800ab20   Section        0  delay.o(i.delay_us)
-    i.fabs                                   0x0800ab68   Section        0  fabs.o(i.fabs)
-    i.fputc                                  0x0800ab80   Section        0  main.o(i.fputc)
-    i.getCurPathPoint                        0x0800ab9c   Section        0  pathdata.o(i.getCurPathPoint)
-    i.getCurPathPointId                      0x0800abd8   Section        0  pathdata.o(i.getCurPathPointId)
-    i.getINMData                             0x0800abe4   Section        0  communication.o(i.getINMData)
-    i.getPathPoint                           0x0800abf8   Section        0  pathdata.o(i.getPathPoint)
-    i.getPathPointNum                        0x0800ac28   Section        0  pathdata.o(i.getPathPointNum)
-    i.initCan1                               0x0800ac34   Section        0  communication.o(i.initCan1)
-    i.initPathPointsData                     0x0800ad14   Section        0  pathdata.o(i.initPathPointsData)
-    i.intoPilotAuto                          0x0800ad30   Section        0  autopilot.o(i.intoPilotAuto)
-    i.intoPilotManualWork                    0x0800ad46   Section        0  autopilot.o(i.intoPilotManualWork)
-    i.intoPilotSupply                        0x0800ad5c   Section        0  autopilot.o(i.intoPilotSupply)
-    i.intoPilotTransition                    0x0800ad8c   Section        0  autopilot.o(i.intoPilotTransition)
-    i.isBleDoing                             0x0800ada8   Section        0  communication.o(i.isBleDoing)
-    i.isPathDataFileExist                    0x0800adb4   Section        0  pathdata.o(i.isPathDataFileExist)
-    i.lcdshow                                0x0800adc0   Section        0  main.o(i.lcdshow)
-    i.main                                   0x0800addc   Section        0  main.o(i.main)
-    i.moveCurPpt2Next                        0x0800ae64   Section        0  pathdata.o(i.moveCurPpt2Next)
-    i.receiveAPPCmd                          0x0800ae74   Section        0  communication.o(i.receiveAPPCmd)
-    i.receiveINMData                         0x0800aea0   Section        0  communication.o(i.receiveINMData)
-    i.runController                          0x0800af04   Section        0  pathfollower.o(i.runController)
-    i.setCurPathPointId                      0x0800b58c   Section        0  pathdata.o(i.setCurPathPointId)
-    i.setHBBatteryPercentage                 0x0800b598   Section        0  communication.o(i.setHBBatteryPercentage)
-    i.setHBEngineState                       0x0800b5f4   Section        0  communication.o(i.setHBEngineState)
-    i.setHBFileExist                         0x0800b618   Section        0  communication.o(i.setHBFileExist)
-    i.setHBPathId                            0x0800b63c   Section        0  communication.o(i.setHBPathId)
-    i.setHBPilotState                        0x0800b648   Section        0  communication.o(i.setHBPilotState)
-    i.setHBPose                              0x0800b654   Section        0  communication.o(i.setHBPose)
-    i.setHBRtkState                          0x0800b748   Section        0  communication.o(i.setHBRtkState)
-    i.setHBServorAlarm                       0x0800b770   Section        0  communication.o(i.setHBServorAlarm)
-    i.setHBTankLevel                         0x0800b794   Section        0  communication.o(i.setHBTankLevel)
-    i.setPathDataFileExist                   0x0800b7a0   Section        0  pathdata.o(i.setPathDataFileExist)
-    i.sqrt                                   0x0800b7ac   Section        0  sqrt.o(i.sqrt)
-    i.startReceiveBleFile                    0x0800b81c   Section        0  communication.o(i.startReceiveBleFile)
-    i.stopReceiveBleFile                     0x0800b83c   Section        0  communication.o(i.stopReceiveBleFile)
-    i.updateLoRaData                         0x0800b854   Section        0  communication.o(i.updateLoRaData)
-    i.updateRS232Data                        0x0800b8e0   Section        0  communication.o(i.updateRS232Data)
-    .constdata                               0x0800b9b4   Section       24  system_stm32f4xx.o(.constdata)
-    .constdata                               0x0800b9cc   Section    18240  lcd.o(.constdata)
-    .constdata                               0x08010110   Section      152  atan.o(.constdata)
-    atanhi                                   0x08010110   Data          32  atan.o(.constdata)
-    atanlo                                   0x08010130   Data          32  atan.o(.constdata)
-    aTodd                                    0x08010150   Data          40  atan.o(.constdata)
-    aTeven                                   0x08010178   Data          48  atan.o(.constdata)
-    .constdata                               0x080101a8   Section      136  pow.o(.constdata)
-    bp                                       0x080101a8   Data          16  pow.o(.constdata)
-    dp_h                                     0x080101b8   Data          16  pow.o(.constdata)
-    dp_l                                     0x080101c8   Data          16  pow.o(.constdata)
-    L                                        0x080101d8   Data          48  pow.o(.constdata)
-    P                                        0x08010208   Data          40  pow.o(.constdata)
-    .constdata                               0x08010230   Section       48  cos_i.o(.constdata)
-    C                                        0x08010230   Data          48  cos_i.o(.constdata)
-    .constdata                               0x08010260   Section        8  qnan.o(.constdata)
-    .constdata                               0x08010268   Section      200  rred.o(.constdata)
-    pio2s                                    0x08010268   Data          48  rred.o(.constdata)
-    twooverpi                                0x08010298   Data         152  rred.o(.constdata)
-    .constdata                               0x08010330   Section       40  sin_i.o(.constdata)
-    S                                        0x08010330   Data          40  sin_i.o(.constdata)
+    i.SDRAM_Init                             0x08007914   Section        0  sdram.o(i.SDRAM_Init)
+    i.SDRAM_Initialization_Sequence          0x08007988   Section        0  sdram.o(i.SDRAM_Initialization_Sequence)
+    i.SDRAM_Send_Cmd                         0x080079cc   Section        0  sdram.o(i.SDRAM_Send_Cmd)
+    i.STMFLASH_GetFlashSector                0x08007a14   Section        0  stmflash.o(i.STMFLASH_GetFlashSector)
+    i.STMFLASH_Read                          0x08007b58   Section        0  stmflash.o(i.STMFLASH_Read)
+    i.STMFLASH_ReadWord                      0x08007b78   Section        0  stmflash.o(i.STMFLASH_ReadWord)
+    i.STMFLASH_Write                         0x08007b80   Section        0  stmflash.o(i.STMFLASH_Write)
+    i.SVC_Handler                            0x08007c34   Section        0  stm32f4xx_it.o(i.SVC_Handler)
+    i.SendSpeed                              0x08007c38   Section        0  communication.o(i.SendSpeed)
+    i.SetDriverMode                          0x08007e34   Section        0  communication.o(i.SetDriverMode)
+    i.SetEngineMode                          0x08007e54   Section        0  communication.o(i.SetEngineMode)
+    i.SetSupplyState                         0x08007e74   Section        0  stmflash.o(i.SetSupplyState)
+    i.SysTick_Handler                        0x08007e8c   Section        0  stm32f4xx_it.o(i.SysTick_Handler)
+    i.SystemClock_Config                     0x08007e98   Section        0  main.o(i.SystemClock_Config)
+    i.SystemInit                             0x08007f68   Section        0  system_stm32f4xx.o(i.SystemInit)
+    i.UART_DMAAbortOnError                   0x08007fcc   Section        0  stm32f4xx_hal_uart.o(i.UART_DMAAbortOnError)
+    UART_DMAAbortOnError                     0x08007fcd   Thumb Code    20  stm32f4xx_hal_uart.o(i.UART_DMAAbortOnError)
+    i.UART_DMARxOnlyAbortCallback            0x08007fe0   Section        0  stm32f4xx_hal_uart.o(i.UART_DMARxOnlyAbortCallback)
+    UART_DMARxOnlyAbortCallback              0x08007fe1   Thumb Code    24  stm32f4xx_hal_uart.o(i.UART_DMARxOnlyAbortCallback)
+    i.UART_EndRxTransfer                     0x08007ff8   Section        0  stm32f4xx_hal_uart.o(i.UART_EndRxTransfer)
+    UART_EndRxTransfer                       0x08007ff9   Thumb Code    32  stm32f4xx_hal_uart.o(i.UART_EndRxTransfer)
+    i.UART_EndTransmit_IT                    0x08008018   Section        0  stm32f4xx_hal_uart.o(i.UART_EndTransmit_IT)
+    UART_EndTransmit_IT                      0x08008019   Thumb Code    32  stm32f4xx_hal_uart.o(i.UART_EndTransmit_IT)
+    i.UART_Receive_IT                        0x08008038   Section        0  stm32f4xx_hal_uart.o(i.UART_Receive_IT)
+    UART_Receive_IT                          0x08008039   Thumb Code   154  stm32f4xx_hal_uart.o(i.UART_Receive_IT)
+    i.UART_SetConfig                         0x080080d4   Section        0  stm32f4xx_hal_uart.o(i.UART_SetConfig)
+    UART_SetConfig                           0x080080d5   Thumb Code   864  stm32f4xx_hal_uart.o(i.UART_SetConfig)
+    i.UART_Transmit_IT                       0x0800843c   Section        0  stm32f4xx_hal_uart.o(i.UART_Transmit_IT)
+    UART_Transmit_IT                         0x0800843d   Thumb Code   104  stm32f4xx_hal_uart.o(i.UART_Transmit_IT)
+    i.UART_WaitOnFlagUntilTimeout            0x080084a4   Section        0  stm32f4xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout)
+    UART_WaitOnFlagUntilTimeout              0x080084a5   Thumb Code   108  stm32f4xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout)
+    i.USART1_IRQHandler                      0x08008510   Section        0  stm32f4xx_it.o(i.USART1_IRQHandler)
+    i.USART2_IRQHandler                      0x08008520   Section        0  stm32f4xx_it.o(i.USART2_IRQHandler)
+    i.USART3_IRQHandler                      0x08008530   Section        0  stm32f4xx_it.o(i.USART3_IRQHandler)
+    i.UsageFault_Handler                     0x08008540   Section        0  stm32f4xx_it.o(i.UsageFault_Handler)
+    i.__0printf                              0x08008544   Section        0  printfa.o(i.__0printf)
+    i.__ARM_fpclassify                       0x08008564   Section        0  fpclassify.o(i.__ARM_fpclassify)
+    i.__hardfp_atan                          0x08008598   Section        0  atan.o(i.__hardfp_atan)
+    i.__hardfp_cos                           0x08008870   Section        0  cos.o(i.__hardfp_cos)
+    i.__hardfp_pow                           0x08008938   Section        0  pow.o(i.__hardfp_pow)
+    i.__hardfp_sin                           0x08009588   Section        0  sin.o(i.__hardfp_sin)
+    i.__hardfp_sqrt                          0x08009650   Section        0  sqrt.o(i.__hardfp_sqrt)
+    i.__ieee754_rem_pio2                     0x080096d0   Section        0  rred.o(i.__ieee754_rem_pio2)
+    i.__kernel_cos                           0x08009b08   Section        0  cos_i.o(i.__kernel_cos)
+    i.__kernel_poly                          0x08009c78   Section        0  poly.o(i.__kernel_poly)
+    i.__kernel_sin                           0x08009d70   Section        0  sin_i.o(i.__kernel_sin)
+    i.__mathlib_dbl_divzero                  0x08009ea0   Section        0  dunder.o(i.__mathlib_dbl_divzero)
+    i.__mathlib_dbl_infnan                   0x08009ed0   Section        0  dunder.o(i.__mathlib_dbl_infnan)
+    i.__mathlib_dbl_infnan2                  0x08009ee4   Section        0  dunder.o(i.__mathlib_dbl_infnan2)
+    i.__mathlib_dbl_invalid                  0x08009ef8   Section        0  dunder.o(i.__mathlib_dbl_invalid)
+    i.__mathlib_dbl_overflow                 0x08009f18   Section        0  dunder.o(i.__mathlib_dbl_overflow)
+    i.__mathlib_dbl_underflow                0x08009f38   Section        0  dunder.o(i.__mathlib_dbl_underflow)
+    i.__scatterload_copy                     0x08009f58   Section       14  handlers.o(i.__scatterload_copy)
+    i.__scatterload_null                     0x08009f66   Section        2  handlers.o(i.__scatterload_null)
+    i.__scatterload_zeroinit                 0x08009f68   Section       14  handlers.o(i.__scatterload_zeroinit)
+    i.__set_errno                            0x08009f78   Section        0  errno.o(i.__set_errno)
+    i._fp_digits                             0x08009f84   Section        0  printfa.o(i._fp_digits)
+    _fp_digits                               0x08009f85   Thumb Code   334  printfa.o(i._fp_digits)
+    i._printf_core                           0x0800a0e8   Section        0  printfa.o(i._printf_core)
+    _printf_core                             0x0800a0e9   Thumb Code  1744  printfa.o(i._printf_core)
+    i._printf_post_padding                   0x0800a7c4   Section        0  printfa.o(i._printf_post_padding)
+    _printf_post_padding                     0x0800a7c5   Thumb Code    36  printfa.o(i._printf_post_padding)
+    i._printf_pre_padding                    0x0800a7e8   Section        0  printfa.o(i._printf_pre_padding)
+    _printf_pre_padding                      0x0800a7e9   Thumb Code    46  printfa.o(i._printf_pre_padding)
+    i.ackApp                                 0x0800a818   Section        0  communication.o(i.ackApp)
+    i.addPathPoint                           0x0800a84c   Section        0  pathdata.o(i.addPathPoint)
+    i.assemAppAck                            0x0800a88c   Section        0  communication.o(i.assemAppAck)
+    i.byhhReceiveUsart                       0x0800a90c   Section        0  communication.o(i.byhhReceiveUsart)
+    i.cvtGpsPt2Xy                            0x0800a978   Section        0  pathdata.o(i.cvtGpsPt2Xy)
+    i.cvtINMData2Pose                        0x0800aa3c   Section        0  autopilot.o(i.cvtINMData2Pose)
+    i.delay_ms                               0x0800ab20   Section        0  delay.o(i.delay_ms)
+    i.delay_us                               0x0800ab38   Section        0  delay.o(i.delay_us)
+    i.fabs                                   0x0800ab80   Section        0  fabs.o(i.fabs)
+    i.fputc                                  0x0800ab98   Section        0  main.o(i.fputc)
+    i.getCurPathPoint                        0x0800abb4   Section        0  pathdata.o(i.getCurPathPoint)
+    i.getCurPathPointId                      0x0800abf0   Section        0  pathdata.o(i.getCurPathPointId)
+    i.getINMData                             0x0800abfc   Section        0  communication.o(i.getINMData)
+    i.getPathPoint                           0x0800ac10   Section        0  pathdata.o(i.getPathPoint)
+    i.getPathPointNum                        0x0800ac40   Section        0  pathdata.o(i.getPathPointNum)
+    i.initCan1                               0x0800ac4c   Section        0  communication.o(i.initCan1)
+    i.initPathPointsData                     0x0800ad2c   Section        0  pathdata.o(i.initPathPointsData)
+    i.intoPilotAuto                          0x0800ad48   Section        0  autopilot.o(i.intoPilotAuto)
+    i.intoPilotManualWork                    0x0800ad5e   Section        0  autopilot.o(i.intoPilotManualWork)
+    i.intoPilotSupply                        0x0800ad74   Section        0  autopilot.o(i.intoPilotSupply)
+    i.intoPilotTransition                    0x0800ada4   Section        0  autopilot.o(i.intoPilotTransition)
+    i.isBleDoing                             0x0800adc0   Section        0  communication.o(i.isBleDoing)
+    i.isPathDataFileExist                    0x0800adcc   Section        0  pathdata.o(i.isPathDataFileExist)
+    i.lcdshow                                0x0800add8   Section        0  main.o(i.lcdshow)
+    i.main                                   0x0800adf4   Section        0  main.o(i.main)
+    i.moveCurPpt2Next                        0x0800ae7c   Section        0  pathdata.o(i.moveCurPpt2Next)
+    i.receiveAPPCmd                          0x0800ae8c   Section        0  communication.o(i.receiveAPPCmd)
+    i.receiveINMData                         0x0800aeb8   Section        0  communication.o(i.receiveINMData)
+    i.runController                          0x0800af1c   Section        0  pathfollower.o(i.runController)
+    i.setCurPathPointId                      0x0800b5a4   Section        0  pathdata.o(i.setCurPathPointId)
+    i.setHBBatteryPercentage                 0x0800b5b0   Section        0  communication.o(i.setHBBatteryPercentage)
+    i.setHBEngineState                       0x0800b60c   Section        0  communication.o(i.setHBEngineState)
+    i.setHBFileExist                         0x0800b630   Section        0  communication.o(i.setHBFileExist)
+    i.setHBPathId                            0x0800b654   Section        0  communication.o(i.setHBPathId)
+    i.setHBPilotState                        0x0800b660   Section        0  communication.o(i.setHBPilotState)
+    i.setHBPose                              0x0800b66c   Section        0  communication.o(i.setHBPose)
+    i.setHBRtkState                          0x0800b760   Section        0  communication.o(i.setHBRtkState)
+    i.setHBServorAlarm                       0x0800b788   Section        0  communication.o(i.setHBServorAlarm)
+    i.setHBTankLevel                         0x0800b7ac   Section        0  communication.o(i.setHBTankLevel)
+    i.setPathDataFileExist                   0x0800b7b8   Section        0  pathdata.o(i.setPathDataFileExist)
+    i.sqrt                                   0x0800b7c4   Section        0  sqrt.o(i.sqrt)
+    i.startReceiveBleFile                    0x0800b834   Section        0  communication.o(i.startReceiveBleFile)
+    i.stopReceiveBleFile                     0x0800b854   Section        0  communication.o(i.stopReceiveBleFile)
+    i.updateLoRaData                         0x0800b86c   Section        0  communication.o(i.updateLoRaData)
+    i.updateRS232Data                        0x0800b8f8   Section        0  communication.o(i.updateRS232Data)
+    .constdata                               0x0800b9cc   Section       24  system_stm32f4xx.o(.constdata)
+    .constdata                               0x0800b9e4   Section    18240  lcd.o(.constdata)
+    .constdata                               0x08010128   Section      152  atan.o(.constdata)
+    atanhi                                   0x08010128   Data          32  atan.o(.constdata)
+    atanlo                                   0x08010148   Data          32  atan.o(.constdata)
+    aTodd                                    0x08010168   Data          40  atan.o(.constdata)
+    aTeven                                   0x08010190   Data          48  atan.o(.constdata)
+    .constdata                               0x080101c0   Section      136  pow.o(.constdata)
+    bp                                       0x080101c0   Data          16  pow.o(.constdata)
+    dp_h                                     0x080101d0   Data          16  pow.o(.constdata)
+    dp_l                                     0x080101e0   Data          16  pow.o(.constdata)
+    L                                        0x080101f0   Data          48  pow.o(.constdata)
+    P                                        0x08010220   Data          40  pow.o(.constdata)
+    .constdata                               0x08010248   Section       48  cos_i.o(.constdata)
+    C                                        0x08010248   Data          48  cos_i.o(.constdata)
+    .constdata                               0x08010278   Section        8  qnan.o(.constdata)
+    .constdata                               0x08010280   Section      200  rred.o(.constdata)
+    pio2s                                    0x08010280   Data          48  rred.o(.constdata)
+    twooverpi                                0x080102b0   Data         152  rred.o(.constdata)
+    .constdata                               0x08010348   Section       40  sin_i.o(.constdata)
+    S                                        0x08010348   Data          40  sin_i.o(.constdata)
     .data                                    0x20000000   Section       22  communication.o(.data)
     .data                                    0x20000018   Section       19  pathdata.o(.data)
     .data                                    0x2000002c   Section       28  autopilot.o(.data)
@@ -2435,105 +2435,105 @@ Image Symbol Table
     PilotSupply                              0x0800757d   Thumb Code   100  autopilot.o(i.PilotSupply)
     PilotTransition                          0x080075e9   Thumb Code    26  autopilot.o(i.PilotTransition)
     RotateTheta4Point                        0x08007603   Thumb Code   248  commonalg.o(i.RotateTheta4Point)
-    RunPilot                                 0x080076fd   Thumb Code   496  autopilot.o(i.RunPilot)
-    SDRAM_Init                               0x08007901   Thumb Code   106  sdram.o(i.SDRAM_Init)
-    SDRAM_Initialization_Sequence            0x08007975   Thumb Code    66  sdram.o(i.SDRAM_Initialization_Sequence)
-    SDRAM_Send_Cmd                           0x080079b9   Thumb Code    68  sdram.o(i.SDRAM_Send_Cmd)
-    STMFLASH_GetFlashSector                  0x08007a01   Thumb Code   236  stmflash.o(i.STMFLASH_GetFlashSector)
-    STMFLASH_Read                            0x08007b45   Thumb Code    32  stmflash.o(i.STMFLASH_Read)
-    STMFLASH_ReadWord                        0x08007b65   Thumb Code     6  stmflash.o(i.STMFLASH_ReadWord)
-    STMFLASH_Write                           0x08007b6d   Thumb Code   174  stmflash.o(i.STMFLASH_Write)
-    SVC_Handler                              0x08007c21   Thumb Code     2  stm32f4xx_it.o(i.SVC_Handler)
-    SendSpeed                                0x08007c25   Thumb Code   462  communication.o(i.SendSpeed)
-    SetDriverMode                            0x08007e21   Thumb Code    22  communication.o(i.SetDriverMode)
-    SetEngineMode                            0x08007e41   Thumb Code    22  communication.o(i.SetEngineMode)
-    SetSupplyState                           0x08007e61   Thumb Code    18  stmflash.o(i.SetSupplyState)
-    SysTick_Handler                          0x08007e79   Thumb Code    12  stm32f4xx_it.o(i.SysTick_Handler)
-    SystemClock_Config                       0x08007e85   Thumb Code   200  main.o(i.SystemClock_Config)
-    SystemInit                               0x08007f55   Thumb Code    82  system_stm32f4xx.o(i.SystemInit)
-    USART1_IRQHandler                        0x080084fd   Thumb Code    10  stm32f4xx_it.o(i.USART1_IRQHandler)
-    USART2_IRQHandler                        0x0800850d   Thumb Code    10  stm32f4xx_it.o(i.USART2_IRQHandler)
-    USART3_IRQHandler                        0x0800851d   Thumb Code    10  stm32f4xx_it.o(i.USART3_IRQHandler)
-    UsageFault_Handler                       0x0800852d   Thumb Code     4  stm32f4xx_it.o(i.UsageFault_Handler)
-    __0printf                                0x08008531   Thumb Code    22  printfa.o(i.__0printf)
-    __1printf                                0x08008531   Thumb Code     0  printfa.o(i.__0printf)
-    __2printf                                0x08008531   Thumb Code     0  printfa.o(i.__0printf)
-    __c89printf                              0x08008531   Thumb Code     0  printfa.o(i.__0printf)
-    printf                                   0x08008531   Thumb Code     0  printfa.o(i.__0printf)
-    __ARM_fpclassify                         0x08008551   Thumb Code    48  fpclassify.o(i.__ARM_fpclassify)
-    __hardfp_atan                            0x08008581   Thumb Code   622  atan.o(i.__hardfp_atan)
-    __hardfp_cos                             0x08008859   Thumb Code   180  cos.o(i.__hardfp_cos)
-    __hardfp_pow                             0x08008921   Thumb Code  3072  pow.o(i.__hardfp_pow)
-    __hardfp_sin                             0x08009571   Thumb Code   180  sin.o(i.__hardfp_sin)
-    __hardfp_sqrt                            0x08009639   Thumb Code   122  sqrt.o(i.__hardfp_sqrt)
-    __ieee754_rem_pio2                       0x080096b9   Thumb Code   938  rred.o(i.__ieee754_rem_pio2)
-    __kernel_cos                             0x08009af1   Thumb Code   322  cos_i.o(i.__kernel_cos)
-    __kernel_poly                            0x08009c61   Thumb Code   248  poly.o(i.__kernel_poly)
-    __kernel_sin                             0x08009d59   Thumb Code   280  sin_i.o(i.__kernel_sin)
-    __mathlib_dbl_divzero                    0x08009e89   Thumb Code    28  dunder.o(i.__mathlib_dbl_divzero)
-    __mathlib_dbl_infnan                     0x08009eb9   Thumb Code    20  dunder.o(i.__mathlib_dbl_infnan)
-    __mathlib_dbl_infnan2                    0x08009ecd   Thumb Code    20  dunder.o(i.__mathlib_dbl_infnan2)
-    __mathlib_dbl_invalid                    0x08009ee1   Thumb Code    24  dunder.o(i.__mathlib_dbl_invalid)
-    __mathlib_dbl_overflow                   0x08009f01   Thumb Code    24  dunder.o(i.__mathlib_dbl_overflow)
-    __mathlib_dbl_underflow                  0x08009f21   Thumb Code    24  dunder.o(i.__mathlib_dbl_underflow)
-    __scatterload_copy                       0x08009f41   Thumb Code    14  handlers.o(i.__scatterload_copy)
-    __scatterload_null                       0x08009f4f   Thumb Code     2  handlers.o(i.__scatterload_null)
-    __scatterload_zeroinit                   0x08009f51   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
-    __set_errno                              0x08009f61   Thumb Code     6  errno.o(i.__set_errno)
-    ackApp                                   0x0800a801   Thumb Code    42  communication.o(i.ackApp)
-    addPathPoint                             0x0800a835   Thumb Code    52  pathdata.o(i.addPathPoint)
-    assemAppAck                              0x0800a875   Thumb Code   122  communication.o(i.assemAppAck)
-    byhhReceiveUsart                         0x0800a8f5   Thumb Code   106  communication.o(i.byhhReceiveUsart)
-    cvtGpsPt2Xy                              0x0800a961   Thumb Code   180  pathdata.o(i.cvtGpsPt2Xy)
-    cvtINMData2Pose                          0x0800aa25   Thumb Code   216  autopilot.o(i.cvtINMData2Pose)
-    delay_ms                                 0x0800ab09   Thumb Code    24  delay.o(i.delay_ms)
-    delay_us                                 0x0800ab21   Thumb Code    68  delay.o(i.delay_us)
-    fabs                                     0x0800ab69   Thumb Code    24  fabs.o(i.fabs)
-    fputc                                    0x0800ab81   Thumb Code    22  main.o(i.fputc)
-    getCurPathPoint                          0x0800ab9d   Thumb Code    46  pathdata.o(i.getCurPathPoint)
-    getCurPathPointId                        0x0800abd9   Thumb Code     6  pathdata.o(i.getCurPathPointId)
-    getINMData                               0x0800abe5   Thumb Code    16  communication.o(i.getINMData)
-    getPathPoint                             0x0800abf9   Thumb Code    38  pathdata.o(i.getPathPoint)
-    getPathPointNum                          0x0800ac29   Thumb Code     6  pathdata.o(i.getPathPointNum)
-    initCan1                                 0x0800ac35   Thumb Code   194  communication.o(i.initCan1)
-    initPathPointsData                       0x0800ad15   Thumb Code    16  pathdata.o(i.initPathPointsData)
-    intoPilotAuto                            0x0800ad31   Thumb Code    22  autopilot.o(i.intoPilotAuto)
-    intoPilotManualWork                      0x0800ad47   Thumb Code    22  autopilot.o(i.intoPilotManualWork)
-    intoPilotSupply                          0x0800ad5d   Thumb Code    40  autopilot.o(i.intoPilotSupply)
-    intoPilotTransition                      0x0800ad8d   Thumb Code    26  autopilot.o(i.intoPilotTransition)
-    isBleDoing                               0x0800ada9   Thumb Code     6  communication.o(i.isBleDoing)
-    isPathDataFileExist                      0x0800adb5   Thumb Code     6  pathdata.o(i.isPathDataFileExist)
-    lcdshow                                  0x0800adc1   Thumb Code    26  main.o(i.lcdshow)
-    main                                     0x0800addd   Thumb Code    86  main.o(i.main)
-    moveCurPpt2Next                          0x0800ae65   Thumb Code    12  pathdata.o(i.moveCurPpt2Next)
-    receiveAPPCmd                            0x0800ae75   Thumb Code    34  communication.o(i.receiveAPPCmd)
-    receiveINMData                           0x0800aea1   Thumb Code    88  communication.o(i.receiveINMData)
-    runController                            0x0800af05   Thumb Code  1638  pathfollower.o(i.runController)
-    setCurPathPointId                        0x0800b58d   Thumb Code     6  pathdata.o(i.setCurPathPointId)
-    setHBBatteryPercentage                   0x0800b599   Thumb Code    76  communication.o(i.setHBBatteryPercentage)
-    setHBEngineState                         0x0800b5f5   Thumb Code    30  communication.o(i.setHBEngineState)
-    setHBFileExist                           0x0800b619   Thumb Code    30  communication.o(i.setHBFileExist)
-    setHBPathId                              0x0800b63d   Thumb Code     6  communication.o(i.setHBPathId)
-    setHBPilotState                          0x0800b649   Thumb Code     6  communication.o(i.setHBPilotState)
-    setHBPose                                0x0800b655   Thumb Code   216  communication.o(i.setHBPose)
-    setHBRtkState                            0x0800b749   Thumb Code    34  communication.o(i.setHBRtkState)
-    setHBServorAlarm                         0x0800b771   Thumb Code    30  communication.o(i.setHBServorAlarm)
-    setHBTankLevel                           0x0800b795   Thumb Code     6  communication.o(i.setHBTankLevel)
-    setPathDataFileExist                     0x0800b7a1   Thumb Code     8  pathdata.o(i.setPathDataFileExist)
-    sqrt                                     0x0800b7ad   Thumb Code   110  sqrt.o(i.sqrt)
-    startReceiveBleFile                      0x0800b81d   Thumb Code    20  communication.o(i.startReceiveBleFile)
-    stopReceiveBleFile                       0x0800b83d   Thumb Code    16  communication.o(i.stopReceiveBleFile)
-    updateLoRaData                           0x0800b855   Thumb Code   114  communication.o(i.updateLoRaData)
-    updateRS232Data                          0x0800b8e1   Thumb Code   134  communication.o(i.updateRS232Data)
-    AHBPrescTable                            0x0800b9b4   Data          16  system_stm32f4xx.o(.constdata)
-    APBPrescTable                            0x0800b9c4   Data           8  system_stm32f4xx.o(.constdata)
-    asc2_1206                                0x0800b9cc   Data        1140  lcd.o(.constdata)
-    asc2_1608                                0x0800be40   Data        1520  lcd.o(.constdata)
-    asc2_2412                                0x0800c430   Data        3420  lcd.o(.constdata)
-    asc2_3216                                0x0800d18c   Data       12160  lcd.o(.constdata)
-    __mathlib_zero                           0x08010260   Data           8  qnan.o(.constdata)
-    Region$$Table$$Base                      0x08010358   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08010378   Number         0  anon$$obj.o(Region$$Table)
+    RunPilot                                 0x080076fd   Thumb Code   514  autopilot.o(i.RunPilot)
+    SDRAM_Init                               0x08007915   Thumb Code   106  sdram.o(i.SDRAM_Init)
+    SDRAM_Initialization_Sequence            0x08007989   Thumb Code    66  sdram.o(i.SDRAM_Initialization_Sequence)
+    SDRAM_Send_Cmd                           0x080079cd   Thumb Code    68  sdram.o(i.SDRAM_Send_Cmd)
+    STMFLASH_GetFlashSector                  0x08007a15   Thumb Code   236  stmflash.o(i.STMFLASH_GetFlashSector)
+    STMFLASH_Read                            0x08007b59   Thumb Code    32  stmflash.o(i.STMFLASH_Read)
+    STMFLASH_ReadWord                        0x08007b79   Thumb Code     6  stmflash.o(i.STMFLASH_ReadWord)
+    STMFLASH_Write                           0x08007b81   Thumb Code   174  stmflash.o(i.STMFLASH_Write)
+    SVC_Handler                              0x08007c35   Thumb Code     2  stm32f4xx_it.o(i.SVC_Handler)
+    SendSpeed                                0x08007c39   Thumb Code   462  communication.o(i.SendSpeed)
+    SetDriverMode                            0x08007e35   Thumb Code    22  communication.o(i.SetDriverMode)
+    SetEngineMode                            0x08007e55   Thumb Code    22  communication.o(i.SetEngineMode)
+    SetSupplyState                           0x08007e75   Thumb Code    18  stmflash.o(i.SetSupplyState)
+    SysTick_Handler                          0x08007e8d   Thumb Code    12  stm32f4xx_it.o(i.SysTick_Handler)
+    SystemClock_Config                       0x08007e99   Thumb Code   200  main.o(i.SystemClock_Config)
+    SystemInit                               0x08007f69   Thumb Code    82  system_stm32f4xx.o(i.SystemInit)
+    USART1_IRQHandler                        0x08008511   Thumb Code    10  stm32f4xx_it.o(i.USART1_IRQHandler)
+    USART2_IRQHandler                        0x08008521   Thumb Code    10  stm32f4xx_it.o(i.USART2_IRQHandler)
+    USART3_IRQHandler                        0x08008531   Thumb Code    10  stm32f4xx_it.o(i.USART3_IRQHandler)
+    UsageFault_Handler                       0x08008541   Thumb Code     4  stm32f4xx_it.o(i.UsageFault_Handler)
+    __0printf                                0x08008545   Thumb Code    22  printfa.o(i.__0printf)
+    __1printf                                0x08008545   Thumb Code     0  printfa.o(i.__0printf)
+    __2printf                                0x08008545   Thumb Code     0  printfa.o(i.__0printf)
+    __c89printf                              0x08008545   Thumb Code     0  printfa.o(i.__0printf)
+    printf                                   0x08008545   Thumb Code     0  printfa.o(i.__0printf)
+    __ARM_fpclassify                         0x08008565   Thumb Code    48  fpclassify.o(i.__ARM_fpclassify)
+    __hardfp_atan                            0x08008599   Thumb Code   622  atan.o(i.__hardfp_atan)
+    __hardfp_cos                             0x08008871   Thumb Code   180  cos.o(i.__hardfp_cos)
+    __hardfp_pow                             0x08008939   Thumb Code  3072  pow.o(i.__hardfp_pow)
+    __hardfp_sin                             0x08009589   Thumb Code   180  sin.o(i.__hardfp_sin)
+    __hardfp_sqrt                            0x08009651   Thumb Code   122  sqrt.o(i.__hardfp_sqrt)
+    __ieee754_rem_pio2                       0x080096d1   Thumb Code   938  rred.o(i.__ieee754_rem_pio2)
+    __kernel_cos                             0x08009b09   Thumb Code   322  cos_i.o(i.__kernel_cos)
+    __kernel_poly                            0x08009c79   Thumb Code   248  poly.o(i.__kernel_poly)
+    __kernel_sin                             0x08009d71   Thumb Code   280  sin_i.o(i.__kernel_sin)
+    __mathlib_dbl_divzero                    0x08009ea1   Thumb Code    28  dunder.o(i.__mathlib_dbl_divzero)
+    __mathlib_dbl_infnan                     0x08009ed1   Thumb Code    20  dunder.o(i.__mathlib_dbl_infnan)
+    __mathlib_dbl_infnan2                    0x08009ee5   Thumb Code    20  dunder.o(i.__mathlib_dbl_infnan2)
+    __mathlib_dbl_invalid                    0x08009ef9   Thumb Code    24  dunder.o(i.__mathlib_dbl_invalid)
+    __mathlib_dbl_overflow                   0x08009f19   Thumb Code    24  dunder.o(i.__mathlib_dbl_overflow)
+    __mathlib_dbl_underflow                  0x08009f39   Thumb Code    24  dunder.o(i.__mathlib_dbl_underflow)
+    __scatterload_copy                       0x08009f59   Thumb Code    14  handlers.o(i.__scatterload_copy)
+    __scatterload_null                       0x08009f67   Thumb Code     2  handlers.o(i.__scatterload_null)
+    __scatterload_zeroinit                   0x08009f69   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
+    __set_errno                              0x08009f79   Thumb Code     6  errno.o(i.__set_errno)
+    ackApp                                   0x0800a819   Thumb Code    42  communication.o(i.ackApp)
+    addPathPoint                             0x0800a84d   Thumb Code    52  pathdata.o(i.addPathPoint)
+    assemAppAck                              0x0800a88d   Thumb Code   122  communication.o(i.assemAppAck)
+    byhhReceiveUsart                         0x0800a90d   Thumb Code   106  communication.o(i.byhhReceiveUsart)
+    cvtGpsPt2Xy                              0x0800a979   Thumb Code   180  pathdata.o(i.cvtGpsPt2Xy)
+    cvtINMData2Pose                          0x0800aa3d   Thumb Code   216  autopilot.o(i.cvtINMData2Pose)
+    delay_ms                                 0x0800ab21   Thumb Code    24  delay.o(i.delay_ms)
+    delay_us                                 0x0800ab39   Thumb Code    68  delay.o(i.delay_us)
+    fabs                                     0x0800ab81   Thumb Code    24  fabs.o(i.fabs)
+    fputc                                    0x0800ab99   Thumb Code    22  main.o(i.fputc)
+    getCurPathPoint                          0x0800abb5   Thumb Code    46  pathdata.o(i.getCurPathPoint)
+    getCurPathPointId                        0x0800abf1   Thumb Code     6  pathdata.o(i.getCurPathPointId)
+    getINMData                               0x0800abfd   Thumb Code    16  communication.o(i.getINMData)
+    getPathPoint                             0x0800ac11   Thumb Code    38  pathdata.o(i.getPathPoint)
+    getPathPointNum                          0x0800ac41   Thumb Code     6  pathdata.o(i.getPathPointNum)
+    initCan1                                 0x0800ac4d   Thumb Code   194  communication.o(i.initCan1)
+    initPathPointsData                       0x0800ad2d   Thumb Code    16  pathdata.o(i.initPathPointsData)
+    intoPilotAuto                            0x0800ad49   Thumb Code    22  autopilot.o(i.intoPilotAuto)
+    intoPilotManualWork                      0x0800ad5f   Thumb Code    22  autopilot.o(i.intoPilotManualWork)
+    intoPilotSupply                          0x0800ad75   Thumb Code    40  autopilot.o(i.intoPilotSupply)
+    intoPilotTransition                      0x0800ada5   Thumb Code    26  autopilot.o(i.intoPilotTransition)
+    isBleDoing                               0x0800adc1   Thumb Code     6  communication.o(i.isBleDoing)
+    isPathDataFileExist                      0x0800adcd   Thumb Code     6  pathdata.o(i.isPathDataFileExist)
+    lcdshow                                  0x0800add9   Thumb Code    26  main.o(i.lcdshow)
+    main                                     0x0800adf5   Thumb Code    86  main.o(i.main)
+    moveCurPpt2Next                          0x0800ae7d   Thumb Code    12  pathdata.o(i.moveCurPpt2Next)
+    receiveAPPCmd                            0x0800ae8d   Thumb Code    34  communication.o(i.receiveAPPCmd)
+    receiveINMData                           0x0800aeb9   Thumb Code    88  communication.o(i.receiveINMData)
+    runController                            0x0800af1d   Thumb Code  1638  pathfollower.o(i.runController)
+    setCurPathPointId                        0x0800b5a5   Thumb Code     6  pathdata.o(i.setCurPathPointId)
+    setHBBatteryPercentage                   0x0800b5b1   Thumb Code    76  communication.o(i.setHBBatteryPercentage)
+    setHBEngineState                         0x0800b60d   Thumb Code    30  communication.o(i.setHBEngineState)
+    setHBFileExist                           0x0800b631   Thumb Code    30  communication.o(i.setHBFileExist)
+    setHBPathId                              0x0800b655   Thumb Code     6  communication.o(i.setHBPathId)
+    setHBPilotState                          0x0800b661   Thumb Code     6  communication.o(i.setHBPilotState)
+    setHBPose                                0x0800b66d   Thumb Code   216  communication.o(i.setHBPose)
+    setHBRtkState                            0x0800b761   Thumb Code    34  communication.o(i.setHBRtkState)
+    setHBServorAlarm                         0x0800b789   Thumb Code    30  communication.o(i.setHBServorAlarm)
+    setHBTankLevel                           0x0800b7ad   Thumb Code     6  communication.o(i.setHBTankLevel)
+    setPathDataFileExist                     0x0800b7b9   Thumb Code     8  pathdata.o(i.setPathDataFileExist)
+    sqrt                                     0x0800b7c5   Thumb Code   110  sqrt.o(i.sqrt)
+    startReceiveBleFile                      0x0800b835   Thumb Code    20  communication.o(i.startReceiveBleFile)
+    stopReceiveBleFile                       0x0800b855   Thumb Code    16  communication.o(i.stopReceiveBleFile)
+    updateLoRaData                           0x0800b86d   Thumb Code   114  communication.o(i.updateLoRaData)
+    updateRS232Data                          0x0800b8f9   Thumb Code   134  communication.o(i.updateRS232Data)
+    AHBPrescTable                            0x0800b9cc   Data          16  system_stm32f4xx.o(.constdata)
+    APBPrescTable                            0x0800b9dc   Data           8  system_stm32f4xx.o(.constdata)
+    asc2_1206                                0x0800b9e4   Data        1140  lcd.o(.constdata)
+    asc2_1608                                0x0800be58   Data        1520  lcd.o(.constdata)
+    asc2_2412                                0x0800c448   Data        3420  lcd.o(.constdata)
+    asc2_3216                                0x0800d1a4   Data       12160  lcd.o(.constdata)
+    __mathlib_zero                           0x08010278   Data           8  qnan.o(.constdata)
+    Region$$Table$$Base                      0x08010370   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08010390   Number         0  anon$$obj.o(Region$$Table)
     g_lora_data_new                          0x20000000   Data           1  communication.o(.data)
     LORA_REGISTER                            0x20000001   Data           3  communication.o(.data)
     LORA_REG_VALID                           0x20000004   Data           1  communication.o(.data)
@@ -2598,9 +2598,9 @@ Memory Map of the image
 
   Image Entry point : 0x080001ad
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000103e4, Max: 0x00100000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x000103fc, Max: 0x00100000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x00010378, Max: 0x00100000, ABSOLUTE)
+    Execution Region ER_IROM1 (Base: 0x08000000, Size: 0x00010390, Max: 0x00100000, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -2787,125 +2787,126 @@ Memory Map of the image
     0x080075e8   0x0000001a   Code   RO          809    i.PilotTransition   autopilot.o
     0x08007602   0x000000f8   Code   RO          915    i.RotateTheta4Point  commonalg.o
     0x080076fa   0x00000002   PAD
-    0x080076fc   0x00000204   Code   RO          810    i.RunPilot          autopilot.o
-    0x08007900   0x00000074   Code   RO         3553    i.SDRAM_Init        sdram.o
-    0x08007974   0x00000042   Code   RO         3554    i.SDRAM_Initialization_Sequence  sdram.o
-    0x080079b6   0x00000002   PAD
-    0x080079b8   0x00000048   Code   RO         3555    i.SDRAM_Send_Cmd    sdram.o
-    0x08007a00   0x00000144   Code   RO         3987    i.STMFLASH_GetFlashSector  stmflash.o
-    0x08007b44   0x00000020   Code   RO         3988    i.STMFLASH_Read     stmflash.o
-    0x08007b64   0x00000006   Code   RO         3989    i.STMFLASH_ReadWord  stmflash.o
-    0x08007b6a   0x00000002   PAD
-    0x08007b6c   0x000000b4   Code   RO         3990    i.STMFLASH_Write    stmflash.o
-    0x08007c20   0x00000002   Code   RO          304    i.SVC_Handler       stm32f4xx_it.o
-    0x08007c22   0x00000002   PAD
-    0x08007c24   0x000001fc   Code   RO          500    i.SendSpeed         communication.o
-    0x08007e20   0x00000020   Code   RO          501    i.SetDriverMode     communication.o
-    0x08007e40   0x00000020   Code   RO          502    i.SetEngineMode     communication.o
-    0x08007e60   0x00000018   Code   RO         3991    i.SetSupplyState    stmflash.o
-    0x08007e78   0x0000000c   Code   RO          305    i.SysTick_Handler   stm32f4xx_it.o
-    0x08007e84   0x000000d0   Code   RO            5    i.SystemClock_Config  main.o
-    0x08007f54   0x00000064   Code   RO          960    i.SystemInit        system_stm32f4xx.o
-    0x08007fb8   0x00000014   Code   RO         2181    i.UART_DMAAbortOnError  stm32f4xx_hal_uart.o
-    0x08007fcc   0x00000018   Code   RO         2186    i.UART_DMARxOnlyAbortCallback  stm32f4xx_hal_uart.o
-    0x08007fe4   0x00000020   Code   RO         2191    i.UART_EndRxTransfer  stm32f4xx_hal_uart.o
-    0x08008004   0x00000020   Code   RO         2192    i.UART_EndTransmit_IT  stm32f4xx_hal_uart.o
-    0x08008024   0x0000009a   Code   RO         2194    i.UART_Receive_IT   stm32f4xx_hal_uart.o
-    0x080080be   0x00000002   PAD
-    0x080080c0   0x00000368   Code   RO         2195    i.UART_SetConfig    stm32f4xx_hal_uart.o
-    0x08008428   0x00000068   Code   RO         2196    i.UART_Transmit_IT  stm32f4xx_hal_uart.o
-    0x08008490   0x0000006c   Code   RO         2197    i.UART_WaitOnFlagUntilTimeout  stm32f4xx_hal_uart.o
-    0x080084fc   0x00000010   Code   RO          306    i.USART1_IRQHandler  stm32f4xx_it.o
-    0x0800850c   0x00000010   Code   RO          307    i.USART2_IRQHandler  stm32f4xx_it.o
-    0x0800851c   0x00000010   Code   RO          308    i.USART3_IRQHandler  stm32f4xx_it.o
-    0x0800852c   0x00000004   Code   RO          309    i.UsageFault_Handler  stm32f4xx_it.o
-    0x08008530   0x00000020   Code   RO         4347    i.__0printf         mc_w.l(printfa.o)
-    0x08008550   0x00000030   Code   RO         4416    i.__ARM_fpclassify  m_wm.l(fpclassify.o)
-    0x08008580   0x000002d8   Code   RO         4043    i.__hardfp_atan     m_wm.l(atan.o)
-    0x08008858   0x000000c8   Code   RO         4057    i.__hardfp_cos      m_wm.l(cos.o)
-    0x08008920   0x00000c50   Code   RO         4069    i.__hardfp_pow      m_wm.l(pow.o)
-    0x08009570   0x000000c8   Code   RO         4083    i.__hardfp_sin      m_wm.l(sin.o)
-    0x08009638   0x0000007a   Code   RO         4095    i.__hardfp_sqrt     m_wm.l(sqrt.o)
-    0x080096b2   0x00000006   PAD
-    0x080096b8   0x00000438   Code   RO         4421    i.__ieee754_rem_pio2  m_wm.l(rred.o)
-    0x08009af0   0x00000170   Code   RO         4393    i.__kernel_cos      m_wm.l(cos_i.o)
-    0x08009c60   0x000000f8   Code   RO         4418    i.__kernel_poly     m_wm.l(poly.o)
-    0x08009d58   0x00000130   Code   RO         4426    i.__kernel_sin      m_wm.l(sin_i.o)
-    0x08009e88   0x00000030   Code   RO         4396    i.__mathlib_dbl_divzero  m_wm.l(dunder.o)
-    0x08009eb8   0x00000014   Code   RO         4397    i.__mathlib_dbl_infnan  m_wm.l(dunder.o)
-    0x08009ecc   0x00000014   Code   RO         4398    i.__mathlib_dbl_infnan2  m_wm.l(dunder.o)
-    0x08009ee0   0x00000020   Code   RO         4399    i.__mathlib_dbl_invalid  m_wm.l(dunder.o)
-    0x08009f00   0x00000020   Code   RO         4400    i.__mathlib_dbl_overflow  m_wm.l(dunder.o)
-    0x08009f20   0x00000020   Code   RO         4402    i.__mathlib_dbl_underflow  m_wm.l(dunder.o)
-    0x08009f40   0x0000000e   Code   RO         4485    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x08009f4e   0x00000002   Code   RO         4486    i.__scatterload_null  mc_w.l(handlers.o)
-    0x08009f50   0x0000000e   Code   RO         4487    i.__scatterload_zeroinit  mc_w.l(handlers.o)
-    0x08009f5e   0x00000002   PAD
-    0x08009f60   0x0000000c   Code   RO         4459    i.__set_errno       mc_w.l(errno.o)
-    0x08009f6c   0x00000164   Code   RO         4354    i._fp_digits        mc_w.l(printfa.o)
-    0x0800a0d0   0x000006dc   Code   RO         4355    i._printf_core      mc_w.l(printfa.o)
-    0x0800a7ac   0x00000024   Code   RO         4356    i._printf_post_padding  mc_w.l(printfa.o)
-    0x0800a7d0   0x0000002e   Code   RO         4357    i._printf_pre_padding  mc_w.l(printfa.o)
-    0x0800a7fe   0x00000002   PAD
-    0x0800a800   0x00000034   Code   RO          503    i.ackApp            communication.o
-    0x0800a834   0x00000040   Code   RO          711    i.addPathPoint      pathdata.o
-    0x0800a874   0x00000080   Code   RO          504    i.assemAppAck       communication.o
-    0x0800a8f4   0x0000006a   Code   RO          505    i.byhhReceiveUsart  communication.o
-    0x0800a95e   0x00000002   PAD
-    0x0800a960   0x000000c4   Code   RO          712    i.cvtGpsPt2Xy       pathdata.o
-    0x0800aa24   0x000000e4   Code   RO          811    i.cvtINMData2Pose   autopilot.o
-    0x0800ab08   0x00000018   Code   RO         3954    i.delay_ms          delay.o
-    0x0800ab20   0x00000048   Code   RO         3955    i.delay_us          delay.o
-    0x0800ab68   0x00000018   Code   RO         4412    i.fabs              m_wm.l(fabs.o)
-    0x0800ab80   0x0000001c   Code   RO            6    i.fputc             main.o
-    0x0800ab9c   0x0000003c   Code   RO          713    i.getCurPathPoint   pathdata.o
-    0x0800abd8   0x0000000c   Code   RO          714    i.getCurPathPointId  pathdata.o
-    0x0800abe4   0x00000014   Code   RO          506    i.getINMData        communication.o
-    0x0800abf8   0x00000030   Code   RO          715    i.getPathPoint      pathdata.o
-    0x0800ac28   0x0000000c   Code   RO          716    i.getPathPointNum   pathdata.o
-    0x0800ac34   0x000000e0   Code   RO          507    i.initCan1          communication.o
-    0x0800ad14   0x0000001c   Code   RO          717    i.initPathPointsData  pathdata.o
-    0x0800ad30   0x00000016   Code   RO          812    i.intoPilotAuto     autopilot.o
-    0x0800ad46   0x00000016   Code   RO          813    i.intoPilotManualWork  autopilot.o
-    0x0800ad5c   0x00000030   Code   RO          814    i.intoPilotSupply   autopilot.o
-    0x0800ad8c   0x0000001a   Code   RO          815    i.intoPilotTransition  autopilot.o
-    0x0800ada6   0x00000002   PAD
-    0x0800ada8   0x0000000c   Code   RO          508    i.isBleDoing        communication.o
-    0x0800adb4   0x0000000c   Code   RO          718    i.isPathDataFileExist  pathdata.o
-    0x0800adc0   0x0000001a   Code   RO            7    i.lcdshow           main.o
-    0x0800adda   0x00000002   PAD
-    0x0800addc   0x00000088   Code   RO           14    i.main              main.o
-    0x0800ae64   0x00000010   Code   RO          719    i.moveCurPpt2Next   pathdata.o
-    0x0800ae74   0x0000002c   Code   RO          509    i.receiveAPPCmd     communication.o
-    0x0800aea0   0x00000064   Code   RO          510    i.receiveINMData    communication.o
-    0x0800af04   0x00000688   Code   RO          935    i.runController     pathfollower.o
-    0x0800b58c   0x0000000c   Code   RO          720    i.setCurPathPointId  pathdata.o
-    0x0800b598   0x0000005c   Code   RO          511    i.setHBBatteryPercentage  communication.o
-    0x0800b5f4   0x00000024   Code   RO          512    i.setHBEngineState  communication.o
-    0x0800b618   0x00000024   Code   RO          513    i.setHBFileExist    communication.o
-    0x0800b63c   0x0000000c   Code   RO          514    i.setHBPathId       communication.o
-    0x0800b648   0x0000000c   Code   RO          515    i.setHBPilotState   communication.o
-    0x0800b654   0x000000f4   Code   RO          516    i.setHBPose         communication.o
-    0x0800b748   0x00000028   Code   RO          517    i.setHBRtkState     communication.o
-    0x0800b770   0x00000024   Code   RO          518    i.setHBServorAlarm  communication.o
-    0x0800b794   0x0000000c   Code   RO          519    i.setHBTankLevel    communication.o
-    0x0800b7a0   0x0000000c   Code   RO          721    i.setPathDataFileExist  pathdata.o
-    0x0800b7ac   0x0000006e   Code   RO         4097    i.sqrt              m_wm.l(sqrt.o)
-    0x0800b81a   0x00000002   PAD
-    0x0800b81c   0x00000020   Code   RO          520    i.startReceiveBleFile  communication.o
-    0x0800b83c   0x00000018   Code   RO          521    i.stopReceiveBleFile  communication.o
-    0x0800b854   0x0000008c   Code   RO          522    i.updateLoRaData    communication.o
-    0x0800b8e0   0x000000d4   Code   RO          523    i.updateRS232Data   communication.o
-    0x0800b9b4   0x00000018   Data   RO          961    .constdata          system_stm32f4xx.o
-    0x0800b9cc   0x00004740   Data   RO         3643    .constdata          lcd.o
-    0x0801010c   0x00000004   PAD
-    0x08010110   0x00000098   Data   RO         4046    .constdata          m_wm.l(atan.o)
-    0x080101a8   0x00000088   Data   RO         4072    .constdata          m_wm.l(pow.o)
-    0x08010230   0x00000030   Data   RO         4394    .constdata          m_wm.l(cos_i.o)
-    0x08010260   0x00000008   Data   RO         4420    .constdata          m_wm.l(qnan.o)
-    0x08010268   0x000000c8   Data   RO         4423    .constdata          m_wm.l(rred.o)
-    0x08010330   0x00000028   Data   RO         4427    .constdata          m_wm.l(sin_i.o)
-    0x08010358   0x00000020   Data   RO         4483    Region$$Table       anon$$obj.o
+    0x080076fc   0x00000218   Code   RO          810    i.RunPilot          autopilot.o
+    0x08007914   0x00000074   Code   RO         3553    i.SDRAM_Init        sdram.o
+    0x08007988   0x00000042   Code   RO         3554    i.SDRAM_Initialization_Sequence  sdram.o
+    0x080079ca   0x00000002   PAD
+    0x080079cc   0x00000048   Code   RO         3555    i.SDRAM_Send_Cmd    sdram.o
+    0x08007a14   0x00000144   Code   RO         3987    i.STMFLASH_GetFlashSector  stmflash.o
+    0x08007b58   0x00000020   Code   RO         3988    i.STMFLASH_Read     stmflash.o
+    0x08007b78   0x00000006   Code   RO         3989    i.STMFLASH_ReadWord  stmflash.o
+    0x08007b7e   0x00000002   PAD
+    0x08007b80   0x000000b4   Code   RO         3990    i.STMFLASH_Write    stmflash.o
+    0x08007c34   0x00000002   Code   RO          304    i.SVC_Handler       stm32f4xx_it.o
+    0x08007c36   0x00000002   PAD
+    0x08007c38   0x000001fc   Code   RO          500    i.SendSpeed         communication.o
+    0x08007e34   0x00000020   Code   RO          501    i.SetDriverMode     communication.o
+    0x08007e54   0x00000020   Code   RO          502    i.SetEngineMode     communication.o
+    0x08007e74   0x00000018   Code   RO         3991    i.SetSupplyState    stmflash.o
+    0x08007e8c   0x0000000c   Code   RO          305    i.SysTick_Handler   stm32f4xx_it.o
+    0x08007e98   0x000000d0   Code   RO            5    i.SystemClock_Config  main.o
+    0x08007f68   0x00000064   Code   RO          960    i.SystemInit        system_stm32f4xx.o
+    0x08007fcc   0x00000014   Code   RO         2181    i.UART_DMAAbortOnError  stm32f4xx_hal_uart.o
+    0x08007fe0   0x00000018   Code   RO         2186    i.UART_DMARxOnlyAbortCallback  stm32f4xx_hal_uart.o
+    0x08007ff8   0x00000020   Code   RO         2191    i.UART_EndRxTransfer  stm32f4xx_hal_uart.o
+    0x08008018   0x00000020   Code   RO         2192    i.UART_EndTransmit_IT  stm32f4xx_hal_uart.o
+    0x08008038   0x0000009a   Code   RO         2194    i.UART_Receive_IT   stm32f4xx_hal_uart.o
+    0x080080d2   0x00000002   PAD
+    0x080080d4   0x00000368   Code   RO         2195    i.UART_SetConfig    stm32f4xx_hal_uart.o
+    0x0800843c   0x00000068   Code   RO         2196    i.UART_Transmit_IT  stm32f4xx_hal_uart.o
+    0x080084a4   0x0000006c   Code   RO         2197    i.UART_WaitOnFlagUntilTimeout  stm32f4xx_hal_uart.o
+    0x08008510   0x00000010   Code   RO          306    i.USART1_IRQHandler  stm32f4xx_it.o
+    0x08008520   0x00000010   Code   RO          307    i.USART2_IRQHandler  stm32f4xx_it.o
+    0x08008530   0x00000010   Code   RO          308    i.USART3_IRQHandler  stm32f4xx_it.o
+    0x08008540   0x00000004   Code   RO          309    i.UsageFault_Handler  stm32f4xx_it.o
+    0x08008544   0x00000020   Code   RO         4347    i.__0printf         mc_w.l(printfa.o)
+    0x08008564   0x00000030   Code   RO         4416    i.__ARM_fpclassify  m_wm.l(fpclassify.o)
+    0x08008594   0x00000004   PAD
+    0x08008598   0x000002d8   Code   RO         4043    i.__hardfp_atan     m_wm.l(atan.o)
+    0x08008870   0x000000c8   Code   RO         4057    i.__hardfp_cos      m_wm.l(cos.o)
+    0x08008938   0x00000c50   Code   RO         4069    i.__hardfp_pow      m_wm.l(pow.o)
+    0x08009588   0x000000c8   Code   RO         4083    i.__hardfp_sin      m_wm.l(sin.o)
+    0x08009650   0x0000007a   Code   RO         4095    i.__hardfp_sqrt     m_wm.l(sqrt.o)
+    0x080096ca   0x00000006   PAD
+    0x080096d0   0x00000438   Code   RO         4421    i.__ieee754_rem_pio2  m_wm.l(rred.o)
+    0x08009b08   0x00000170   Code   RO         4393    i.__kernel_cos      m_wm.l(cos_i.o)
+    0x08009c78   0x000000f8   Code   RO         4418    i.__kernel_poly     m_wm.l(poly.o)
+    0x08009d70   0x00000130   Code   RO         4426    i.__kernel_sin      m_wm.l(sin_i.o)
+    0x08009ea0   0x00000030   Code   RO         4396    i.__mathlib_dbl_divzero  m_wm.l(dunder.o)
+    0x08009ed0   0x00000014   Code   RO         4397    i.__mathlib_dbl_infnan  m_wm.l(dunder.o)
+    0x08009ee4   0x00000014   Code   RO         4398    i.__mathlib_dbl_infnan2  m_wm.l(dunder.o)
+    0x08009ef8   0x00000020   Code   RO         4399    i.__mathlib_dbl_invalid  m_wm.l(dunder.o)
+    0x08009f18   0x00000020   Code   RO         4400    i.__mathlib_dbl_overflow  m_wm.l(dunder.o)
+    0x08009f38   0x00000020   Code   RO         4402    i.__mathlib_dbl_underflow  m_wm.l(dunder.o)
+    0x08009f58   0x0000000e   Code   RO         4485    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x08009f66   0x00000002   Code   RO         4486    i.__scatterload_null  mc_w.l(handlers.o)
+    0x08009f68   0x0000000e   Code   RO         4487    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x08009f76   0x00000002   PAD
+    0x08009f78   0x0000000c   Code   RO         4459    i.__set_errno       mc_w.l(errno.o)
+    0x08009f84   0x00000164   Code   RO         4354    i._fp_digits        mc_w.l(printfa.o)
+    0x0800a0e8   0x000006dc   Code   RO         4355    i._printf_core      mc_w.l(printfa.o)
+    0x0800a7c4   0x00000024   Code   RO         4356    i._printf_post_padding  mc_w.l(printfa.o)
+    0x0800a7e8   0x0000002e   Code   RO         4357    i._printf_pre_padding  mc_w.l(printfa.o)
+    0x0800a816   0x00000002   PAD
+    0x0800a818   0x00000034   Code   RO          503    i.ackApp            communication.o
+    0x0800a84c   0x00000040   Code   RO          711    i.addPathPoint      pathdata.o
+    0x0800a88c   0x00000080   Code   RO          504    i.assemAppAck       communication.o
+    0x0800a90c   0x0000006a   Code   RO          505    i.byhhReceiveUsart  communication.o
+    0x0800a976   0x00000002   PAD
+    0x0800a978   0x000000c4   Code   RO          712    i.cvtGpsPt2Xy       pathdata.o
+    0x0800aa3c   0x000000e4   Code   RO          811    i.cvtINMData2Pose   autopilot.o
+    0x0800ab20   0x00000018   Code   RO         3954    i.delay_ms          delay.o
+    0x0800ab38   0x00000048   Code   RO         3955    i.delay_us          delay.o
+    0x0800ab80   0x00000018   Code   RO         4412    i.fabs              m_wm.l(fabs.o)
+    0x0800ab98   0x0000001c   Code   RO            6    i.fputc             main.o
+    0x0800abb4   0x0000003c   Code   RO          713    i.getCurPathPoint   pathdata.o
+    0x0800abf0   0x0000000c   Code   RO          714    i.getCurPathPointId  pathdata.o
+    0x0800abfc   0x00000014   Code   RO          506    i.getINMData        communication.o
+    0x0800ac10   0x00000030   Code   RO          715    i.getPathPoint      pathdata.o
+    0x0800ac40   0x0000000c   Code   RO          716    i.getPathPointNum   pathdata.o
+    0x0800ac4c   0x000000e0   Code   RO          507    i.initCan1          communication.o
+    0x0800ad2c   0x0000001c   Code   RO          717    i.initPathPointsData  pathdata.o
+    0x0800ad48   0x00000016   Code   RO          812    i.intoPilotAuto     autopilot.o
+    0x0800ad5e   0x00000016   Code   RO          813    i.intoPilotManualWork  autopilot.o
+    0x0800ad74   0x00000030   Code   RO          814    i.intoPilotSupply   autopilot.o
+    0x0800ada4   0x0000001a   Code   RO          815    i.intoPilotTransition  autopilot.o
+    0x0800adbe   0x00000002   PAD
+    0x0800adc0   0x0000000c   Code   RO          508    i.isBleDoing        communication.o
+    0x0800adcc   0x0000000c   Code   RO          718    i.isPathDataFileExist  pathdata.o
+    0x0800add8   0x0000001a   Code   RO            7    i.lcdshow           main.o
+    0x0800adf2   0x00000002   PAD
+    0x0800adf4   0x00000088   Code   RO           14    i.main              main.o
+    0x0800ae7c   0x00000010   Code   RO          719    i.moveCurPpt2Next   pathdata.o
+    0x0800ae8c   0x0000002c   Code   RO          509    i.receiveAPPCmd     communication.o
+    0x0800aeb8   0x00000064   Code   RO          510    i.receiveINMData    communication.o
+    0x0800af1c   0x00000688   Code   RO          935    i.runController     pathfollower.o
+    0x0800b5a4   0x0000000c   Code   RO          720    i.setCurPathPointId  pathdata.o
+    0x0800b5b0   0x0000005c   Code   RO          511    i.setHBBatteryPercentage  communication.o
+    0x0800b60c   0x00000024   Code   RO          512    i.setHBEngineState  communication.o
+    0x0800b630   0x00000024   Code   RO          513    i.setHBFileExist    communication.o
+    0x0800b654   0x0000000c   Code   RO          514    i.setHBPathId       communication.o
+    0x0800b660   0x0000000c   Code   RO          515    i.setHBPilotState   communication.o
+    0x0800b66c   0x000000f4   Code   RO          516    i.setHBPose         communication.o
+    0x0800b760   0x00000028   Code   RO          517    i.setHBRtkState     communication.o
+    0x0800b788   0x00000024   Code   RO          518    i.setHBServorAlarm  communication.o
+    0x0800b7ac   0x0000000c   Code   RO          519    i.setHBTankLevel    communication.o
+    0x0800b7b8   0x0000000c   Code   RO          721    i.setPathDataFileExist  pathdata.o
+    0x0800b7c4   0x0000006e   Code   RO         4097    i.sqrt              m_wm.l(sqrt.o)
+    0x0800b832   0x00000002   PAD
+    0x0800b834   0x00000020   Code   RO          520    i.startReceiveBleFile  communication.o
+    0x0800b854   0x00000018   Code   RO          521    i.stopReceiveBleFile  communication.o
+    0x0800b86c   0x0000008c   Code   RO          522    i.updateLoRaData    communication.o
+    0x0800b8f8   0x000000d4   Code   RO          523    i.updateRS232Data   communication.o
+    0x0800b9cc   0x00000018   Data   RO          961    .constdata          system_stm32f4xx.o
+    0x0800b9e4   0x00004740   Data   RO         3643    .constdata          lcd.o
+    0x08010124   0x00000004   PAD
+    0x08010128   0x00000098   Data   RO         4046    .constdata          m_wm.l(atan.o)
+    0x080101c0   0x00000088   Data   RO         4072    .constdata          m_wm.l(pow.o)
+    0x08010248   0x00000030   Data   RO         4394    .constdata          m_wm.l(cos_i.o)
+    0x08010278   0x00000008   Data   RO         4420    .constdata          m_wm.l(qnan.o)
+    0x08010280   0x000000c8   Data   RO         4423    .constdata          m_wm.l(rred.o)
+    0x08010348   0x00000028   Data   RO         4427    .constdata          m_wm.l(sin_i.o)
+    0x08010370   0x00000020   Data   RO         4483    Region$$Table       anon$$obj.o
 
 
     Execution Region RW_IRAM1 (Base: 0x20000000, Size: 0x000008c0, Max: 0x00030000, ABSOLUTE)
@@ -2963,7 +2964,7 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-      2022         96          0         28          0      12277   autopilot.o
+      2042         98          0         28          0      12289   autopilot.o
        176         22          0          0         68       1609   can.o
        548         40          0          0          0       1581   commonalg.o
       2570        446          0         22        402      20999   communication.o
@@ -2998,7 +2999,7 @@ Image component sizes
        472         56          0          0        192       2884   usart.o
 
     ----------------------------------------------------------------------
-     36030       1812      18728        100   22050132     955686   Object Totals
+     36050       1814      18728        100   22050132     955698   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         44          0          4          3          4          0   (incl. Padding)
 
@@ -3057,8 +3058,8 @@ Image component sizes
        110          0          0          0          0        168   fepilogue.o
 
     ----------------------------------------------------------------------
-     11082        810        584          8          0       5504   Library Totals
-        16          0          0          0          0          0   (incl. Padding)
+     11086        810        584          8          0       5504   Library Totals
+        20          0          0          0          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -3069,7 +3070,7 @@ Image component sizes
       1698          0          0          0          0       1536   mf_w.l
 
     ----------------------------------------------------------------------
-     11082        810        584          8          0       5504   Library Totals
+     11086        810        584          8          0       5504   Library Totals
 
     ----------------------------------------------------------------------
 
@@ -3078,15 +3079,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     47112       2622      19312        108   22050132     938942   Grand Totals
-     47112       2622      19312        108   22050132     938942   ELF Image Totals
-     47112       2622      19312        108          0          0   ROM Totals
+     47136       2624      19312        108   22050132     938954   Grand Totals
+     47136       2624      19312        108   22050132     938954   ELF Image Totals
+     47136       2624      19312        108          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                66424 (  64.87kB)
+    Total RO  Size (Code + RO Data)                66448 (  64.89kB)
     Total RW  Size (RW Data + ZI Data)          22050240 (21533.44kB)
-    Total ROM Size (Code + RO Data + RW Data)      66532 (  64.97kB)
+    Total ROM Size (Code + RO Data + RW Data)      66556 (  65.00kB)
 
 ==============================================================================
 

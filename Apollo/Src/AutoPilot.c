@@ -33,7 +33,11 @@ void RunPilot(void)
 		ackApp(cmd,gHeartBeat);//回复app轮询
 		app_cmd_delay=HAL_GetTick();
 	}
-	else if(gPilotState!=PILOT_STATE_INIT&&gPilotState!=PILOT_STATE_IDLE)
+	else if(gPilotState==PILOT_STATE_INIT||gPilotState==PILOT_STATE_IDLE||gPilotState==PILOT_STATE_BLE_TRANSFER)
+	{
+		app_cmd_delay=HAL_GetTick();
+	}
+	else
 	{
 		uint32_t abort_time=HAL_GetTick()-app_cmd_delay;
 		if(abort_time>3000&&abort_time<10000)//通讯中断3s~10s
