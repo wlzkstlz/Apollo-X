@@ -145,6 +145,12 @@ int main(void)
 	InitAutoPilot();//自动驾驶初始化
 	
 	//【2】测试。。。
+//	uint8_t testbuf[4]={0xda,0x0f,0x49,0x40};
+//	float testvalue=0;
+//	memcpy(&testvalue,testbuf,4);
+//	
+//	sprintf(lcdtext,"test value=%f\n",testvalue);
+//	lcdshow(lcdtext);
 	
 	/* USER CODE END 2 */
 

@@ -9,16 +9,17 @@
 
 typedef enum 
 {
-	CMD_HEARTBEAT=0,
-	CMD_AUTO,
-	CMD_MANUAL,
-	CMD_TRANSITION,
-	CMD_SUPPLY,
-	CMD_STOP,
-	CMD_BLE_START,
-	CMD_BLE_END,
-	CMD_BLE_ABORT,
-	CMD_NONE
+	CMD_HEARTBEAT=0,//心跳
+	CMD_AUTO,//自动驾驶
+	CMD_MANUAL,//手动驾驶
+	CMD_TRANSITION,//转场
+	CMD_SUPPLY,//补给
+	CMD_STOP,//急停
+	CMD_BLE_START,//开始蓝牙传输
+	CMD_BLE_END,//结束蓝牙传输
+	CMD_BLE_ABORT,//中断蓝牙传输
+	CMD_NONE,//
+	CMD_WAIT//todo:等待机制实现
 }CmdType;
 
 typedef struct 

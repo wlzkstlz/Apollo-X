@@ -87,6 +87,7 @@ void setHBServorAlarm(uint8_t servor_alarm)
 
 void assemAppAck(CmdType cmd,HEART_BEAT_DATA heartBeat)
 {
+	//todo:Ìí¼ÓÖ¡Í·
 	uint8_t*ptr=gAppAck;
 	uint16_t id=ROBOT_ID;
 	memcpy(ptr,(uint8_t*)&id,2);
@@ -362,17 +363,17 @@ void SendSpeed(float v,float w)
 	float scale=1.0;
 	if(abs(vl_cmd)>CAR_MOTOR_MAX_SPEED&&abs(vl_cmd)>abs(vr_cmd))
 	{
-		scale=CAR_MOTOR_MAX_SPEED/abs(vl_cmd);
+		scale=(float)CAR_MOTOR_MAX_SPEED/(float)abs(vl_cmd);
 		
 	}
 	else if(abs(vr_cmd)>CAR_MOTOR_MAX_SPEED&&abs(vr_cmd)>abs(vl_cmd))
 	{
-		scale=CAR_MOTOR_MAX_SPEED/abs(vr_cmd);
+		scale=(float)CAR_MOTOR_MAX_SPEED/(float)abs(vr_cmd);
 	}
 	vl_cmd=scale*vl_cmd;
 	vr_cmd=scale*vr_cmd;
 	
-	printf("vl:%d  vr:%d\n",vl_cmd,vr_cmd);
+	//printf("vl:%d  vr:%d\n",vl_cmd,vr_cmd);
 	
 	
 	memcpy((uint8_t *)&gSpeedTxMsg.Data[0],&vl_cmd,2);
