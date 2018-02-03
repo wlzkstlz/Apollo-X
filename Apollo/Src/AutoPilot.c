@@ -258,16 +258,15 @@ PilotState PilotBleTransfer(CmdType cmd)
 		if(1)//todo:校验蓝牙传输过来的路径文件是否正确无误
 		{
 			setPathDataFileExist();
-			
-			//todo 更新基站坐标
+			updateBaseLocationByFile();//更新基站坐标
 			
 			//搜寻匹配起点
 			float poseX,poseY,poseYaw;
 			cvtINMData2Pose(getINMData(),&poseX,&poseY,&poseYaw);
 			uint32_t ppt_num=getPathPointNum();
-			uint32_t min_id=0;
+			uint32_t min_id=1;
 			float min_dist=1000000;
-			for(uint32_t i=0;i<ppt_num;i++)
+			for(uint32_t i=1;i<ppt_num;i++)
 			{
 				PathPoint ppt=getPathPoint(i);
 				float dist=sqrt(pow(ppt.startPt[0]-poseX,2)+pow(ppt.startPt[1]-poseY,2));

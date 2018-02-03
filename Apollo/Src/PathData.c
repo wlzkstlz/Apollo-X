@@ -1,15 +1,15 @@
 #include "PathData.h"
 #include "math.h"
 #include "CommonAlg.h"
+#include "string.h"
 
 double gBaseLongitude=(113.895098/180.0*ALG_PI);
 double gBaseLatitude=(22.959097/180.0*ALG_PI);
-float gBaseAltitude=0;
 
 PathPoint gPathPoints[PATH_PT_SIZE];
 
 int gValidPathPtNum=0;
-uint16_t gCurPathId=0;
+uint16_t gCurPathId=1;
 
 uint8_t gPathDataFileExist=0;
 
@@ -20,7 +20,7 @@ void initPathPointsData(void)
 //		gPathPoints[i].startPt[0]=i;
 //	}
 	gValidPathPtNum=0;
-	gCurPathId=0;
+	gCurPathId=1;
 	gPathDataFileExist=0;
 }
 
@@ -29,8 +29,7 @@ void addPathPoint(PathPoint pt)
 {
 	if(gValidPathPtNum<PATH_PT_SIZE)
 	{
-		gPathPoints[gValidPathPtNum]=pt;
-		gValidPathPtNum++;
+		gPathPoints[gValidPathPtNum++]=pt;
 	}
 }
 
@@ -41,7 +40,7 @@ uint32_t getPathPointNum(void)
 
 uint8_t getCurPathPoint(PathPoint *ppt)
 {
-	if(gCurPathId>=gValidPathPtNum)
+	if(gCurPathId>=gValidPathPtNum||gCurPathId==0)
 		return 0;
 	
 	(*ppt)=gPathPoints[gCurPathId];
@@ -58,11 +57,6 @@ PathPoint getPathPoint(uint32_t ppt_id)
 	return gPathPoints[ppt_id%PATH_PT_SIZE];
 }
 
-uint16_t getCurPathPointId(void)
-{
-	return gCurPathId;
-}
-
 uint8_t isPathDataFileExist(void)
 {
 	return gPathDataFileExist;
@@ -76,6 +70,15 @@ void setPathDataFileExist(void)
 void moveCurPpt2Next(void)
 {
 	gCurPathId++;
+}
+
+
+void updateBaseLocationByFile(void)
+{
+	uint8_t *ptr=(uint8_t *)&gPathPoints[0];
+	memcpy(&gBaseLongitude,ptr,8);
+	ptr+=8;
+	memcpy(&gBaseLatitude,ptr,8);
 }
 
 

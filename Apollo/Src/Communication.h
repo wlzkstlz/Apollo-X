@@ -123,7 +123,7 @@ uint8_t GetServorAlarm(uint16_t *alarm);
 
 
 //¡¾À¶ÑÀÎÄ¼þ´«Êä¡¿
-#define BLE_BUF_LEN	20
+#define BLE_BUF_LEN	20 //float4*5
 void updateBleData(void);
 void startReceiveBleFile(void );
 void stopReceiveBleFile(void);

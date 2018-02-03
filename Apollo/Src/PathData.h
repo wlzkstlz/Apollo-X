@@ -7,7 +7,6 @@
 
 extern double gBaseLongitude;
 extern double gBaseLatitude;
-extern float gBaseAltitude;
 
 typedef struct 
 {
@@ -17,7 +16,7 @@ typedef struct
 }PathPoint;
 
 #define PATH_PT_SIZE	1000000
-extern PathPoint gPathPoints[PATH_PT_SIZE] __attribute__((at(Bank5_SDRAM_ADDR)));
+extern PathPoint gPathPoints[PATH_PT_SIZE] __attribute__((at(Bank5_SDRAM_ADDR))); //路径点文件，其中第一个路径点为基站坐标数据
 
 extern int gValidPathPtNum;//
 extern uint16_t gCurPathId;
@@ -28,10 +27,11 @@ uint32_t getPathPointNum(void);
 uint8_t getCurPathPoint(PathPoint *ppt);
 void setCurPathPointId(uint32_t id);
 PathPoint getPathPoint(uint32_t ppt_id);
-uint16_t getCurPathPointId(void);
 uint8_t isPathDataFileExist(void);
 void setPathDataFileExist(void);
 void moveCurPpt2Next(void);
+
+void updateBaseLocationByFile(void);
 
 void cvtGpsPt2Xy(double gpsdataLon,double gpsdataLat,float* xyzdataX,float* xyzdataY);//东北上坐标系
 void cvtXyPt2Gps(float xyzdataX,float xyzdataY,double* gpsdataLon,double* gpsdataLat);//东北上坐标系
