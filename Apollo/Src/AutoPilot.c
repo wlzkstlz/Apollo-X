@@ -94,9 +94,19 @@ void RunPilot(void)
 	//【接收组合导航模块数据】
 	if(receiveINMData())
 	{
-		float poseX,poseY,poseYaw;
-		cvtINMData2Pose(getINMData(),&poseX,&poseY,&poseYaw);
-		setHBPose(poseX,poseY,poseYaw);
+		if(isPathDataFileExist())
+		{
+			float poseX,poseY,poseYaw;
+			cvtINMData2Pose(getINMData(),&poseX,&poseY,&poseYaw);
+			double longitude,latitude;
+			cvtXyPt2Gps(poseX,poseY,&longitude,&latitude);
+			setHBPose(longitude,latitude,poseYaw);
+		}
+		else
+		{
+			setHBPose((double)getINMData().longitude/INM_LON_LAT_SCALE,(double)getINMData().latitude/INM_LON_LAT_SCALE,getINMData().yaw);
+		}
+		
 		setHBRtkState(getINMData().rtk_state);
 		
 		lcdshowinmdata(getINMData());
@@ -147,8 +157,6 @@ void RunPilot(void)
 	}
 	
 	setHBEngineState(1);//todo:待实现发动机检测
-	setHBPathId(0);//在自动驾驶状态下会再次更新当前路径点坐标
-	
 	
 	//【运行状态机】
 	switch (gPilotState)
@@ -250,6 +258,8 @@ PilotState PilotBleTransfer(CmdType cmd)
 		if(1)//todo:校验蓝牙传输过来的路径文件是否正确无误
 		{
 			setPathDataFileExist();
+			
+			//todo 更新基站坐标
 			
 			//搜寻匹配起点
 			float poseX,poseY,poseYaw;
@@ -359,8 +369,6 @@ PilotState PilotAuto(CmdType cmd)
 	//自动驾驶
 	float poseX,poseY,poseYaw;
 	cvtINMData2Pose(getINMData(),&poseX,&poseY,&poseYaw);
-	
-	setHBPathId(getCurPathPointId());
 	
 	PathPoint pathPoint;
 	if(getCurPathPoint(&pathPoint)==0)//任务完成！！！
@@ -489,7 +497,10 @@ void intoPilotSupply(void)
 
 void cvtINMData2Pose(INM_Data inm_data,float*pose_x,float*pose_y,float*pose_yaw)
 {
-	cvtGpsPt2Xy(inm_data.longitude,inm_data.latitude,pose_x,pose_y);
+	double longitude=(double)inm_data.longitude/INM_LON_LAT_SCALE;
+	double latitude=(double)inm_data.latitude/INM_LON_LAT_SCALE;
+	
+	cvtGpsPt2Xy(longitude,latitude,pose_x,pose_y);
 	
 	float x0=-ANTEANA_DX,y0=-ANTEANA_DY,z0=-ANTEANA_DZ;
 	

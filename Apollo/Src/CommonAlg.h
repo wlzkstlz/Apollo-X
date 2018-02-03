@@ -9,7 +9,7 @@
 #endif
 
 #ifndef RAD2DEG
-#define RAD2DEG(x) ((x)*57.29578)
+#define RAD2DEG(x) ((x)*57.29577951)
 #endif
 
 /*将平面坐标系下向量坐标转换成向量与X轴的夹角，弧度制，[0,2*PI)*/

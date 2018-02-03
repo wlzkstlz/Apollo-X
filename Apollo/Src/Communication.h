@@ -19,36 +19,34 @@ typedef enum
 	CMD_BLE_END,//结束蓝牙传输
 	CMD_BLE_ABORT,//中断蓝牙传输
 	CMD_NONE,//
-	CMD_WAIT//todo:等待机制实现
+	CMD_WAIT//其他机器人蓝牙传输中，等待机制
 }CmdType;
 
 typedef struct 
 {
-	int16_t poseX;
-	int16_t poseY;
+	int32_t poseLongitude;//定点小数形式：毫弧度*INM_LON_LAT_SCALE
+	int32_t poseLatitude;//定点小数形式：毫弧度*INM_LON_LAT_SCALE
 	int16_t posePhi;
 	
 	uint8_t tankLevel;
 	uint8_t batteryPercentage;
 	
 	uint8_t curState;
-	uint16_t curPathId;
 	uint8_t curBitsState;
 	
 }HEART_BEAT_DATA;
 extern HEART_BEAT_DATA gHeartBeat;
 
-void setHBPose(float poseX,float poseY,float posePhi);
+void setHBPose(double longitude,double latitude,float posePhi);
 void setHBTankLevel(uint8_t level);
 void setHBBatteryPercentage(uint16_t volt);
 void setHBPilotState(uint8_t state);
-void setHBPathId(uint16_t path_id);
 void setHBEngineState(uint8_t engine_state);
 void setHBFileExist(uint8_t file_exist);
 void setHBRtkState(uint8_t rtk_state);
 void setHBServorAlarm(uint8_t servor_alarm);
 
-#define APP_ACK_LEN	17	//sof1+id2+cmd1+pose6+tank1+volt1+state1+index2+bitstate1+crc1=17
+#define APP_ACK_LEN	19	//sof1+id2+cmd1+pose10+tank1+volt1+state1+bitstate1+crc1=19
 #define APP_ACK_SOF	0x55;
 extern uint8_t gAppAck[APP_ACK_LEN];
 
@@ -66,6 +64,7 @@ void ackApp(CmdType cmd,HEART_BEAT_DATA heartBeat);//回复APP轮询
 
 
 //【组合导航模块传输数据】
+#define	INM_LON_LAT_SCALE	100000000.0 //经纬度转换成定点小数的比例系数
 typedef enum
 {
 	RTK_FIX=0,
@@ -76,8 +75,8 @@ typedef enum
 typedef struct
 {
 	TypeRtkState rtk_state;
-	float longitude;
-	float latitude;
+	int32_t longitude;//定点小数形式：毫弧度*INM_LON_LAT_SCALE
+	int32_t latitude;//定点小数形式：毫弧度*INM_LON_LAT_SCALE
 	float altitude;
 	float roll;
 	float pitch;

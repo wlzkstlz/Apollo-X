@@ -174,7 +174,7 @@ void lcdshowtanklevel(uint8_t level)
 void lcdshowbatteryvolt(uint16_t voltage)
 {
 	char ss[50];
-	sprintf(ss,"Baterry Volt:%.1f V\n",(float)voltage/100.0);
+	sprintf(ss,"Baterry Volt:%.1f V\n",(float)voltage/100.0f);
 	
 	LCD_Fill(LCD_VOLT_X,LCD_VOLT_Y,LCD_VOLT_X+LCD_VOLT_WIDTH,LCD_VOLT_Y+LCD_VOLT_HEIGHT,WHITE);
 	LCD_ShowString(LCD_VOLT_X,LCD_VOLT_Y,LCD_VOLT_WIDTH,LCD_VOLT_HEIGHT,16,(u8*)ss);
@@ -191,7 +191,7 @@ void lcdshowinmdata(INM_Data data)
 	float posex,posey,poseyaw;
 	cvtINMData2Pose(data,&posex,&posey,&poseyaw);
 	sprintf(ss,"INM data:poseX=%.2fm,PoseY=%.2fm,PoseYaw=%.1fdeg,rol=%.1f,pitch=%.1f, gps time:%dms\n",
-	posex,posey,RAD2DEG(poseyaw),RAD2DEG(data.roll),RAD2DEG(data.pitch),data.gps_ms);
+	posex,posey,(float)RAD2DEG(poseyaw),(float)RAD2DEG(data.roll),(float)RAD2DEG(data.pitch),data.gps_ms);
 		
 	LCD_Fill(LCD_INMDATA_X,LCD_INMDATA_Y,LCD_INMDATA_X+LCD_INMDATA_WIDTH,LCD_INMDATA_Y+LCD_INMDATA_HEIGHT,WHITE);
 	LCD_ShowString(LCD_INMDATA_X,LCD_INMDATA_Y,LCD_INMDATA_WIDTH,LCD_INMDATA_HEIGHT,16,(u8*)ss);

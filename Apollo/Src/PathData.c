@@ -2,8 +2,8 @@
 #include "math.h"
 #include "CommonAlg.h"
 
-float gBaseLongitude=(113.895098/180.0*ALG_PI);
-float gBaseLatitude=(22.959097/180.0*ALG_PI);
+double gBaseLongitude=(113.895098/180.0*ALG_PI);
+double gBaseLatitude=(22.959097/180.0*ALG_PI);
 float gBaseAltitude=0;
 
 PathPoint gPathPoints[PATH_PT_SIZE];
@@ -79,13 +79,19 @@ void moveCurPpt2Next(void)
 }
 
 
-void cvtGpsPt2Xy(float gpsdataLon,float gpsdataLat,float* xyzdataX,float* xyzdataY)
+void cvtGpsPt2Xy(double gpsdataLon,double gpsdataLat,float* xyzdataX,float* xyzdataY)
 {
 	(*xyzdataY)=gpsdataLat-gBaseLatitude;
 	(*xyzdataY)=METER_PER_LATITUDE*(*xyzdataY);
 	
 	(*xyzdataX)=gpsdataLon-gBaseLongitude;
 	(*xyzdataX)=cos(gBaseLatitude)*METER_PER_LATITUDE*(*xyzdataX);
+}
+
+void cvtXyPt2Gps(float xyzdataX,float xyzdataY,double* gpsdataLon,double* gpsdataLat)
+{
+	(*gpsdataLat)=(double)xyzdataY/METER_PER_LATITUDE+gBaseLatitude;
+	(*gpsdataLon)=(double)xyzdataX/METER_PER_LATITUDE/cos(gBaseLatitude)+gBaseLongitude;
 }
 
 

@@ -15,16 +15,21 @@ volatile uint8_t g_lora_data_new=0;
 uint8_t LORA_REGISTER[LORA_BUF_LEN];
 volatile uint8_t LORA_REG_VALID=0;
 
-HEART_BEAT_DATA gHeartBeat={0.0f,0.0f,0.0f,0,0,0,0,0};
+HEART_BEAT_DATA gHeartBeat={0.0f,0.0f,0.0f,0,0,0,0};
 uint8_t gAppAck[APP_ACK_LEN];
 
-void setHBPose(float poseX,float poseY,float posePhi)
+void setHBPose(double longitude,double latitude,float posePhi)
 {
-	gHeartBeat.poseX=(int16_t)(poseX/0.1f);//单位cm
-	gHeartBeat.poseY=(int16_t)(poseY/0.1f);//单位cm
-	
+//	while(longitude>ALG_2_PI){longitude-=ALG_2_PI;}
+//	while(longitude<-ALG_2_PI){longitude+=ALG_2_PI;}
+//	while(latitude>ALG_2_PI){latitude-=ALG_2_PI;}
+//	while(latitude<-ALG_2_PI){latitude+=ALG_2_PI;}
 	while(posePhi>ALG_2_PI){posePhi-=ALG_2_PI;}
 	while(posePhi<-ALG_2_PI){posePhi+=ALG_2_PI;}
+	
+	gHeartBeat.poseLongitude=(int32_t)(longitude*INM_LON_LAT_SCALE);
+	gHeartBeat.poseLatitude=(int32_t)(latitude*INM_LON_LAT_SCALE);//单位cm
+
 	gHeartBeat.posePhi=(int16_t)(posePhi/0.001f);//单位毫弧度
 }
 
@@ -45,11 +50,6 @@ void setHBBatteryPercentage(uint16_t volt)
 void setHBPilotState(uint8_t state)
 {
 	gHeartBeat.curState=state;
-}
-
-void setHBPathId(uint16_t path_id)
-{
-	gHeartBeat.curPathId=path_id;
 }
 
 void setHBEngineState(uint8_t engine_state)
@@ -87,7 +87,6 @@ void setHBServorAlarm(uint8_t servor_alarm)
 
 void assemAppAck(CmdType cmd,HEART_BEAT_DATA heartBeat)
 {
-	//todo:添加帧头
 	uint8_t*ptr=gAppAck;
 	
 	ptr[0]=APP_ACK_SOF;
@@ -100,13 +99,13 @@ void assemAppAck(CmdType cmd,HEART_BEAT_DATA heartBeat)
 	ptr[0]=cmd;
 	ptr++;
 	
-	int16_t poseX=heartBeat.poseX;
-	memcpy(ptr,(uint8_t*)&poseX,2);
-	ptr+=2;
+	int32_t poseLongitude=heartBeat.poseLongitude;
+	memcpy(ptr,(uint8_t*)&poseLongitude,4);
+	ptr+=4;
 	
-	int16_t poseY=heartBeat.poseY;
-	memcpy(ptr,(uint8_t*)&poseY,2);
-	ptr+=2;
+	int32_t poseLatitude=heartBeat.poseLatitude;
+	memcpy(ptr,(uint8_t*)&poseLatitude,4);
+	ptr+=4;
 	
 	int16_t posePhi=heartBeat.posePhi;
 	memcpy(ptr,(uint8_t*)&posePhi,2);
@@ -116,10 +115,6 @@ void assemAppAck(CmdType cmd,HEART_BEAT_DATA heartBeat)
 	ptr[1]=heartBeat.batteryPercentage;
 	ptr[2]=heartBeat.curState;
 	ptr+=3;
-	
-	uint16_t pathid=heartBeat.curPathId;
-	memcpy(ptr,(uint8_t*)&pathid,2);
-	ptr+=2;
 	
 	ptr[0]=heartBeat.curBitsState;
 	ptr++;

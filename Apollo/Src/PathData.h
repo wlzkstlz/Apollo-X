@@ -5,8 +5,8 @@
 
 #define		METER_PER_LATITUDE	(111130.0*180.0/3.1415926)   //1 rad 纬度对应的经线上地面距离m
 
-extern float gBaseLongitude;
-extern float gBaseLatitude;
+extern double gBaseLongitude;
+extern double gBaseLatitude;
 extern float gBaseAltitude;
 
 typedef struct 
@@ -33,6 +33,7 @@ uint8_t isPathDataFileExist(void);
 void setPathDataFileExist(void);
 void moveCurPpt2Next(void);
 
-void cvtGpsPt2Xy(float gpsdataLon,float gpsdataLat,float* xyzdataX,float* xyzdataY);//东北上坐标系
+void cvtGpsPt2Xy(double gpsdataLon,double gpsdataLat,float* xyzdataX,float* xyzdataY);//东北上坐标系
+void cvtXyPt2Gps(float xyzdataX,float xyzdataY,double* gpsdataLon,double* gpsdataLat);//东北上坐标系
 
 #endif
