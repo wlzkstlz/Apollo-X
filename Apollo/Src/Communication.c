@@ -89,6 +89,10 @@ void assemAppAck(CmdType cmd,HEART_BEAT_DATA heartBeat)
 {
 	//todo:ÃÌº”÷°Õ∑
 	uint8_t*ptr=gAppAck;
+	
+	ptr[0]=APP_ACK_SOF;
+	ptr++;
+	
 	uint16_t id=ROBOT_ID;
 	memcpy(ptr,(uint8_t*)&id,2);
 	ptr+=2;
