@@ -58,10 +58,16 @@ void RunPilot(void)
 	//【APP通讯】
 	CmdType cmd=CMD_NONE;
 	static uint32_t app_cmd_delay=0;
+	static uint32_t app_cmd_wait_time=0;
 	if(receiveAPPCmd(&cmd))//接收app指令
 	{
 		ackApp(cmd,gHeartBeat);//回复app轮询
 		app_cmd_delay=HAL_GetTick();
+		
+		if(cmd==CMD_WAIT)
+			app_cmd_wait_time=10000;
+		else
+			app_cmd_wait_time=0;
 		
 		//debug
 		lcdshowcmd(cmd);
@@ -73,13 +79,13 @@ void RunPilot(void)
 	else
 	{
 		uint32_t abort_time=HAL_GetTick()-app_cmd_delay;
-		if(abort_time>3000&&abort_time<10000)//通讯中断3s~10s
+		if(abort_time>3000+app_cmd_wait_time&&abort_time<10000+app_cmd_wait_time)//通讯中断3s~10s
 		{
 			SendSpeed(0,0);
 			HAL_Delay(10);
 			return;
 		}
-		else if(abort_time>=10000)
+		else if(abort_time>=10000+app_cmd_wait_time)
 		{
 			gPilotState=PILOT_STATE_INIT;
 		}
