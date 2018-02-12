@@ -95,26 +95,28 @@ void Error_Handler(void);
 
 int main(void)
 {
-	/* USER CODE BEGIN 1 */
+
+  /* USER CODE BEGIN 1 */
 	char lcdtext[50];
-	/* USER CODE END 1 */
+  /* USER CODE END 1 */
 
-	/* MCU Configuration----------------------------------------------------------*/
+  /* MCU Configuration----------------------------------------------------------*/
 
-	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-	HAL_Init();
+  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  HAL_Init();
 
-	/* Configure the system clock */
-	SystemClock_Config();
+  /* Configure the system clock */
+  SystemClock_Config();
 
-	/* Initialize all configured peripherals */
-	MX_GPIO_Init();
-	MX_USART1_UART_Init();
-	MX_CAN1_Init();
-	MX_USART3_UART_Init();
-	MX_USART2_UART_Init();
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_USART1_UART_Init();
+  MX_CAN1_Init();
+  MX_USART3_UART_Init();
+  MX_USART2_UART_Init();
+  MX_UART4_Init();
 
-	/* USER CODE BEGIN 2 */
+  /* USER CODE BEGIN 2 */
 
 	printf("new program: apollo 8\n");
 
@@ -152,17 +154,17 @@ int main(void)
 //	sprintf(lcdtext,"test value=%f\n",testvalue);
 //	lcdshow(lcdtext);
 	
-	/* USER CODE END 2 */
+  /* USER CODE END 2 */
 
-	/* Infinite loop */
-	/* USER CODE BEGIN WHILE */
+  /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
 	while (1)
 	{
 		RunPilot();
 			
-	/* USER CODE END WHILE */
+  /* USER CODE END WHILE */
 
-	/* USER CODE BEGIN 3 */
+  /* USER CODE BEGIN 3 */
 
 	}
   /* USER CODE END 3 */

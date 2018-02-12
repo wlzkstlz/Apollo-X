@@ -112,6 +112,12 @@ void RunPilot(void)
 		lcdshowinmdata(getINMData());
 	}
 	
+	//【接收IMU数据】
+	if(receiveIMUData())
+	{
+		lcdshowimudata(getIMUData());
+	}
+	
 	//【CAN通讯】
 	uint8_t tankLevel=0;
 	static uint8_t tank_level_delay=0;

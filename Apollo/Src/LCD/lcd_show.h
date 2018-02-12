@@ -13,6 +13,7 @@ void lcdshowdrivermode(TypeDriverMode mode);
 void lcdshowtanklevel(uint8_t level);
 void lcdshowbatteryvolt(uint16_t voltage);
 void lcdshowinmdata(INM_Data data);
+void lcdshowimudata(IMU_Data data);
 
 #endif	
 

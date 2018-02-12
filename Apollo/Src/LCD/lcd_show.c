@@ -197,3 +197,18 @@ void lcdshowinmdata(INM_Data data)
 	LCD_ShowString(LCD_INMDATA_X,LCD_INMDATA_Y,LCD_INMDATA_WIDTH,LCD_INMDATA_HEIGHT,16,(u8*)ss);
 }
 
+#define	LCD_IMUDATA_X	10
+#define	LCD_IMUDATA_Y	200
+#define	LCD_IMUDATA_WIDTH	250
+#define	LCD_IMUDATA_HEIGHT	32
+void lcdshowimudata(IMU_Data data)
+{
+	char ss[100];
+	
+	sprintf(ss,"IMU ROLL=%.2f deg,PITCH=%.2f deg,Yaw=%.2f deg \n",
+	(float)RAD2DEG(data.roll),(float)RAD2DEG(data.pitch),(float)RAD2DEG(data.yaw));
+		
+	LCD_Fill(LCD_IMUDATA_X,LCD_IMUDATA_Y,LCD_IMUDATA_X+LCD_IMUDATA_WIDTH,LCD_IMUDATA_Y+LCD_IMUDATA_HEIGHT,WHITE);
+	LCD_ShowString(LCD_IMUDATA_X,LCD_IMUDATA_Y,LCD_IMUDATA_WIDTH,LCD_IMUDATA_HEIGHT,16,(u8*)ss);
+}
+

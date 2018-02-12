@@ -273,6 +273,78 @@ INM_Data getINMData(void)
 }
 
 
+//【IMU数据接收】 USART4
+uint8_t IMU_REGISTER[IMU_BUF_LEN];
+volatile uint8_t IMU_REG_VALID=0;
+
+uint8_t imu_buf[IMU_BUF_LEN+10];
+volatile uint8_t g_imu_data_new=0;
+
+IMU_Data gIMUData;
+
+void updateIMUData(void)
+{
+	if (g_imu_data_new)
+	{
+		g_imu_data_new=0;
+		memcpy(IMU_REGISTER,imu_buf,sizeof(IMU_REGISTER));
+		
+		if(IMU_REGISTER[0]==0x55&&IMU_REGISTER[1]==0x53)
+		{		
+			HAL_StatusTypeDef ret= byhhReceiveUsart(&huart4, imu_buf,IMU_BUF_LEN);	
+			IMU_REG_VALID=1;	
+		}
+		else
+		{
+			HAL_Delay(5);
+			byhhReceiveUsart(&huart4, imu_buf,IMU_BUF_LEN);
+		}
+	}
+	else if(huart4.RxState==HAL_UART_STATE_READY)
+	{
+		HAL_Delay(5);
+		g_imu_data_new=0;
+		byhhReceiveUsart(&huart4, imu_buf,IMU_BUF_LEN);
+	}
+}
+
+
+
+
+uint8_t receiveIMUData(void)
+{
+	updateIMUData();
+	
+	if(IMU_REG_VALID==0)
+		return 0;
+	else
+	{
+		IMU_REG_VALID=0;
+		
+		uint8_t* ptr=IMU_REGISTER;
+		ptr+=2;
+		
+		int16_t cvt_data=0;
+		memcpy(&cvt_data,ptr,2);
+		gIMUData.roll=(float)((double)cvt_data/32768.0*ALG_PI);
+		ptr+=2;
+		
+		memcpy(&cvt_data,ptr,2);
+		gIMUData.pitch=(float)((double)cvt_data/32768.0*ALG_PI);
+		ptr+=2;
+		
+		memcpy(&cvt_data,ptr,2);
+		gIMUData.yaw=(float)((double)cvt_data/32768.0*ALG_PI);
+		ptr+=2;
+		
+		return 1;
+	}
+}
+
+IMU_Data getIMUData(void)
+{
+	return gIMUData;
+}
 
 
 
@@ -542,6 +614,10 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 	else if(huart->Instance==USART2)
 	{
 		g_rs232_data_new=1;
+	}
+	else if(huart->Instance==UART4)
+	{
+		g_imu_data_new=1;
 	}
 }
 

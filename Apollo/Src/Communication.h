@@ -94,6 +94,23 @@ void updateRS232Data(void);
 uint8_t receiveINMData(void);
 INM_Data getINMData(void);
 
+//【IMU传输数据】
+typedef struct
+{
+	float roll;
+	float pitch;
+	float yaw;
+}IMU_Data;
+extern IMU_Data gIMUData;
+
+#define IMU_BUF_LEN		11
+extern uint8_t IMU_REGISTER[IMU_BUF_LEN];
+extern volatile uint8_t IMU_REG_VALID;
+
+void updateIMUData(void);
+uint8_t receiveIMUData(void);
+IMU_Data getIMUData(void);
+
 //【CAN通信】
 #define CAR_HALF_WIDTH	0.326f
 #define CAR_WHEEL_RADIUS	0.1485f

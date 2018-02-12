@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=C:/Users/54391/Documents/cubeMX Projects/Apollo/Inc
+HeaderPath=C:/Users/54391/Documents/Apollo-X/Apollo/Inc
 HeaderFiles=gpio.h;stm32f4xx_it.h;stm32f4xx_hal_conf.h;main.h;usart.h;can.h;
-SourcePath=C:/Users/54391/Documents/cubeMX Projects/Apollo/Src
+SourcePath=C:/Users/54391/Documents/Apollo-X/Apollo/Src
 SourceFiles=gpio.h;stm32f4xx_it.h;stm32f4xx_hal_conf.h;main.h;gpio.c;stm32f4xx_it.c;stm32f4xx_hal_msp.c;main.c;usart.h;usart.c;can.h;can.c;
 
 [PreviousLibFiles]
