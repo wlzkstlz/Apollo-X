@@ -128,7 +128,7 @@ typedef enum
 }TypeEngineMode;
 void initCan1(void);
 
-void SendSpeed(float v,float w);
+void SendSpeed(int16_t vl,int16_t vr);
 void SetDriverMode(TypeDriverMode mode);
 void SetEngineMode(TypeEngineMode mode);
 

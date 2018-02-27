@@ -419,40 +419,13 @@ void initCan1(void)
 
 
 
-void SendSpeed(float v,float w)
+void SendSpeed(int16_t vl,int16_t vr)
 {
-	//速度转换。。。
-	float vl=0.0f,vr=0.0f;
-	vr=v+(float)CAR_HALF_WIDTH*w;
-	vl=v-(float)CAR_HALF_WIDTH*w;
-	
-	int16_t vl_cmd=0,vr_cmd=0;
-	vl_cmd=-(int16_t)(vl*60.0f/2.0f/3.1415926f/CAR_WHEEL_RADIUS*16.0f);
-	vr_cmd=(int16_t)(vr*60.0f/2.0f/3.1415926f/CAR_WHEEL_RADIUS*16.0f);
-	
-	//速度限制
-	float scale=1.0;
-	if(abs(vl_cmd)>CAR_MOTOR_MAX_SPEED&&abs(vl_cmd)>abs(vr_cmd))
-	{
-		scale=(float)CAR_MOTOR_MAX_SPEED/(float)abs(vl_cmd);
-		
-	}
-	else if(abs(vr_cmd)>CAR_MOTOR_MAX_SPEED&&abs(vr_cmd)>abs(vl_cmd))
-	{
-		scale=(float)CAR_MOTOR_MAX_SPEED/(float)abs(vr_cmd);
-	}
-	vl_cmd=scale*vl_cmd;
-	vr_cmd=scale*vr_cmd;
-	
-	//printf("vl:%d  vr:%d\n",vl_cmd,vr_cmd);
-	
-	
-	memcpy((uint8_t *)&gSpeedTxMsg.Data[0],&vl_cmd,2);
-	memcpy((uint8_t *)&gSpeedTxMsg.Data[2],&vr_cmd,2);
+	memcpy((uint8_t *)&gSpeedTxMsg.Data[0],&vl,2);
+	memcpy((uint8_t *)&gSpeedTxMsg.Data[2],&vr,2);
 	
 	hcan1.pTxMsg=&gSpeedTxMsg;
-	HAL_CAN_Transmit(&hcan1,10);
-	
+	HAL_CAN_Transmit(&hcan1,10);	
 }
 
 

@@ -33,6 +33,31 @@ void intoPilotAuto(void);
 void intoPilotManualWork(void);
 void intoPilotSupply(void);
 
+//位姿数据
+typedef struct
+{
+	float poseX;
+	float poseY;
+	float poseYaw;
+}Pose3D;
+Pose3D GetPose();
+void SetPose(float x,float y,float yaw);
+void ReckonPose();
+uint32_t GetPoseUpdateTime();
+//void InitReckonPose();
+
+//速度数据
+typedef struct
+{
+	float v;
+	float w;
+}Speed;
+Speed GetSpeed();
+void SetSpeed(float v,float w);
+
+//航位推测
+
+
 void cvtINMData2Pose(INM_Data inm_data,float*pose_x,float*pose_y,float*pose_yaw);
 
 #endif
