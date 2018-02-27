@@ -97,7 +97,10 @@ void RunPilot(void)
 		if(isPathDataFileExist())
 		{
 			float poseX,poseY,poseYaw;
-			cvtINMData2Pose(getINMData(),&poseX,&poseY,&poseYaw);
+			INM_Data inm_data=getINMData();
+			inm_data.roll=getIMUData().roll;
+			inm_data.pitch=getIMUData().pitch;
+			cvtINMData2Pose(inm_data,&poseX,&poseY,&poseYaw);
 			double longitude,latitude;
 			cvtXyPt2Gps(poseX,poseY,&longitude,&latitude);
 			setHBPose(longitude,latitude,poseYaw);
@@ -268,7 +271,10 @@ PilotState PilotBleTransfer(CmdType cmd)
 			
 			//搜寻匹配起点
 			float poseX,poseY,poseYaw;
-			cvtINMData2Pose(getINMData(),&poseX,&poseY,&poseYaw);
+			INM_Data inm_data=getINMData();
+			inm_data.roll=getIMUData().roll;
+			inm_data.pitch=getIMUData().pitch;
+			cvtINMData2Pose(inm_data,&poseX,&poseY,&poseYaw);
 			uint32_t ppt_num=getPathPointNum();
 			uint32_t min_id=1;
 			float min_dist=1000000;
@@ -351,7 +357,7 @@ PilotState PilotAuto(CmdType cmd)
 	}
 	
 	static uint32_t imu_over_turn_delay=0;
-	if((abs(getINMData().roll)>IMU_OVERTURN_ROLL)||(abs(getINMData().pitch)>IMU_OVERTURN_PITCH))
+	if((abs(getIMUData().roll)>IMU_OVERTURN_ROLL)||(abs(getIMUData().pitch)>IMU_OVERTURN_PITCH))
 	{
 		if(imu_over_turn_delay==0)
 			imu_over_turn_delay=HAL_GetTick();
@@ -373,7 +379,10 @@ PilotState PilotAuto(CmdType cmd)
 	
 	//自动驾驶
 	float poseX,poseY,poseYaw;
-	cvtINMData2Pose(getINMData(),&poseX,&poseY,&poseYaw);
+	INM_Data inm_data=getINMData();
+	inm_data.roll=getIMUData().roll;
+	inm_data.pitch=getIMUData().pitch;
+	cvtINMData2Pose(inm_data,&poseX,&poseY,&poseYaw);
 	
 	PathPoint pathPoint;
 	if(getCurPathPoint(&pathPoint)==0)//任务完成！！！
