@@ -553,17 +553,23 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan)
 
 //【蓝牙文件传输】
 uint8_t ble_buf[BLE_BUF_LEN+10];
+uint8_t ble_byte=0;
+uint8_t ble_bytes_count=0;
+uint32_t ble_frame_start_time=0;
+
 uint8_t gBleDoing=0;
 void startReceiveBleFile(void )
 {
 	gBleDoing=1;
-	HAL_UART_Receive_IT(&huart3,ble_buf,BLE_BUF_LEN);
+	//HAL_UART_Receive_IT(&huart3,ble_buf,BLE_BUF_LEN);
+	HAL_UART_Receive_IT(&huart3,&ble_byte,1);
 }
 
 void stopReceiveBleFile(void)
 {
 	HAL_UART_AbortReceive_IT(&huart3);
 	gBleDoing=0;
+	ble_bytes_count=0;
 }
 uint8_t isBleDoing(void)
 {
@@ -576,8 +582,30 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 	if(huart->Instance==USART3)
 	{
-		PathPoint ppt=*(PathPoint*)ble_buf;
-		addPathPoint(ppt);
+		if(ble_bytes_count==0)//接收到一帧数据中的第一个字节
+		{
+			ble_frame_start_time=HAL_GetTick();
+			ble_buf[ble_bytes_count++]=ble_byte;
+		}
+		else if(HAL_GetTick()-ble_frame_start_time>=20)//超时，认为遇到了协议字节
+		{
+			ble_bytes_count=0;
+			ble_frame_start_time=HAL_GetTick();
+			ble_buf[ble_bytes_count++]=ble_byte;
+		}
+		else if(ble_bytes_count==BLE_BUF_LEN-1)//在限定时间内组成了一帧数据
+		{
+			ble_buf[ble_bytes_count]=ble_byte;
+			PathPoint ppt=*(PathPoint*)ble_buf;
+			addPathPoint(ppt);
+			
+			ble_bytes_count=0;//为接收下一帧数据做准备
+		}
+		else//正在接收一帧数据中...
+		{
+			ble_buf[ble_bytes_count++]=ble_byte;
+		}
+		
 		startReceiveBleFile();
 	}
 	else if(huart->Instance==USART1)
