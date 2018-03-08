@@ -203,20 +203,20 @@ void updateRS232Data(void)
 		{		
 			//HAL_UART_AbortReceive_IT(&huart2);
 			HAL_StatusTypeDef ret= byhhReceiveUsart(&huart2, rs232_buf,RS232_BUF_LEN);	
-			printf("ret:%d \n\n",ret);
-			printf("RS232:\n");
+//			printf("ret:%d \n\n",ret);
+//			printf("RS232:\n");
 			RS232_REG_VALID=1;	
 		}
 		else
 		{
-			printf("RS232 err!:%s\n",RS232_REGISTER);
+			//printf("RS232 err!:%s\n",RS232_REGISTER);
 			HAL_Delay(10);
 			byhhReceiveUsart(&huart2, rs232_buf,RS232_BUF_LEN);
 		}
 	}
 	else if(huart2.RxState==HAL_UART_STATE_READY)
 	{
-		printf("restart usart2!!!\n");
+		//printf("restart usart2!!!\n");
 		HAL_Delay(10);
 		g_rs232_data_new=0;
 		byhhReceiveUsart(&huart2, rs232_buf,RS232_BUF_LEN);
