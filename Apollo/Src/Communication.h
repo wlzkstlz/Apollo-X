@@ -5,7 +5,7 @@
 
 //【APP通信】
 #define ROBOT_ID	0x0001  //todo：机器人ID如何自动分配？
-#define START_OF_CMD	0xaa
+#define START_OF_CMD	0x55
 
 typedef enum 
 {
@@ -46,7 +46,7 @@ void setHBFileExist(uint8_t file_exist);
 void setHBRtkState(uint8_t rtk_state);
 void setHBServorAlarm(uint8_t servor_alarm);
 
-#define APP_ACK_LEN	19	//sof1+id2+cmd1+pose10+tank1+volt1+state1+bitstate1+crc1=19
+#define APP_ACK_LEN	22//19	//sof1+id2+cmd1+pose10+tank1+volt1+state1+bitstate1+crc1=19
 #define APP_ACK_SOF	0x55;
 extern uint8_t gAppAck[APP_ACK_LEN];
 

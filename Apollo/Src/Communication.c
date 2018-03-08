@@ -88,6 +88,10 @@ void setHBServorAlarm(uint8_t servor_alarm)
 void assemAppAck(CmdType cmd,HEART_BEAT_DATA heartBeat)
 {
 	uint8_t*ptr=gAppAck;
+	ptr[0]=0xc3;
+	ptr[1]=0x50;
+	ptr[2]=0x28;
+	ptr+=3;
 	
 	ptr[0]=APP_ACK_SOF;
 	ptr++;
