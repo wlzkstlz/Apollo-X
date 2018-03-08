@@ -5,6 +5,7 @@
 #define		PF_CONTROL_PARA_S			1.0
 #define		PF_CONTROL_PARA_KX			(PF_CONTROL_PARA_S*4.2)//	35.0//25.0//35.0//18.0//10
 #define		PF_CONTROL_PARA_KTHETA		(PF_CONTROL_PARA_S*3.0)//1.5
+#define		PF_CONTROL_TURN_W			0.5
 
 #define MAX_X_ERR	2.0
 #define MAX_Y_ERR	0.5
@@ -67,9 +68,33 @@ CRS runController(float vel, PathPoint path, float curX, float curY, float curPh
 
 	if (abs(yErr) > MAX_Y_ERR)
 		return CRS_YERR;
+	
+	
+	
+	
+	
+	
+	while (phiErr > ALG_PI ) { phiErr -= ALG_PI * 2; }
+	while (phiErr < -ALG_PI ) { phiErr += ALG_PI * 2; }
 
-	*Vc = vel*cos(phiErr);
-	*Wc = w + PF_CONTROL_PARA_KX*vel*yErr + PF_CONTROL_PARA_KTHETA*sin(phiErr);
+	static uint8_t isTurning = 0;
+	if ((!isTurning)&&abs(phiErr) > DEG2RAD(60))
+	{
+		(*Vc) = 0;
+		(*Wc) = phiErr > 0 ? PF_CONTROL_TURN_W : (-PF_CONTROL_TURN_W);
+		isTurning = 1;
+	}
+	else if (isTurning&&abs(phiErr) > DEG2RAD(10))
+	{
+		(*Vc) = 0;
+		(*Wc) = phiErr > 0 ? PF_CONTROL_TURN_W : (-PF_CONTROL_TURN_W);
+	}
+	else
+	{
+		isTurning = 0;
+		(*Vc) = vel*cos(phiErr);
+		(*Wc) = w + PF_CONTROL_PARA_KX*vel*yErr + PF_CONTROL_PARA_KTHETA*sin(phiErr);
+	}
 
 	return CRS_CONTINUE;
 }
