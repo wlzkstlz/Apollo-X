@@ -212,3 +212,17 @@ void lcdshowimudata(IMU_Data data)
 	LCD_ShowString(LCD_IMUDATA_X,LCD_IMUDATA_Y,LCD_IMUDATA_WIDTH,LCD_IMUDATA_HEIGHT,16,(u8*)ss);
 }
 
+#define	LCD_BLEDATA_X	10
+#define	LCD_BLEDATA_Y	240
+#define	LCD_BLEDATA_WIDTH	250
+#define	LCD_BLEDATA_HEIGHT	16
+void lcdshowBLEdata(uint8_t isdoing,uint32_t ptnum,float x,float y)
+{
+	char ss[100];
+	
+	sprintf(ss,"BLE STATE=%d,PTS NUM=%d ,end x=%f,y=%f\n",isdoing,ptnum,x,y);
+		
+	LCD_Fill(LCD_BLEDATA_X,LCD_BLEDATA_Y,LCD_BLEDATA_X+LCD_BLEDATA_WIDTH,LCD_BLEDATA_Y+LCD_BLEDATA_HEIGHT,WHITE);
+	LCD_ShowString(LCD_BLEDATA_X,LCD_BLEDATA_Y,LCD_BLEDATA_WIDTH,LCD_BLEDATA_HEIGHT,16,(u8*)ss);
+}
+

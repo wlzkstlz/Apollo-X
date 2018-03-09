@@ -37,23 +37,16 @@ void RunPilot(void)
 		sprintf(debug_text,"cycle_t=%d ms  \n",cycle_time);
 		lcdshow(debug_text);
 		lcdshowpilotstate(gPilotState);
-	}
-	
-//	lcdshowpilotstate(100);
-//	lcdshowcmd(100);
-//	lcdshowenginemode(100);
-//	lcdshowdrivermode(100);
-//	lcdshowtanklevel(200);
-//	lcdshowbatteryvolt(1000);
-//	
-//	INM_Data inmdata;
-//	inmdata.longitude=DEG2RAD(113.897329);
-//	inmdata.latitude=DEG2RAD(22.960622);
-//	inmdata.yaw=0.1;
-//	inmdata.roll=0.2;
-//	inmdata.pitch=0.3;
-//	lcdshowinmdata(inmdata);
 		
+		int pptnum=getPathPointNum();
+		float xx=0,yy=0;
+		if(pptnum>0)
+		{
+			xx=getPathPoint(pptnum-1).startPt[0];
+			yy=getPathPoint(pptnum-1).startPt[1];
+		}
+		lcdshowBLEdata(isBleDoing(),getPathPointNum(),xx,yy);
+	}
 	
 	//¡¾APPÍ¨Ñ¶¡¿
 	CmdType cmd=CMD_NONE;
@@ -209,7 +202,7 @@ void RunPilot(void)
 	
 	setHBFileExist(isPathDataFileExist());
 	setHBPilotState(gPilotState);
-	HAL_Delay(5);
+	HAL_Delay(10);
 }
 
 /*
@@ -318,6 +311,7 @@ PilotState PilotBleTransfer(CmdType cmd)
 	{
 		HAL_Delay(5);
 	}
+	HAL_Delay(10);
 	
 	return PILOT_STATE_BLE_TRANSFER;
 }
@@ -434,7 +428,7 @@ PilotState PilotSupply(CmdType cmd)
 { 	
 	if(cmd==CMD_AUTO)
 	{
-		SetSupplyState(0);
+		SetSupplyState(0);//to check
 		return PILOT_STATE_BLE_TRANSFER;
 	}
 	else if(cmd==CMD_MANUAL)

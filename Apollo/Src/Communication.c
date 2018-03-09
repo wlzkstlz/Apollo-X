@@ -566,7 +566,7 @@ void startReceiveBleFile(void )
 {
 	gBleDoing=1;
 	//HAL_UART_Receive_IT(&huart3,ble_buf,BLE_BUF_LEN);
-	HAL_UART_Receive_IT(&huart3,&ble_byte,1);
+	byhhReceiveUsart(&huart3,&ble_byte,1);
 }
 
 void stopReceiveBleFile(void)
@@ -591,7 +591,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			ble_frame_start_time=HAL_GetTick();
 			ble_buf[ble_bytes_count++]=ble_byte;
 		}
-		else if(HAL_GetTick()-ble_frame_start_time>=20)//超时，认为遇到了协议字节
+		else if(HAL_GetTick()-ble_frame_start_time>=10)//超时，认为遇到了协议字节
 		{
 			ble_bytes_count=0;
 			ble_frame_start_time=HAL_GetTick();
