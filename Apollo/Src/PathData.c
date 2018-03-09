@@ -47,6 +47,12 @@ uint8_t getCurPathPoint(PathPoint *ppt)
 	return 1;
 }
 
+
+uint32_t getCurPathId()
+{
+	return gCurPathId;
+}
+
 void setCurPathPointId(uint32_t id)
 {
 	gCurPathId=id;

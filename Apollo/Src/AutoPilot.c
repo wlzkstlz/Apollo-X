@@ -30,11 +30,12 @@ void RunPilot(void)
 	static int tt=0;
 	static uint32_t cycle_time_start=0;
 	static char debug_text[50];
-	if(tt++%100==0)
+	if(tt++%50==0)
 	{
 		uint32_t cycle_time=HAL_GetTick()-cycle_time_start;
 		cycle_time_start=HAL_GetTick();
-		sprintf(debug_text,"cycle_t=%d ms  \n",cycle_time);
+		int curpathid=getCurPathId();
+		sprintf(debug_text,"cycle_t=%d ms,curPathId=%d ,PilotErr=%d \n",cycle_time,curpathid,GetPilotErr());
 		lcdshow(debug_text);
 		lcdshowpilotstate(gPilotState);
 		
@@ -52,10 +53,12 @@ void RunPilot(void)
 	CmdType cmd=CMD_NONE;
 	static uint32_t app_cmd_delay=0;
 	static uint32_t app_cmd_wait_time=0;
+	static uint8_t jumpstatemachine=0;
 	if(receiveAPPCmd(&cmd))//接收app指令
 	{
 		ackApp(cmd,gHeartBeat);//回复app轮询
 		app_cmd_delay=HAL_GetTick();
+		jumpstatemachine=0;
 		
 		if(cmd==CMD_WAIT)
 			app_cmd_wait_time=10000;
@@ -76,7 +79,8 @@ void RunPilot(void)
 		{
 			SetSpeed(0,0);
 			HAL_Delay(10);
-			return;
+			jumpstatemachine=1;
+			//return;
 		}
 		else if(abort_time>=10000+app_cmd_wait_time)
 		{
@@ -151,6 +155,7 @@ void RunPilot(void)
 	if(GetServorAlarm(&servorAlarm))//监控伺服电机驱动警报，如发生警报则进入急停状态，等待重新上电
 	{
 		setHBServorAlarm(1);
+		SetPilotErr(PILOT_ERR_MOTOR);
 		gPilotState=PILOT_STATE_EMERGENCY;
 	}
 	
@@ -169,35 +174,38 @@ void RunPilot(void)
 	setHBEngineState(1);//todo:待实现发动机检测
 	
 	//【运行状态机】
-	switch (gPilotState)
+	if(jumpstatemachine==0)
 	{
-		case PILOT_STATE_INIT:
-			gPilotState=PilotInit(cmd);
-			break;
-		case PILOT_STATE_IDLE:
-			gPilotState=PilotIdle(cmd);
-			break;
-		case PILOT_STATE_TRANSITION:
-			gPilotState=PilotTransition(cmd);
-			break;
-		case PILOT_STATE_AUTO:
-			gPilotState=PilotAuto(cmd);
-			break;
-		case PILOT_STATE_MANUAL_WORK:
-			gPilotState=PilotManualWork(cmd);
-			break;
-		case PILOT_STATE_SUPPLY:
-			gPilotState=PilotSupply(cmd);
-			break;
-		case PILOT_STATE_BLE_TRANSFER:
-			gPilotState=PilotBleTransfer(cmd);
-			break;
-		case PILOT_STATE_EMERGENCY:
-			HAL_Delay(10);
-			break;
-		default:
-			while(1);
-			break;
+		switch (gPilotState)
+		{
+			case PILOT_STATE_INIT:
+				gPilotState=PilotInit(cmd);
+				break;
+			case PILOT_STATE_IDLE:
+				gPilotState=PilotIdle(cmd);
+				break;
+			case PILOT_STATE_TRANSITION:
+				gPilotState=PilotTransition(cmd);
+				break;
+			case PILOT_STATE_AUTO:
+				gPilotState=PilotAuto(cmd);
+				break;
+			case PILOT_STATE_MANUAL_WORK:
+				gPilotState=PilotManualWork(cmd);
+				break;
+			case PILOT_STATE_SUPPLY:
+				gPilotState=PilotSupply(cmd);
+				break;
+			case PILOT_STATE_BLE_TRANSFER:
+				gPilotState=PilotBleTransfer(cmd);
+				break;
+			case PILOT_STATE_EMERGENCY:
+				HAL_Delay(10);
+				break;
+			default:
+				while(1);
+				break;
+		}
 	}
 	
 	setHBFileExist(isPathDataFileExist());
@@ -233,6 +241,7 @@ PilotState PilotIdle(CmdType cmd)
 		return PILOT_STATE_TRANSITION;
 	}
 	
+	SetSpeed(0,0);
 	HAL_Delay(10);
 	return PILOT_STATE_IDLE;
 }
@@ -358,6 +367,7 @@ PilotState PilotAuto(CmdType cmd)
 			imu_over_turn_delay=0;
 			
 			//todo: 向APP发送求救信号
+			SetPilotErr(PILOT_ERR_FALL);
 			
 			intoPilotTransition();
 			return PILOT_STATE_TRANSITION;
@@ -374,12 +384,14 @@ PilotState PilotAuto(CmdType cmd)
 	{
 		SetSpeed(0,0);
 		//todo 向APP发送完成信号
+		SetPilotErr(PILOT_ERR_SUCCESS);
+		
 		intoPilotTransition();
 		return PILOT_STATE_TRANSITION;
 	}
 	
 	float Vc=0.0f,Wc=0.0f;
-	CRS crs=runController(0.5,pathPoint,GetPose().poseX,GetPose().poseY,GetPose().poseYaw,&Vc,&Wc);//todo速度变化设计
+	CRS crs=runController(0.2,pathPoint,GetPose().poseX,GetPose().poseY,GetPose().poseYaw,&Vc,&Wc);//todo速度变化设计
 	
 	if(crs==CRS_REACHED)
 	{
@@ -389,6 +401,7 @@ PilotState PilotAuto(CmdType cmd)
 	else if(crs==CRS_YERR||crs==CRS_XERR||crs==CRS_PHIERR)//轨迹跟踪失败
 	{
 		//todo 向APP发送求救信号
+		SetPilotErr(PILOT_ERR_SUCCESS);
 		intoPilotTransition();
 		return PILOT_STATE_TRANSITION;
 	}
@@ -585,16 +598,26 @@ void cvtINMData2Pose(INM_Data inm_data,float*pose_x,float*pose_y,float*pose_yaw)
 	
 	float x0=-ANTEANA_DX,y0=-ANTEANA_DY,z0=-ANTEANA_DZ;
 	
-	RotateTheta4Point(&x0,&y0,inm_data.yaw);
+	RotateTheta4Point(&y0,&z0,inm_data.roll);
 	
 	RotateTheta4Point(&z0,&x0,inm_data.pitch);
 	
-	RotateTheta4Point(&y0,&z0,inm_data.roll);
+	RotateTheta4Point(&x0,&y0,inm_data.yaw);
 	
 	(*pose_x)+=x0;
 	(*pose_y)+=y0;
 	
 	(*pose_yaw)=inm_data.yaw;
+}
+
+PilotErr gPilotErr;
+void SetPilotErr(PilotErr err)
+{
+	gPilotErr=err;
+}
+PilotErr GetPilotErr()
+{
+	return gPilotErr;
 }
 
 

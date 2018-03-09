@@ -25,6 +25,9 @@ void initPathPointsData(void);
 void addPathPoint(PathPoint pt);
 uint32_t getPathPointNum(void);
 uint8_t getCurPathPoint(PathPoint *ppt);
+
+uint32_t getCurPathId();
+
 void setCurPathPointId(uint32_t id);
 PathPoint getPathPoint(uint32_t ppt_id);
 uint8_t isPathDataFileExist(void);

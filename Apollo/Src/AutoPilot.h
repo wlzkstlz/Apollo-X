@@ -14,7 +14,20 @@ typedef enum
 	PILOT_STATE_EMERGENCY//¼±Í£×´Ì¬
 }PilotState;
 
+
 extern PilotState gPilotState;
+
+typedef enum
+{
+	PILOT_ERR_NONE,
+	PILOT_ERR_MOTOR,
+	PILOT_ERR_SUCCESS,
+	PILOT_ERR_ENGINE_OFF,
+	PILOT_ERR_FALL
+}PilotErr;
+extern PilotErr gPilotErr;
+void SetPilotErr(PilotErr err);
+PilotErr GetPilotErr();
 
 void InitAutoPilot(void);
 

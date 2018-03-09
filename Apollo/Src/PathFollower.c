@@ -5,7 +5,7 @@
 #define		PF_CONTROL_PARA_S			1.0
 #define		PF_CONTROL_PARA_KX			(PF_CONTROL_PARA_S*4.2)//	35.0//25.0//35.0//18.0//10
 #define		PF_CONTROL_PARA_KTHETA		(PF_CONTROL_PARA_S*3.0)//1.5
-#define		PF_CONTROL_TURN_W			0.5
+#define		PF_CONTROL_TURN_W			0.2
 
 #define MAX_X_ERR	2.0
 #define MAX_Y_ERR	0.5
