@@ -215,7 +215,7 @@ void lcdshowimudata(IMU_Data data)
 #define	LCD_BLEDATA_X	10
 #define	LCD_BLEDATA_Y	240
 #define	LCD_BLEDATA_WIDTH	250
-#define	LCD_BLEDATA_HEIGHT	16
+#define	LCD_BLEDATA_HEIGHT	32
 void lcdshowBLEdata(uint8_t isdoing,uint32_t ptnum,float x,float y)
 {
 	char ss[100];
