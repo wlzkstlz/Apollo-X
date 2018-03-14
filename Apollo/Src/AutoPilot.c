@@ -399,7 +399,7 @@ PilotState PilotAuto(CmdType cmd)
 	}
 	
 	float Vc=0.0f,Wc=0.0f;
-	CRS crs=runController(0.2,pathPoint,GetPose().poseX,GetPose().poseY,GetPose().poseYaw,&Vc,&Wc);//todo速度变化设计
+	CRS crs=runController(0.3,pathPoint,GetPose().poseX,GetPose().poseY,GetPose().poseYaw,&Vc,&Wc);//todo速度变化设计
 	
 	if(crs==CRS_REACHED)
 	{
