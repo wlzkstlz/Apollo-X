@@ -1,6 +1,7 @@
 #include "PathFollower.h"
 #include "stdlib.h"
 #include "math.h"
+#include "debug.h"
 
 #define		PF_CONTROL_PARA_S			1.0
 #define		PF_CONTROL_PARA_KX			(PF_CONTROL_PARA_S*8.0)//(PF_CONTROL_PARA_S*4.2)//	35.0//25.0//35.0//18.0//10
@@ -12,6 +13,9 @@
 
 CRS runController(float vel, PathPoint path, float curX, float curY, float curPhi, float *Vc, float *Wc)
 {
+	curx_debug=curX;
+	cury_debug=curY;
+	
 	float yErr = 0.0f, phiErr = 0.0f;
 	float w = 0;
 	//1 区分线段or圆弧
@@ -27,11 +31,13 @@ CRS runController(float vel, PathPoint path, float curX, float curY, float curPh
 		if (curpt_x >= end_x)//2 判断是否到达终点
 			return CRS_REACHED;
 		
+		xerr_debug=curpt_x-start_x;
 		if(curpt_x-start_x<-MAX_X_ERR)//2.1落后起点太多，同样视为轨迹偏差太大
 			return CRS_XERR;
 
 		//3 计算横向偏差和航向偏差
 		yErr = end_y - curpt_y;
+		yerr_debug=yErr;
 		phiErr = cvtangel - curPhi;
 	}
 	else//圆弧
@@ -45,9 +51,14 @@ CRS runController(float vel, PathPoint path, float curX, float curY, float curPh
 			return CRS_REACHED;
 		
 		float xerr=sqrt(pow(path.startPt[0]-curX,2)+pow(path.startPt[1]-curY,2));
+		
+		
 		if(xerr>MAX_X_ERR&&(delta_angel*path.deltaPhi<0))
+		{
+			xerr_debug=xerr;
 			return CRS_XERR;
-
+		}
+			
 		float R = sqrt(pow(path.startPt[0]-path.aPt[0],2)+pow(path.startPt[1]-path.aPt[1],2));
 		w = vel / R;
 		float dist= sqrt(pow(curX - path.aPt[0], 2) + pow(curY - path.aPt[1], 2));
@@ -66,6 +77,7 @@ CRS runController(float vel, PathPoint path, float curX, float curY, float curPh
 		phiErr = angel3 - curPhi;
 	}
 
+	yerr_debug=yErr;
 	if (abs(yErr) > MAX_Y_ERR)
 		return CRS_YERR;
 	

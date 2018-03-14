@@ -260,8 +260,6 @@ uint8_t receiveINMData(void)
 		memcpy((uint8_t*)&gINMData.yaw,ptr,4);
 		ptr+=4;
 		
-		//gINMData.yaw=DEG2RAD(gINMData.yaw);
-		
 		memcpy((uint8_t*)&gINMData.gps_weeks,ptr,2);
 		ptr+=2;
 		

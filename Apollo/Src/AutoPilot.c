@@ -7,6 +7,7 @@
 #include "stmflash.h"
 #include "math.h"
 #include "lcd_show.h"
+#include "debug.h"
 
 #define		ANTEANA_DX	(-0.061)
 #define		ANTEANA_DY	(0)
@@ -29,13 +30,14 @@ void RunPilot(void)
 	//¡¾debug¡¿
 	static int tt=0;
 	static uint32_t cycle_time_start=0;
-	static char debug_text[50];
+	static char debug_text[200];
 	if(tt++%50==0)
 	{
 		uint32_t cycle_time=HAL_GetTick()-cycle_time_start;
 		cycle_time_start=HAL_GetTick();
 		int curpathid=getCurPathId();
-		sprintf(debug_text,"cycle_t=%d ms,curPathId=%d ,PilotErr=%d \n",cycle_time,curpathid,GetPilotErr());
+		sprintf(debug_text,"cycle_t=%d ms,curPathId=%d ,PilotErr=%d, crs=%d,xerr=%f,yerr=%f ,curx=%f,cury=%f\n",
+		cycle_time,curpathid,GetPilotErr(),crs_debug,xerr_debug,yerr_debug,curx_debug,cury_debug);
 		lcdshow(debug_text);
 		lcdshowpilotstate(gPilotState);
 		
@@ -408,6 +410,7 @@ PilotState PilotAuto(CmdType cmd)
 	}
 	else if(crs==CRS_YERR||crs==CRS_XERR||crs==CRS_PHIERR)//¹ì¼£¸ú×ÙÊ§°Ü
 	{
+		crs_debug=crs;
 		//todo ÏòAPP·¢ËÍÇó¾ÈÐÅºÅ
 		SetPilotErr(PILOT_ERR_Y);
 		intoPilotTransition();

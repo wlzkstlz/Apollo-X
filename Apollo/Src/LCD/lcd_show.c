@@ -2,9 +2,9 @@
 #include "CommonAlg.h"
 
 #define	LCD_DEBUG_MSG_X	10
-#define 	LCD_DEBUG_MSG_Y	420
+#define 	LCD_DEBUG_MSG_Y	388
 #define	LCD_DEBUG_MSG_WIDTH	240
-#define	LCD_DEBUG_MSG_HEIGHT	48
+#define	LCD_DEBUG_MSG_HEIGHT	80
 
 void lcdshow(char*s)
 {
@@ -220,7 +220,7 @@ void lcdshowBLEdata(uint8_t isdoing,uint32_t ptnum,float x,float y)
 {
 	char ss[100];
 	
-	sprintf(ss,"BLE STATE=%d,PTS NUM=%d ,end x=%f,y=%f\n",isdoing,ptnum,x,y);
+	sprintf(ss,"BLE STATE=%d,PTS NUM=%d ,end x=%.2f,y=%.2f\n",isdoing,ptnum,x,y);
 		
 	LCD_Fill(LCD_BLEDATA_X,LCD_BLEDATA_Y,LCD_BLEDATA_X+LCD_BLEDATA_WIDTH,LCD_BLEDATA_Y+LCD_BLEDATA_HEIGHT,WHITE);
 	LCD_ShowString(LCD_BLEDATA_X,LCD_BLEDATA_Y,LCD_BLEDATA_WIDTH,LCD_BLEDATA_HEIGHT,16,(u8*)ss);
