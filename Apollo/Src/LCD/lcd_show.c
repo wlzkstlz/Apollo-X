@@ -190,8 +190,8 @@ void lcdshowinmdata(INM_Data data)
 	
 	float posex,posey,poseyaw;
 	cvtINMData2Pose(data,&posex,&posey,&poseyaw);
-	sprintf(ss,"INM data:poseX=%.2fm,PoseY=%.2fm,PoseYaw=%.1fdeg,rol=%.1f,pitch=%.1f, gps time:%dms\n",
-	posex,posey,(float)RAD2DEG(poseyaw),(float)RAD2DEG(data.roll),(float)RAD2DEG(data.pitch),data.gps_ms);
+	sprintf(ss,"INM data:poseX=%.2fm,PoseY=%.2fm,PoseYaw=%.1fdeg,fix=%d, gpstime:%dms\n",
+	posex,posey,(float)RAD2DEG(poseyaw),data.rtk_state,data.gps_ms);
 		
 	LCD_Fill(LCD_INMDATA_X,LCD_INMDATA_Y,LCD_INMDATA_X+LCD_INMDATA_WIDTH,LCD_INMDATA_Y+LCD_INMDATA_HEIGHT,WHITE);
 	LCD_ShowString(LCD_INMDATA_X,LCD_INMDATA_Y,LCD_INMDATA_WIDTH,LCD_INMDATA_HEIGHT,16,(u8*)ss);

@@ -126,23 +126,23 @@ int main(void)
 	initPathPointsData();
 	
 	LCD_Init();                     //LCD初始化
-	POINT_COLOR=RED; 
-	LCD_Clear(GREEN);  
-	lcdshow("AgriX Project!!!HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n");
-	lcdshowpilotstate(100);
-	lcdshowcmd(100);
-	lcdshowenginemode(100);
-	lcdshowdrivermode(100);
-	lcdshowtanklevel(200);
-	lcdshowbatteryvolt(1000);
-	
-	INM_Data inmdata;
-	inmdata.longitude=DEG2RAD(113.897329);
-	inmdata.latitude=DEG2RAD(22.960622);
-	inmdata.yaw=0.1;
-	inmdata.roll=0.2;
-	inmdata.pitch=0.3;
-	lcdshowinmdata(inmdata);
+//	POINT_COLOR=RED; 
+//	LCD_Clear(GREEN);  
+//	lcdshow("AgriX Project!!!HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n");
+//	lcdshowpilotstate(100);
+//	lcdshowcmd(100);
+//	lcdshowenginemode(100);
+//	lcdshowdrivermode(100);
+//	lcdshowtanklevel(200);
+//	lcdshowbatteryvolt(1000);
+//	
+//	INM_Data inmdata;
+//	inmdata.longitude=DEG2RAD(113.897329);
+//	inmdata.latitude=DEG2RAD(22.960622);
+//	inmdata.yaw=0.1;
+//	inmdata.roll=0.2;
+//	inmdata.pitch=0.3;
+//	lcdshowinmdata(inmdata);
 	
 	InitAutoPilot();//自动驾驶初始化
 	

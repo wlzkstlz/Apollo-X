@@ -75,8 +75,8 @@ typedef enum
 typedef struct
 {
 	TypeRtkState rtk_state;
-	int32_t longitude;//定点小数形式：毫弧度*INM_LON_LAT_SCALE
-	int32_t latitude;//定点小数形式：毫弧度*INM_LON_LAT_SCALE
+	int32_t longitude;//定点小数形式：弧度*INM_LON_LAT_SCALE
+	int32_t latitude;//定点小数形式：弧度*INM_LON_LAT_SCALE
 	float altitude;
 	float roll;
 	float pitch;
@@ -127,6 +127,10 @@ typedef enum
 	ENGINE_MODE_START
 }TypeEngineMode;
 void initCan1(void);
+
+void HoldCanReceive();
+void SetNeedRestartCanReceive(uint8_t need);
+uint8_t GetNeedRestartCanReceive();
 
 void SendSpeed(int16_t vl,int16_t vr);
 void SetDriverMode(TypeDriverMode mode);

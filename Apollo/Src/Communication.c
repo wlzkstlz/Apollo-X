@@ -260,6 +260,8 @@ uint8_t receiveINMData(void)
 		memcpy((uint8_t*)&gINMData.yaw,ptr,4);
 		ptr+=4;
 		
+		//gINMData.yaw=DEG2RAD(gINMData.yaw);
+		
 		memcpy((uint8_t*)&gINMData.gps_weeks,ptr,2);
 		ptr+=2;
 		
@@ -425,6 +427,7 @@ void initCan1(void)
 
 void SendSpeed(int16_t vl,int16_t vr)
 {
+	
 	memcpy((uint8_t *)&gSpeedTxMsg.Data[0],&vl,2);
 	memcpy((uint8_t *)&gSpeedTxMsg.Data[2],&vr,2);
 	
@@ -522,6 +525,28 @@ uint8_t GetServorAlarm(uint16_t *alarm)
 		return 0;
 }
 
+uint8_t gNeedRestartCanReceive=0;
+void SetNeedRestartCanReceive(uint8_t need)
+{
+	gNeedRestartCanReceive=need;
+}
+uint8_t GetNeedRestartCanReceive()
+{
+	return gNeedRestartCanReceive;
+}
+
+void HoldCanReceive()
+{
+	if(GetNeedRestartCanReceive())
+	{
+		HAL_StatusTypeDef ret=HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);
+		if(ret==HAL_BUSY)
+			SetNeedRestartCanReceive(1);
+		else
+			SetNeedRestartCanReceive(0);
+	}
+}
+
 
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan)
 {
@@ -551,8 +576,12 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan)
 		gBaterryVoltNew=1;
 	}
 	
-	HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);
-		
+	HAL_StatusTypeDef ret=HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);
+	if(ret==HAL_BUSY)
+		SetNeedRestartCanReceive(1);
+	else
+		SetNeedRestartCanReceive(0);
+	
 }
 
 //¡¾À¶ÑÀÎÄ¼þ´«Êä¡¿

@@ -127,6 +127,8 @@ void RunPilot(void)
 	}
 	
 	//【CAN通讯】
+	HoldCanReceive();
+	
 	uint8_t tankLevel=0;
 	static uint8_t tank_level_delay=0;
 	if(GetTankLevel(&tankLevel))//监测水箱水位，视情况关闭发动机
@@ -218,11 +220,16 @@ void RunPilot(void)
 */
 PilotState PilotInit(CmdType cmd)
 {	
+	HAL_Delay(20);
 	initPathPointsData();//任务文件初始化为空
 	stopReceiveBleFile();//初始化蓝牙通信
 	SetEngineMode(ENGINE_MODE_STOP);
 	HAL_Delay(1);
 	SetDriverMode(DRIVER_MODE_AUTO);
+	//SetDriverMode(DRIVER_MODE_MANUAL);
+	
+	gINMData.rtk_state=RTK_FAIL;
+	
 	return PILOT_STATE_IDLE;//进入空闲状态
 }
 
@@ -240,6 +247,7 @@ PilotState PilotIdle(CmdType cmd)
 		intoPilotTransition();//进入转场模式
 		return PILOT_STATE_TRANSITION;
 	}
+	//SetDriverMode(DRIVER_MODE_MANUAL);
 	
 	SetSpeed(0,0);
 	HAL_Delay(10);
@@ -401,7 +409,7 @@ PilotState PilotAuto(CmdType cmd)
 	else if(crs==CRS_YERR||crs==CRS_XERR||crs==CRS_PHIERR)//轨迹跟踪失败
 	{
 		//todo 向APP发送求救信号
-		SetPilotErr(PILOT_ERR_SUCCESS);
+		SetPilotErr(PILOT_ERR_Y);
 		intoPilotTransition();
 		return PILOT_STATE_TRANSITION;
 	}
