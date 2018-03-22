@@ -36,8 +36,8 @@ void RunPilot(void)
 		uint32_t cycle_time=HAL_GetTick()-cycle_time_start;
 		cycle_time_start=HAL_GetTick();
 		int curpathid=getCurPathId();
-		sprintf(debug_text,"cycle_t=%d ms,curPathId=%d ,PilotErr=%d, crs=%d,xerr=%f,yerr=%f ,curx=%f,cury=%f\n",
-		cycle_time,curpathid,GetPilotErr(),crs_debug,xerr_debug,yerr_debug,curx_debug,cury_debug);
+		sprintf(debug_text,"cycle_t=%d ms,curPathId=%d ,PilotErr=%d, crs=%d,xerr=%.2f,yerr=%.2f,reckon_d_x=%.2f,reckon_d_y=%.2f,pose_x=%.2f,pose_y=%.2f\n",
+		cycle_time,curpathid,GetPilotErr(),crs_debug,xerr_debug,yerr_debug,debug_delta_reckon_x,debug_delta_reckon_y,debug_pose_x,debug_pose_y);
 		lcdshow(debug_text);
 		lcdshowpilotstate(gPilotState);
 		
@@ -301,6 +301,9 @@ PilotState PilotBleTransfer(CmdType cmd)
 			for(uint32_t i=1;i<ppt_num;i++)
 			{
 				PathPoint ppt=getPathPoint(i);
+				
+				printf("path pt %d:start x=%f,y=%f;apt x=%f,y=%f,phi=%f  \n",i,ppt.startPt[0],ppt.startPt[1],ppt.aPt[0],ppt.aPt[1],ppt.deltaPhi);
+				
 				float dist=sqrt(pow(ppt.startPt[0]-poseX,2)+pow(ppt.startPt[1]-poseY,2));
 				if(dist<min_dist)
 				{
@@ -591,14 +594,19 @@ void ReckonPose()
 	double dtime=(cur_time-gPoseReckonTime)*0.001;
 	gPoseReckonTime=cur_time;
 	
-	gPose.poseX+=gSpeed.v*dtime*cos(gPose.poseYaw);
-	gPose.poseY+=gSpeed.v*dtime*sin(gPose.poseYaw);
-	gPose.poseYaw+=gSpeed.w*dtime;
+	float pre_x=GetPose().poseX;
+	float pre_y=GetPose().poseY;
+	
+	gPose.poseX+=GetSpeed().v*dtime*cos(gPose.poseYaw);
+	gPose.poseY+=GetSpeed().v*dtime*sin(gPose.poseYaw);
+	gPose.poseYaw+=GetSpeed().w*dtime;
+	
+	if(abs(pre_x-GetPose().poseX)>10||abs(pre_y-GetPose().poseY)>10)
+	{
+		debug_delta_reckon_x=pre_x-GetPose().poseX;
+		debug_delta_reckon_y=pre_y-GetPose().poseY;
+	}
 }
-
-
-
-
 
 void cvtINMData2Pose(INM_Data inm_data,float*pose_x,float*pose_y,float*pose_yaw)
 {
@@ -617,6 +625,12 @@ void cvtINMData2Pose(INM_Data inm_data,float*pose_x,float*pose_y,float*pose_yaw)
 	
 	(*pose_x)+=x0;
 	(*pose_y)+=y0;
+	
+	if(abs((*pose_x))>1000||abs((*pose_y))>1000)
+	{
+		debug_pose_x=(*pose_x);
+		debug_pose_y=(*pose_y);
+	}
 	
 	(*pose_yaw)=inm_data.yaw;
 }

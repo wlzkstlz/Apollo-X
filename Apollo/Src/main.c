@@ -62,9 +62,9 @@ extern HEART_BEAT_DATA gHeartBeat;
 
 
 //自动驾驶传感器相关  （RS232 USART2）
-extern uint8_t RS232_REGISTER[RS232_BUF_LEN];
-extern volatile uint8_t RS232_REG_VALID;
-extern INM_Data gINMData;
+//extern uint8_t RS232_REGISTER[RS232_BUF_LEN];
+//extern volatile uint8_t RS232_REG_VALID;
+//extern INM_Data gINMData;
 
 /* USER CODE END PV */
 
@@ -143,6 +143,8 @@ int main(void)
 //	inmdata.roll=0.2;
 //	inmdata.pitch=0.3;
 //	lcdshowinmdata(inmdata);
+
+	printf("testing...\n");
 	
 	InitAutoPilot();//自动驾驶初始化
 	
@@ -243,8 +245,9 @@ PUTCHAR_PROTOTYPE
 {  
   /* Place your implementation of fputc here */  
   /* e.g. write a character to the USART1 and Loop until the end of transmission */  
-  //HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF);  
-  return ch;  
+  //HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xFFFF); 
+	ITM_SendChar(ch);	
+	return ch;  
 } 
 
 //void lcdshow(char*s)

@@ -13,8 +13,8 @@
 
 CRS runController(float vel, PathPoint path, float curX, float curY, float curPhi, float *Vc, float *Wc)
 {
-	curx_debug=curX;
-	cury_debug=curY;
+//	curx_debug=curX;
+//	cury_debug=curY;
 	
 	float yErr = 0.0f, phiErr = 0.0f;
 	float w = 0;

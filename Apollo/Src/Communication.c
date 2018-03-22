@@ -394,7 +394,7 @@ void initCan1(void)
 	
 	
 //  hcan1.pTxMsg = &TxMessage;
-  hcan1.pRxMsg = &RxMessage;
+	hcan1.pRxMsg = &RxMessage;
 
 	gCanReceiveFilter1.FilterNumber=1;
 	gCanReceiveFilter1.FilterMode=CAN_FILTERMODE_IDLIST;
