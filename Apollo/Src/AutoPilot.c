@@ -27,6 +27,15 @@ void InitAutoPilot(void)
 
 void RunPilot(void)
 {
+	
+#if 0 //解除自动驾驶程序！！！
+	SetEngineMode(ENGINE_MODE_START);
+	HAL_Delay(50);
+	SetDriverMode(DRIVER_MODE_MANUAL);
+	HAL_Delay(50);
+	return ;
+#endif
+	
 	//【debug】
 	static int tt=0;
 	static uint32_t cycle_time_start=0;
@@ -227,8 +236,8 @@ PilotState PilotInit(CmdType cmd)
 	stopReceiveBleFile();//初始化蓝牙通信
 	SetEngineMode(ENGINE_MODE_STOP);
 	HAL_Delay(1);
-	SetDriverMode(DRIVER_MODE_AUTO);
-	//SetDriverMode(DRIVER_MODE_MANUAL);
+	//SetDriverMode(DRIVER_MODE_AUTO);
+	SetDriverMode(DRIVER_MODE_MANUAL);
 	
 	gINMData.rtk_state=RTK_FAIL;
 	
@@ -251,7 +260,7 @@ PilotState PilotIdle(CmdType cmd)
 	}
 	//SetDriverMode(DRIVER_MODE_MANUAL);
 	
-	SetSpeed(0,0);
+	//SetSpeed(0,0);
 	HAL_Delay(10);
 	return PILOT_STATE_IDLE;
 }
