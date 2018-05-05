@@ -89,7 +89,7 @@ void RunPilot(void)
 		if(abort_time>3000+app_cmd_wait_time&&abort_time<10000+app_cmd_wait_time)//Í¨Ñ¶ÖÐ¶Ï3s~10s
 		{
 			SetSpeed(0,0);
-			HAL_Delay(10);
+			HAL_Delay(20);
 			jumpstatemachine=1;
 			//return;
 		}
@@ -374,7 +374,7 @@ PilotState PilotAuto(CmdType cmd)
 		{
 			SetEngineMode(ENGINE_MODE_STOP);
 		}
-		HAL_Delay(10);
+		HAL_Delay(20);
 		return PILOT_STATE_AUTO;
 	}
 	
@@ -431,7 +431,7 @@ PilotState PilotAuto(CmdType cmd)
 	else
 	{
 		SetSpeed(Vc,Wc);
-		HAL_Delay(5);
+		HAL_Delay(1);
 		return PILOT_STATE_AUTO;
 	}
 }

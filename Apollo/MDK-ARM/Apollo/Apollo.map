@@ -2505,7 +2505,7 @@ Image Symbol Table
     HAL_CAN_Init                             0x0800171d   Thumb Code   444  stm32f4xx_hal_can.o(i.HAL_CAN_Init)
     HAL_CAN_MspInit                          0x080018d9   Thumb Code    96  can.o(i.HAL_CAN_MspInit)
     HAL_CAN_Receive_IT                       0x08001945   Thumb Code   268  stm32f4xx_hal_can.o(i.HAL_CAN_Receive_IT)
-    HAL_CAN_RxCpltCallback                   0x08001a51   Thumb Code   152  communication.o(i.HAL_CAN_RxCpltCallback)
+    HAL_CAN_RxCpltCallback                   0x08001a51   Thumb Code   150  communication.o(i.HAL_CAN_RxCpltCallback)
     HAL_CAN_Transmit                         0x08001b15   Thumb Code   684  stm32f4xx_hal_can.o(i.HAL_CAN_Transmit)
     HAL_CAN_TxCpltCallback                   0x08001dcd   Thumb Code     2  stm32f4xx_hal_can.o(i.HAL_CAN_TxCpltCallback)
     HAL_DMA_Abort_IT                         0x08001dcf   Thumb Code    40  stm32f4xx_hal_dma.o(i.HAL_DMA_Abort_IT)
@@ -2558,7 +2558,7 @@ Image Symbol Table
     HAL_UART_Transmit                        0x08003a75   Thumb Code   214  stm32f4xx_hal_uart.o(i.HAL_UART_Transmit)
     HAL_UART_TxCpltCallback                  0x08003b4b   Thumb Code     2  stm32f4xx_hal_uart.o(i.HAL_UART_TxCpltCallback)
     HardFault_Handler                        0x08003b4d   Thumb Code     4  stm32f4xx_it.o(i.HardFault_Handler)
-    HoldCanReceive                           0x08003b51   Thumb Code    40  communication.o(i.HoldCanReceive)
+    HoldCanReceive                           0x08003b51   Thumb Code    38  communication.o(i.HoldCanReceive)
     InitAutoPilot                            0x08003b7d   Thumb Code     8  autopilot.o(i.InitAutoPilot)
     LCD_Clear                                0x08003b89   Thumb Code    58  lcd.o(i.LCD_Clear)
     LCD_Display_Dir                          0x08003bd1   Thumb Code   376  lcd.o(i.LCD_Display_Dir)
@@ -3213,7 +3213,7 @@ Image component sizes
       4924        380        125         60        212      18697   autopilot.o
        176         22          0          0         68       1609   can.o
        548         40          0          0          0       1581   commonalg.o
-      2754        460          0         33        454      27832   communication.o
+      2754        464          0         33        454      27824   communication.o
          0          0          0         28          0        502   debug.o
         96          4          0          4          0       1378   delay.o
        172         10          0          0          0        943   gpio.o
@@ -3247,7 +3247,7 @@ Image component sizes
        620         74          0          0        256       3491   usart.o
 
     ----------------------------------------------------------------------
-     42168       2890      18924        184   22110880    1003069   Object Totals
+     42168       2894      18924        184   22110880    1003061   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         38          0          4         11          8          0   (incl. Padding)
 
@@ -3327,9 +3327,9 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     53300       3706      19508        192   22110880     983773   Grand Totals
-     53300       3706      19508        192   22110880     983773   ELF Image Totals
-     53300       3706      19508        192          0          0   ROM Totals
+     53300       3710      19508        192   22110880     983765   Grand Totals
+     53300       3710      19508        192   22110880     983765   ELF Image Totals
+     53300       3710      19508        192          0          0   ROM Totals
 
 ==============================================================================
 

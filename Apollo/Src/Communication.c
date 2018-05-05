@@ -538,7 +538,7 @@ void HoldCanReceive()
 	if(GetNeedRestartCanReceive())
 	{
 		HAL_StatusTypeDef ret=HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);
-		if(ret==HAL_BUSY)
+		if(ret!=HAL_OK)
 			SetNeedRestartCanReceive(1);
 		else
 			SetNeedRestartCanReceive(0);
@@ -575,7 +575,7 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef* hcan)
 	}
 	
 	HAL_StatusTypeDef ret=HAL_CAN_Receive_IT(&hcan1,CAN_FIFO0);
-	if(ret==HAL_BUSY)
+	if(ret!=HAL_OK)
 		SetNeedRestartCanReceive(1);
 	else
 		SetNeedRestartCanReceive(0);
